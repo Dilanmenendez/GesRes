@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/foundation.min.css' %}">
+    <title>Resumen Foundation</title>
+</head>
+<body>
+    <h1>Resumen Foundation</h1>
+    <!--Como creamos un bloque de fundation-->
+    <!--para convertir un div en un bloque foundation de pasamos la clase 'grid-x'
+    y luego a cada elemento le tenemos que indicar que va a ser una celda de dicho grid-x
+    esto lo hacemos con class='cell', al ponerle 'cell' ese elemento ocupa las 12 casillas,
+    si le sacamos el cell, ocupa solo 1-->
+    <!--Con class='cell largo-(numero celdas a ocupar) podemos personalizar el tamaño a gusto'-->
+    <div class="grid-x" style="border: 1px solid green;">
+        <h2 class="cell large-5" style="border: 1px solid red;">Elemento 1</h2>
+        <h2 class="cell large-4" style="border: 1px solid purple;">Elemento 2</h2>
+        <h2 class="cell large-3" style="border: 1px solid blue">Elemento 3</h2>
+        <!--la forma en la que funcionan las casillas es sencilla, tienes un numero de columnas
+        maximo (12) si una casilla x ocupa 9 columnas, y una casilla b ocupa 9, entonces se muestran
+        en diferentes renglones porque se pasaron de 12, pero si entre las dos sumadas = 12 o menos
+        se muestran en el mismo renglon, esto pasa con tantos elementos hasta que las columnas
+        totales se pasen de 12-->
+        <!--Otros divs dentro del div principal tambien se les puede poner celdas, pero, sin
+        dejar de pasarle grid-x-->
+        <div class="cell large-4 grid-x" style="border: 1px solid yellow;">
+            <h4 class="cell large-2">Otro elemento 1</h4>
+            <h4 class="cell large-2">Otro elemento 2</h4>
+            <h4>Otro elemento 3</h4>
+        </div>
+    </div>
+</body>
+</html>

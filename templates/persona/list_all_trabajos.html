@@ -1,0 +1,109 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'includes/header.html' %}
+
+<div class="grid-container">
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12">
+
+      <h2 class="text-center" style="margin: 1.5rem 0;">
+        Listado de trabajos
+      </h2>
+      <form method="get" class="cell grid-x grid-margin-x">{% csrf_token %}
+        <div class="cell large-8">
+            <input type="text" name="kword" id="kword" placeholder="Buscar Puesto de Trabajo">
+        </div>
+        <div>
+          <button type="submit" class="success button">Buscar</button>
+        </div>
+      </form>
+      
+      <table class="hover unstriped">
+        <thead>
+          <tr>
+            <th width="50">ID</th>
+            <th>Puesto</th>
+            <th width="150" class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in object_list %}
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.puesto }}</td>
+            <td>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <a href="{% url 'persona_app:empleados-por-trabajo' p.puesto %}"
+                  class="button tiny clear"
+                  style="color: green;">
+                  Ver Empleados
+                </a>
+                <a href="{% url 'persona_app:eliminar-puesto' p.id %}"
+                  class="button tiny clear"
+                  style="color: red;">
+                  Eliminar
+                </a>
+                <a href="{% url 'persona_app:update-trabajo' p.id %}"
+                  class="button tiny clear"
+                  style="color: rgb(127, 127, 17);">
+                  Editar
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center">
+              No hay Puestos de Trabajo.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="grid-x align-justify" style="margin-top: 1.5rem;">
+        <a href="{% url 'persona_app:Inicio' %}"
+           class="button hollow secondary">
+          Volver
+        </a>
+        <a href="{% url 'persona_app:crear-trabajo' %}"
+           class="button hollow primary">
+          Registrar Trabajo
+        </a>
+      </div>
+
+      <div class="cell">
+        {% if is_paginated %}
+          <nav aria-label="Pagination">
+            <ul class="pagination text-center">
+
+              {% if page_obj.has_previous %}
+                <li class="pagination-previous">
+                  <a href="?page={{ page_obj.previous_page_number }}">Atrás</a>
+                </li>
+              {% endif %}
+
+              {% for pagina in paginator.page_range %}
+                <li class="{% if page_obj.number == pagina %}current{% endif %}">
+                  <a href="?page={{ pagina }}">{{ pagina }}</a>
+                </li>
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                <li class="pagination-next">
+                  <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                </li>
+              {% endif %}
+
+            </ul>
+          </nav>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

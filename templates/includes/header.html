@@ -1,0 +1,22 @@
+<div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="menu" data-dropdown-menu>
+      {# Quitamos menu-text del li y lo dejamos solo como un item fuerte #}
+      <li style="font-weight: bold;">
+        <a href="{% url 'persona_app:Inicio' %}" style="color: #0a4d8c;">GesRes RH</a>
+      </li>
+      <li><a href="{% url 'persona_app:empleados_all' %}">Empleados</a></li>
+      <li><a href="{% url 'departamento_app:all_departamentos' %}">Departamentos</a></li>
+      <li><a href="{% url 'persona_app:mostrar-puestos' %}">Puestos</a></li>
+      <li><a href="{% url 'persona_app:mostrar-dashboard' %}">Dashboard</a></li>
+      <li><a href="/admin">Admin</a></li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a href="{% url 'persona_app:mostrar-dashboard' %}" class="button small" style="margin-bottom: 0; margin-left: 10px;">
+        DASHBOARD
+      </a></li>
+    </ul>
+  </div>
+</div>

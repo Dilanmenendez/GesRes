@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB EN DJANGO</title>
+</head>
+<body>
+    <h1>Listando elementos de una bd</h1>
+</body>
+    {{ lista_prueba }}
+    <ul>
+        
+        {% for prueba in lista_prueba %}
+            <li>
+                {{ prueba.titulo }}     
+            </li>       
+        {% endfor %}
+            
+    </ul>
+</html>

@@ -1,0 +1,24 @@
+from django.contrib import admin
+from django.urls import path
+from . import views
+
+
+app_name = 'persona_app'
+
+urlpatterns = [
+    path('', views.InicioView.as_view(), name='Inicio'),
+    path('empleados-all/', views.ListAllEmpleado.as_view(), name='empleados_all'),
+    path('add-empleado/', views.EmpleadoCreateView.as_view(), name='add_empleado'),
+    path('success/', views.SuccessView.as_view(), name='correcto',),
+    path('update-empleado/<pk>', views.EmpleadoUpdateView.as_view(), name='modificar_empleado'),
+    path('delete-empleado/<pk>', views.EmpleadoDeleteView.as_view(), name='eliminar_empleado'),
+    path('ver_empleado/<pk>', views.EmpleadoDetailView.as_view(), name='ver-empleado'),
+    path('empleados_by_departamento/<name>', views.EmpleadoByAreaListView.as_view(), name='empleados-by-area'),
+    path('dashboard/', views.EmpleadoDashboardView.as_view(), name='mostrar-dashboard'),
+    path('crear_habilidad/', views.CrearHabilidadView.as_view(), name='crear-habilidad'),
+    path('crear_trabajo/', views.CrearTrabajoView.as_view(), name='crear-trabajo'),
+    path('mostrar_puestos/', views.ListAllTrabajos.as_view(), name='mostrar-puestos'),
+    path('eliminar_puesto/<pk>', views.TrabajoDeleteView.as_view(), name='eliminar-puesto'),
+    path('empleados_portrabajo/<puesto>', views.EmpleadoByTrabajoListView.as_view(), name='empleados-por-trabajo'),
+    path('update-trabajo/<pk>', views.TrabajoUpdateView.as_view(), name='update-trabajo'),
+]

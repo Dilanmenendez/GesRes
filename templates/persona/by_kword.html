@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% include 'includes/header.html' %}
+
+  <div class="grid-container">
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell small-12 medium-8 large-6">
+
+        <h2 class="text-center" style="margin: 1.5rem 0;">Datos del Empleado</h2>
+        
+        <div class="callout secondary shadow">
+          <ul class="vertical menu">
+            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
+              <p><strong>Nombre:</strong> {{ empleado.first_name }}</p>
+            </li>
+            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
+              <p><strong>Apellido:</strong> {{ empleado.last_name }}</p>
+            </li>
+            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
+              <p><strong>Departamento:</strong> {{ empleado.departamento }}</p>
+            </li>
+            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
+              <p><strong>Puesto:</strong> {{ empleado.job }}</p>
+              <p><strong>Sueldo:</strong> {{ empleado.job.sueldo }}</p>
+            </li>
+            
+            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
+              <p style="margin-bottom: 0.2rem;"><strong>Habilidades:</strong></p>
+              <ul class="menu vertical" style="margin-left: 1rem; list-style-type: disc;">
+                {% for h in empleado.habilidades.all %}
+                  <li>{{ h }}</li>
+                {% empty %}
+                  <li class="help-text">Sin habilidades registradas.</li>
+                {% endfor %}
+              </ul>
+            </li>
+
+            <li style="padding: 0.5rem 0;">
+              <p><strong>Hoja de vida:</strong></p>
+              <div class="callout white" style="background: white; padding: 1rem; border-radius: 4px;">
+                {{ empleado.hoja_vida|safe }}
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="button-group align-center" style="margin-top: 1.5rem;">
+          <a href="{% url 'persona_app:empleados_all' %}" class="button secondary success" style="margin-right: 10px;">
+            Volver a Empleados
+          </a>
+          <a href="{% url 'departamento_app:all_departamentos' %}" class="button secondary warning" 
+          style="margin-right: 10px;">
+            Volver a Departamentos
+          </a>
+          <a href="{% url 'persona_app:mostrar-puestos' %}" class="button primary">
+            Volver a Puestos
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock content %}
