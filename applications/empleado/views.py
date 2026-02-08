@@ -18,6 +18,8 @@ class SuccessView(TemplateView):
         return context
     
 
+#------------ VIEWS EMPLEADO ----------------------------#
+
 class EmpleadoCreateView(CreateView):
     model = Empleado
     template_name = "persona/add.html"
@@ -60,32 +62,12 @@ class EmpleadoDeleteView(DeleteView):
 class ListAllEmpleado(ListView):
     model = Empleado
     template_name = "persona/list_all.html"
-    ordering = 'first_name'
     paginate_by = 4
 
     def get_queryset(self):
         palabra_clave = self.request.GET.get("kword", '')
-        lista = Empleado.objects.filter(
-            first_name__icontains = palabra_clave
-        ) #icontains nos ahorra toda la loca de si no hay empleados con ese nombre, o al principio que no nos muestra nada
-        #icontains nos ahorra todo eso, django lo hace automatico
-        #lo que hace es buscar la palabra clave dentro de toda la cadena (en este caso first_name)
-        return lista
-
-class InicioView(TemplateView):
-    template_name = "inicio.html"
-
-class ListEmpleadoByKword(ListView):
-    model = Empleado
-    template_name = "persona/by_kword.html"
-    context_object_name = 'empleado'
-
-    def get_queryset(self):
-        palabra_clave = self.request.GET.get("kword", '')
-        lista = Empleado.objects.filter(
-            first_name = palabra_clave
-        )
-        return lista    
+        return Empleado.objects.buscar_empleado(palabra_clave)
+         
 
 class EmpleadoDetailView(DetailView):
     model = Empleado
@@ -98,8 +80,46 @@ class EmpleadoByAreaListView(ListView):
 
     def get_queryset(self):
         area = self.kwargs['name']
-        lista = Empleado.objects.filter(departamento__name = area)
-        return lista
+        return Empleado.objects.buscar_by_area(area)
+
+class EmpleadoByTrabajoListView(ListView):
+    template_name = "persona/list_bytrabajo.html"
+
+    def get_queryset(self):
+        area = self.kwargs['puesto']
+        return Empleado.objects.buscar_by_trabajo(area)
+
+#-------------------- TRABAJO VIEWS ----------------------#
+
+class CrearTrabajoView(CreateView):
+    model = Trabajo
+    form_class = TrabajoForm
+    template_name = 'persona/crear_trabajo.html'
+    success_url = reverse_lazy('persona_app:correcto')
+
+class ListAllTrabajos(ListView):
+    model = Trabajo
+    template_name = "persona/list_all_trabajos.html"
+    paginate_by = 4
+
+    def get_queryset(self):
+        palabra_clave = self.request.GET.get("kword", '')
+        return Trabajo.objects.buscar_trabajo(palabra_clave)
+
+class TrabajoDeleteView(DeleteView):
+    model = Trabajo
+    template_name = "persona/delete_trabajo.html"
+    success_url = reverse_lazy('persona_app:correcto')
+
+class TrabajoUpdateView(UpdateView):
+    model = Trabajo
+    template_name = "persona/update_trabajo.html"
+    success_url = reverse_lazy('persona_app:correcto')
+    form_class = TrabajoForm
+
+#------------------ OTRAS VIEWS -------------------#
+class InicioView(TemplateView):
+    template_name = "inicio.html"
 
 class EmpleadoDashboardView(TemplateView):
     template_name = "persona/dashboard.html"
@@ -125,40 +145,3 @@ class CrearHabilidadView(CreateView):
         )
         return context
 
-class CrearTrabajoView(CreateView):
-    model = Trabajo
-    form_class = TrabajoForm
-    template_name = 'persona/crear_trabajo.html'
-    success_url = reverse_lazy('persona_app:correcto')
-
-class ListAllTrabajos(ListView):
-    model = Trabajo
-    template_name = "persona/list_all_trabajos.html"
-    ordering = 'job'
-    paginate_by = 4
-
-    def get_queryset(self):
-        palabra_clave = self.request.GET.get("kword", '')
-        lista = Trabajo.objects.filter(
-            puesto__icontains = palabra_clave
-        )
-        return lista
-
-class TrabajoDeleteView(DeleteView):
-    model = Trabajo
-    template_name = "persona/delete_trabajo.html"
-    success_url = reverse_lazy('persona_app:correcto')
-
-class EmpleadoByTrabajoListView(ListView):
-    template_name = "persona/list_bytrabajo.html"
-
-    def get_queryset(self):
-        area = self.kwargs['puesto']
-        lista = Empleado.objects.filter(job__puesto = area)
-        return lista
-
-class TrabajoUpdateView(UpdateView):
-    model = Trabajo
-    template_name = "persona/update_trabajo.html"
-    success_url = reverse_lazy('persona_app:correcto')
-    form_class = TrabajoForm

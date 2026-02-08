@@ -1,5 +1,5 @@
 from django.db import models
-
+from .managers import DepartamentoManager
 # Create your models here.
 class Departamento(models.Model):
     name = models.CharField('Nombre', max_length=50, unique=True)
@@ -11,7 +11,8 @@ class Departamento(models.Model):
                 #Sobre todo si estas en un proyecto donde tenes que darle permisos a otras personas
     
     anulate = models.BooleanField('Anulado', default= False)
-
+    objects = DepartamentoManager()
+    
     class Meta:
         verbose_name = 'Mi Departamento'
         verbose_name_plural = 'Departamentos de la Empresa'

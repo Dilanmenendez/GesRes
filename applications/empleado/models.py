@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from applications.departamento.models import Departamento
 from django.core.validators import FileExtensionValidator
+from .managers import EmpleadoManager, TrabajoManager
 
 class Habilidades(models.Model):
     """Model definition for Habilidades."""
@@ -22,7 +23,8 @@ class Habilidades(models.Model):
 class Trabajo(models.Model):
     puesto = models.CharField('Puesto', max_length=50)
     sueldo = models.DecimalField('Sueldo', max_digits=7, decimal_places=2)
-
+    objects = TrabajoManager()
+    
     class Meta:
         verbose_name = 'Puesto de Trabajo'
         verbose_name_plural = 'Puestos de Trabajo'
@@ -48,6 +50,8 @@ class Empleado(models.Model):
     cv = models.FileField(upload_to='pdfs/',
     validators=[FileExtensionValidator(allowed_extensions=['pdf'])],
     null=True, blank=True)
+    objects = EmpleadoManager()
+
     class Meta:
         verbose_name = 'Empleados'
         verbose_name_plural = 'Lista Empleados'
