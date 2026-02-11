@@ -1,11 +1,15 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from .managers import ProductoManager, ClasificacionManager, ProveedorManager
 # Create your models here.
 
 
 #--------------- Modelos de Atributos para Producto ------------------#
 class Clasificacion(models.Model):
-    nombre = models.CharField(max_length=50, unique=True)
+    nombre = models.CharField(max_length=50, 
+                              unique=True)
+    objects = ClasificacionManager()
+
     class Meta:
         ordering = ['nombre']
     
@@ -17,7 +21,9 @@ class Proveedor(models.Model):
     num_contacto = models.CharField(max_length=20)  
     email = models.EmailField(max_length=254)
     activo = models.BooleanField(default=True)
-    direccion = models.CharField(max_length=50, blank=True)
+    direccion = models.CharField(max_length=50, 
+                                 blank=True)
+    objects = ProveedorManager()
 
     class Meta:
         ordering = ['nombre']
@@ -45,6 +51,7 @@ class Producto(models.Model):
                                        validators = [MinValueValidator(0)]
                                        )
     descripcion = models.TextField(blank=True)
+    objects = ProductoManager()
     
     class Meta:
         ordering = ['nombre']

@@ -16,7 +16,7 @@ class EmpleadoManager(models.Manager):
             id__icontains = id
         ).order_by('id')
     
-    #Maagers para Filtrar por Puesto / Departamento
+    #Managers para Filtrar por Puesto / Departamento
     def buscar_by_area(self, kword):
         return self.filter(
             departamento__name__icontains = kword
