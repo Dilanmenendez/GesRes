@@ -12,12 +12,24 @@
       <h2 class="text-center" style="margin: 1.5rem 0;">
         Listado de trabajos
       </h2>
-      <form method="get" class="cell grid-x grid-margin-x">{% csrf_token %}
+
+      <form method="get" class="grid-x grid-margin-x">
         <div class="cell large-8">
-            <input type="text" name="kword" id="kword" placeholder="Buscar Puesto (por ID o Nombre)">
-        </div>
-        <div>
-          <button type="submit" class="success button">Buscar</button>
+          <input type="text" name="kword" id="kword" placeholder="Buscar por Nombre del puesto">
+          <div class="grid-x grid-margin-x align-bottom">
+            <div class="cell medium-9">
+              <input type="number" name="id" id="id" placeholder="Buscar por ID"
+                class="no-margin-bottom">
+            </div>
+            <div class="cell medium-3">
+              <button
+                type="submit"
+                class="button success expanded"
+                style="height: 39px;">
+                Buscar
+              </button>
+            </div>
+          </div>
         </div>
       </form>
       

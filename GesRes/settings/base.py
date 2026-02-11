@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'applications.empleado', #Es importante ponerle el appliactions. al nombre en el archivo de apps
     'applications.home',
     'applications.departamento',
+    'applications.stock',
 ]
 
 MIDDLEWARE = [

@@ -2,11 +2,12 @@ from django.db import models
 from .managers import DepartamentoManager
 # Create your models here.
 class Departamento(models.Model):
-    name = models.CharField('Nombre', max_length=50, unique=True)
-    short_name = models.CharField('Nombre corto', max_length=20, unique=True)
-    #Blank=True hace que ese campo no sea obligatorio a la hora de hacer un registro y solo sirve en textos
-    #null=True lo usamos cuando no sabemos si ese campo va a contraer un valor inmediatamente, o si lo va a contraer en otro proceso
-    #unique=True indica que ese valor de "x" registro, no se repita en ningun otro registro
+    name = models.CharField('Nombre', 
+                            max_length=50, 
+                            unique=True)
+    short_name = models.CharField('Nombre corto', 
+                                  max_length=20, 
+                                  unique=True)
     #editable=False sirve para que no se pueda editar un valor incluso desde el panel de administrador, sirve mas de lo que parece,
                 #Sobre todo si estas en un proyecto donde tenes que darle permisos a otras personas
     

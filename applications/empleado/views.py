@@ -65,10 +65,13 @@ class ListAllEmpleado(ListView):
     paginate_by = 4
 
     def get_queryset(self):
+        pk_id = self.request.GET.get('id', '')
         palabra_clave = self.request.GET.get("kword", '')
+        if pk_id:
+            return Empleado.objects.buscar_empleado_id(pk_id)
+        
         return Empleado.objects.buscar_empleado(palabra_clave)
          
-
 class EmpleadoDetailView(DetailView):
     model = Empleado
     template_name = "persona/by_kword.html"
@@ -104,6 +107,10 @@ class ListAllTrabajos(ListView):
 
     def get_queryset(self):
         palabra_clave = self.request.GET.get("kword", '')
+        pk_id = self.request.GET.get('id', '')
+        if pk_id:
+            return Trabajo.objects.buscar_trabajo_id(pk_id)
+        
         return Trabajo.objects.buscar_trabajo(palabra_clave)
 
 class TrabajoDeleteView(DeleteView):

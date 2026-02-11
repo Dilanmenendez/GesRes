@@ -14,6 +14,10 @@ class DepartamentoListAllView(ListView):
 
     def get_queryset(self):
         palabra_clave = self.request.GET.get("kword", '')
+        pk_id = self.request.GET.get('id','')
+        if pk_id:
+            return Departamento.objects.buscar_departamento_id(pk_id)
+        
         return Departamento.objects.buscar_departamento(palabra_clave)
 
 class DepartamentoCreateView(CreateView):
