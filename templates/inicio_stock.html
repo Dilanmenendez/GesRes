@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} GesRES RH {% endblock title %}
+{% block title %} GesRes Stock {% endblock title %}
 
 
 {% block content %}
 
-{% include 'includes/header.html' %}
+{% include 'includes/header2.html' %}
 
 <!--Inicio de la imagen de portada-->
 
@@ -25,7 +25,7 @@
       </li>
       <li class="orbit-slide">
         <figure class="orbit-figure">
-          <img class="orbit-image" src="{% static 'img/img4.jpg' %}" alt="Space">
+          <img class="orbit-im  age" src="{% static 'img/img4.jpg' %}" alt="Space">
           <figcaption class="orbit-caption">Lets Rocket!</figcaption>
         </figure>
       </li>
@@ -43,13 +43,13 @@
 
 <!--Bloque de bienvenida (de foundation)-->
 <div class="grid-x align-center"> <!--align-center sirve para centrar los hijos de dicho grid-->
-    <h1 class="cell large-8" style="font-size: 20px; text-align: center;">Bienvenido al sistema de empleados</h1>
+    <h1 class="cell large-8" style="font-size: 20px; text-align: center;">Bienvenido a Gestion De Stock</h1>
     <div class="cell large-7">
         <!--esta es la caja del final, la sacas de la documentacion ;D-->
         <div class="callout success">
-        <h5>Registra y controla Empleados</h5>
-        <p>Sistema que gestiona los Empleados de tu empresa</p>
-        <a href="{% url 'persona_app:empleados_all' %}">Ver Empleados</a>
+        <h5>Gestionar Stock a la perfección</h5>
+        <p>¡Que no se te escape nada!</p>
+        <a href="#">Ver Productos</a>
 </div>
     </div>
 </div>

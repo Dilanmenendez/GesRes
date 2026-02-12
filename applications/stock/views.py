@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from .models import Producto, Clasificacion, Proveedor
 # Create your views here.
 
@@ -7,7 +7,7 @@ from .models import Producto, Clasificacion, Proveedor
 
 class ProductoListView(ListView):
     model = Producto
-    template_name = "stock/list_all_productos.html"
+    template_name = "stock/list_all_producto.html"
     paginate_by = 4
 
     def get_queryset(self):
@@ -51,3 +51,10 @@ class ClasificacionListView(ListView):
             return Clasificacion.objects.buscar_clasificacion_id(clasificacion_id)
         
         return Clasificacion.objects.buscar_clasificacion(palabra_clave)
+    
+
+#---------------- Otras Views -----------------#
+
+
+class InicioView(TemplateView):
+    template_name = "inicio_stock.html"

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'includes/header2.html' %}
+
+<div class="grid-container">
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12">
+
+      <h2 class="text-center" style="margin: 1.5rem 0;">
+        Listado de Materia Prima
+      </h2>
+      <form method="get" class="grid-x grid-margin-x">
+
+        <div class="cell large-8">
+          <input type="text" name="kword" id="kword" placeholder="Buscar por Nombre de la materia">
+          <div class="grid-x grid-margin-x align-bottom">
+            <div class="cell medium-9">
+              <input type="number" name="id" id="id" placeholder="Buscar por ID"
+                class="no-margin-bottom">
+            </div>
+            <div class="cell medium-3">
+              <button
+                type="submit"
+                class="button success expanded"
+                style="height: 39px;">
+                Buscar
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <table class="hover unstriped">
+        <thead>
+          <tr>
+            <th width="50">ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Proveedor</th>
+            <th width="150">Clasificacion</th>
+            <th width="150">Stock Actual</th>
+            <th width="150">Stock Minimo</th>
+            <th width="150" class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for materia in object_list %}
+          <tr>
+            <td>{{ materia.id }}</td>
+            <td>{{ materia.nombre }}</td>
+            <td>{{ materia.precio }} | xkg</td>
+            <td>{{ materia.proveedor }}</td>
+            <td>{{ materia.clasificacion }}</td>
+            <td>{{ materia.stock_actual }}kg</td>
+            <td>{{ materia.stock_minimo }}kg</td>
+            <td>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <a href="#"
+                  class="button tiny clear"
+                  style="color: green;">
+                  Ver
+                </a>
+                <a href="#"
+                  class="button tiny clear"
+                  style="color: red;">
+                  Eliminar
+                </a>
+                <a href="#"
+                  class="button tiny clear"
+                  style="color: rgb(127, 127, 17);">
+                  Editar
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center">
+              No hay Materia Prima registrada.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="grid-x align-justify" style="margin-top: 1.5rem;">
+        <a href="{% url 'stock_app:Inicio' %}"
+           class="button hollow secondary">
+          Volver
+        </a>
+        <a href="#"
+           class="button hollow primary">
+          Registrar Materia
+        </a>
+      </div>
+
+      <div class="cell">
+        {% if is_paginated %}
+          <nav aria-label="Pagination">
+            <ul class="pagination text-center">
+
+              {% if page_obj.has_previous %}
+                <li class="pagination-previous">
+                  <a href="?page={{ page_obj.previous_page_number }}">Atrás</a>
+                </li>
+              {% endif %}
+
+              {% for pagina in paginator.page_range %}
+                <li class="{% if page_obj.number == pagina %}current{% endif %}">
+                  <a href="?page={{ pagina }}">{{ pagina }}</a>
+                </li>
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                <li class="pagination-next">
+                  <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                </li>
+              {% endif %}
+
+            </ul>
+          </nav>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
