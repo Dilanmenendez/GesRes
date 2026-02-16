@@ -62,7 +62,7 @@
                   style="color: green;">
                   Ver
                 </a>
-                <a href="#"
+                <a href="{% url 'stock_app:delete_producto' materia.id %}"
                   class="button tiny clear"
                   style="color: red;">
                   Eliminar
@@ -90,7 +90,7 @@
            class="button hollow secondary">
           Volver
         </a>
-        <a href="#"
+        <a href="{% url 'stock_app:add_producto' %}"
            class="button hollow primary">
           Registrar Materia
         </a>

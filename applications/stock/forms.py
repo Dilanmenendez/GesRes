@@ -15,10 +15,9 @@ class ProductoForm(forms.ModelForm):
                   'precio',
                   'proveedor',
                   'clasificacion',
+                  'stock_actual',
                   'stock_minimo',
                   'descripcion',)
-        
-        widgets = {'',}
 
 #------------ Form de Proveedor -----------#
 class ProveedorForm(forms.ModelForm):
@@ -28,7 +27,7 @@ class ProveedorForm(forms.ModelForm):
         """Meta definition for Proveedorform."""
 
         model = Proveedor
-        fields = ('__all__',)
+        fields = ('__all__')
 
 #---------Form de Clasificacion ------------#
 class ClasificacionForm(forms.ModelForm):

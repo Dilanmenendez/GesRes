@@ -47,7 +47,7 @@
             <td>{{ clasificacion.nombre }}</td>
             <td>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="#"
+                <a href="{% url 'stock_app:delete_clasificacion' clasificacion.id %}"
                   class="button tiny clear"
                   style="color: red;">
                   Eliminar
@@ -75,7 +75,7 @@
            class="button hollow secondary">
           Volver
         </a>
-        <a href="#"
+        <a href="{% url 'stock_app:add_clasificacion' %}"
            class="button hollow primary">
           Registrar Clasificacion
         </a>

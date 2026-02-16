@@ -4,7 +4,7 @@ from .managers import ProductoManager, ClasificacionManager, ProveedorManager
 # Create your models here.
 
 
-#--------------- Modelos de Atributos para Producto ------------------#
+#--------------- Clasificacion Model -----------------#
 class Clasificacion(models.Model):
     nombre = models.CharField(max_length=50, 
                               unique=True)
@@ -15,6 +15,8 @@ class Clasificacion(models.Model):
     
     def __str__(self):
         return self.nombre
+    
+# --------------- Proveedor Model --------------- #
 
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=50)
@@ -31,7 +33,8 @@ class Proveedor(models.Model):
     def __str__(self):
         return self.nombre
 
-#---------------- Modelo de Producto -------------------#
+#---------------- Producto Model -------------------#
+
 class Producto(models.Model):
     nombre = models.CharField(max_length=50, 
                               unique=True)
@@ -40,9 +43,13 @@ class Producto(models.Model):
                                   validators = [MinValueValidator(0)]
                                   )
     proveedor = models.ForeignKey(Proveedor, 
-                                  on_delete=models.PROTECT)
+                                  on_delete=models.SET_NULL,
+                                  null=True,
+                                  blank=True)
     clasificacion = models.ForeignKey(Clasificacion, 
-                                      on_delete=models.PROTECT)
+                                      on_delete=models.SET_NULL,
+                                      null=True,
+                                      blank=True)
     stock_actual = models.IntegerField(default=0,
                                        validators = [MinValueValidator(0)]
                                        )

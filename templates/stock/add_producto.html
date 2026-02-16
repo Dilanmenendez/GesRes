@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% include 'includes/header2.html' %}
+
+  <div class="grid-container">
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell small-12 medium-8 large-6"> 
+        
+        <h2 class="text-center" style="margin: 1.5rem 0;">Registrar Materia Prima</h2>
+        
+        <form method="post" enctype="multipart/form-data" class="callout secondary shadow"> 
+          {% csrf_token %}
+          
+          <ul class="vertical menu">
+            <li>
+              <label><strong>{{ form.nombre.label }}</strong></label>
+              {{ form.nombre }}
+              {{ form.nombre.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.precio.label }} (UYU) x kg</strong></label>
+              {{ form.precio }}
+              {{ form.precio.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.proveedor.label }}</strong></label>
+              {{ form.proveedor }}
+              {{ form.proveedor.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.clasificacion.label }}</strong></label>
+              {{ form.clasificacion }}
+              {{ form.clasificacion.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.stock_actual.label }}</strong></label>
+              {{ form.stock_actual }}
+              {{ form.stock_actual.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.stock_minimo.label }}</strong></label>
+              {{ form.stock_minimo }}
+              {{ form.stock_minimo.errors }}
+            </li>
+            <li style="margin-top: 1.5rem;">
+              <label><strong>{{ form.descripcion.label }}</strong></label>
+              {{ form.descripcion }}
+              {{ form.descripcion.errors }}
+            </li>
+          </ul>
+
+          <div class="button-group align-center" style="margin-top: 3rem;">
+            <button type="submit" class="button success" style="margin-right: 10px;">
+              Guardar
+            </button>
+            <button type="reset" class="button alert " style="margin-right: 10px;">
+              Limpiar
+            </button>
+            <a href="{% url 'stock_app:all_productos' %}" class="button secondary ">
+              Volver
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

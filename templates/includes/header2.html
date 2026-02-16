@@ -3,21 +3,62 @@
     <ul class="dropdown menu align-left align-middle" data-dropdown-menu>
       
       <li>
-        <a href="{% url 'stock_app:Inicio' %}" style="color: #0a4d8c" class="menu-text" >GesRes Stock</a>
+        <a href="{% url 'stock_app:Inicio' %}" 
+           style="color: #0a4d8c" 
+           class="menu-text">
+           GesRes Stock
+        </a>
       </li>
 
       <li class="has-submenu">
         <a href="{% url 'stock_app:all_productos' %}">Materia Prima</a>
+        
         <ul class="submenu menu vertical" data-submenu>
-          <li><a href="#0">Proteínas</a></li>
-          <li><a href="#0">Hortalizas</a></li>
-          <li><a href="#0">Especias</a></li>
-          <li><a href="#0">Otros varios</a></li>
+
+          {% for clasificacion in clasificaciones_menu %}
+            {% if clasificacion.nombre != "Otros varios" %}
+              <li>
+                <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
+                  {{ clasificacion.nombre }}
+                </a>
+              </li>
+            {% endif %}
+          {% empty %}
+            <li>
+              <span style="padding: 10px; display: block;">
+                No hay clasificaciones
+              </span>
+            </li>
+          {% endfor %}
+
+          {% for clasificacion in clasificaciones_menu %}
+            {% if clasificacion.nombre == "Otros varios" %}
+              <li>
+                <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
+                  {{ clasificacion.nombre }}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
         </ul>
       </li>
-      <li><a href="{% url 'stock_app:all_clasificaciones' %}">Clasificaciones</a></li>
-      <li><a href="{% url 'stock_app:all_proveedores' %}">Proveedores</a></li>
-      <li><a href="#0">Dashboard</a></li>
+
+      <li>
+        <a href="{% url 'stock_app:all_clasificaciones' %}">
+          Clasificaciones
+        </a>
+      </li>
+
+      <li>
+        <a href="{% url 'stock_app:all_proveedores' %}">
+          Proveedores
+        </a>
+      </li>
+
+      <li>
+        <a href="#0">Dashboard</a>
+      </li>
 
     </ul>
   </div>
