@@ -51,17 +51,17 @@
             <td>{{ proveedor.activo }}</td>
             <td>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="#"
+                <a href="{% url 'stock_app:detail_proveedor' proveedor.id %}"
                   class="button tiny clear"
                   style="color: green;">
-                  Ver
+                  Ver Detalles
                 </a>
                 <a href="{% url 'stock_app:delete_proveedor' proveedor.id %}"
                   class="button tiny clear"
                   style="color: red;">
                   Eliminar
                 </a>
-                <a href="#"
+                <a href="{% url 'stock_app:update_proveedor' proveedor.id %}"
                   class="button tiny clear"
                   style="color: rgb(127, 127, 17);">
                   Editar

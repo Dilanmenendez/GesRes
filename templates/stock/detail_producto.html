@@ -1,0 +1,58 @@
+```html
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% include 'includes/header2.html' %}
+
+  <div class="grid-container">
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell small-12 medium-8 large-6">
+
+        <h2 class="text-center" style="margin: 1.5rem 0;">Detalle - {{ object.nombre }}</h2>
+
+        <div class="callout secondary shadow">
+          <ul class="vertical menu">
+            <li>
+              <label><strong>Nombre</strong></label>
+              <p class="no-margin-bottom">{{ object.nombre }}</p>
+            </li>
+            <li>
+              <label><strong>Precio</strong></label>
+              <p class="no-margin-bottom">{{ object.precio }} | xkg</p>
+            </li>
+            <li>
+              <label><strong>Proveedor</strong></label>
+              <p class="no-margin-bottom">{{ object.proveedor }}</p>
+            </li>
+            <li>
+              <label><strong>Clasificación</strong></label>
+              <p class="no-margin-bottom">{{ object.clasificacion }}</p>
+            </li>
+            <li>
+              <label><strong>Stock Actual</strong></label>
+              <p class="no-margin-bottom">{{ object.stock_actual }} kg</p>
+            </li>
+            <li>
+              <label><strong>Stock Mínimo</strong></label>
+              <p class="no-margin-bottom">{{ object.stock_minimo }} kg</p>
+            </li>
+            <li>
+              <label><strong>Descripción</strong></label>
+              <p class="no-margin-bottom">{{ object.descripcion|default:"-" }}</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="button-group align-center" style="margin-top: 1.5rem;">
+          <a href="{% url 'stock_app:update_producto' object.id %}" class="button success" style="margin-right:10px;">Editar</a>
+          <a href="{% url 'stock_app:delete_producto' object.id %}" class="button alert" style="margin-right:10px;">Eliminar</a>
+          <a href="{% url 'stock_app:all_productos' %}" class="button secondary">Volver</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+```

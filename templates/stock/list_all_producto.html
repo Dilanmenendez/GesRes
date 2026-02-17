@@ -41,7 +41,6 @@
             <th>Proveedor</th>
             <th width="150">Clasificacion</th>
             <th width="150">Stock Actual</th>
-            <th width="150">Stock Minimo</th>
             <th width="150" class="text-center">Acciones</th>
           </tr>
         </thead>
@@ -54,20 +53,19 @@
             <td>{{ materia.proveedor }}</td>
             <td>{{ materia.clasificacion }}</td>
             <td>{{ materia.stock_actual }}kg</td>
-            <td>{{ materia.stock_minimo }}kg</td>
             <td>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="#"
+                <a href="{% url 'stock_app:detail_producto' materia.id %}"
                   class="button tiny clear"
                   style="color: green;">
-                  Ver
+                  Ver Detalles
                 </a>
                 <a href="{% url 'stock_app:delete_producto' materia.id %}"
                   class="button tiny clear"
                   style="color: red;">
                   Eliminar
                 </a>
-                <a href="#"
+                <a href="{% url 'stock_app:update_producto' materia.id %}"
                   class="button tiny clear"
                   style="color: rgb(127, 127, 17);">
                   Editar

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% include 'includes/header2.html' %}
+
+  <div class="grid-container">
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell small-12 medium-8 large-6"> 
+        
+        <h2 class="text-center" style="margin: 1.5rem 0;">Actualizar Proveedor</h2>
+        
+        <form method="post" enctype="multipart/form-data" class="callout secondary shadow"> 
+          {% csrf_token %}
+          
+          <ul class="vertical menu">
+            <li>
+              <label><strong>{{ form.nombre.label }}</strong></label>
+              {{ form.nombre }}
+              {{ form.nombre.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.num_contacto.label }}</strong></label>
+              {{ form.num_contacto }}
+              {{ form.num_contacto.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.email.label }}</strong></label>
+              {{ form.email }}
+              {{ form.email.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.activo.label }}</strong></label>
+              {{ form.activo }}
+              {{ form.activo.errors }}
+            </li>
+            <li>
+              <label><strong>{{ form.direccion.label }}</strong></label>
+              {{ form.direccion }}
+              {{ form.direccion.errors }}
+            </li>
+          </ul>
+
+          <div class="button-group align-center" style="margin-top: 3rem;">
+            <button type="submit" class="button success" style="margin-right: 10px;">
+              Guardar
+            </button>
+            <button type="reset" class="button alert " style="margin-right: 10px;">
+              Limpiar
+            </button>
+            <a href="{% url 'stock_app:all_proveedores' %}" class="button secondary ">
+              Volver
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+

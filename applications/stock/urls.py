@@ -6,6 +6,7 @@ from . import views
 app_name = 'stock_app'
 
 urlpatterns = [
+    # ---------- Path Varios -----------#
      path('', 
           views.InicioView.as_view(), 
           name='Inicio'),
@@ -13,8 +14,13 @@ urlpatterns = [
      path('success_url', 
           views.SuccessView.as_view(), 
           name='success'),
+     
+     path('dashboard/',
+          views.StockDashboardView.as_view(),
+          name='dashboard'),
 
      # ----- Path Productos ----- #
+     
      path('lista_all_productos/', 
           views.ProductoListView.as_view(), 
           name='all_productos'),
@@ -30,6 +36,14 @@ urlpatterns = [
      path('delete-producto/<pk>/',
           views.ProductoDeleteView.as_view(),
           name='delete_producto'),
+     
+     path('update-producto/<pk>/',
+          views.ProductoUpdateView.as_view(),
+          name='update_producto'),
+
+     path('detail-producto/<pk>/',
+          views.ProductoDetailView.as_view(),
+          name='detail_producto'),
 
      # -------- Path Proveedores --------- #
 
@@ -44,7 +58,15 @@ urlpatterns = [
      path('delete-proveedor/<pk>',
           views.ProveedorDeleteView.as_view(),
           name='delete_proveedor'),
-          
+     
+     path('update-proveedor/<pk>',
+          views.ProveedorUpdateView.as_view(),
+          name='update_proveedor'),
+     
+     path('detail-proveedor/<pk>',
+          views.ProveedorDetailView.as_view(),
+          name='detail_proveedor'),
+
      # ------ Path Clasificaciones ------ #
 
      path('lista_all_clasificaciones/',
@@ -58,4 +80,8 @@ urlpatterns = [
      path('delete-clasificacion/<pk>',
           views.ClasificacionDeleteView.as_view(),
           name='delete_clasificacion'),
+     
+     path('update-clasificacion/<pk>',
+          views.ClasificacionUpdateView.as_view(),
+          name='update_clasificacion'),
      ]

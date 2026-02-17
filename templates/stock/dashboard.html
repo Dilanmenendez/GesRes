@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% include 'includes/header2.html' %}
+
+  <div class="grid-container">
+    <div class="grid-x align-center">
+      <h1 class="cell large-8" style="font-size:20px; text-align:center;">Panel de Control - Stock</h1>
+      <div class="cell large-7">
+        <div class="callout success">
+          <h5>Resumen</h5>
+          <p>Vista rápida de productos, proveedores y clasificaciones. Detecta productos con stock por debajo del mínimo.</p>
+          <a href="{% url 'stock_app:all_productos' %}">Ver Productos</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-x grid-margin-x" style="margin-top:1rem;">
+      <div class="cell small-12 medium-4">
+        <div class="callout secondary">
+          <h5>Total Productos</h5>
+          <p class="lead">{{ total_productos }}</p>
+        </div>
+      </div>
+
+      <div class="cell small-12 medium-4">
+        <div class="callout secondary">
+          <h5>Total Proveedores</h5>
+          <p class="lead">{{ total_proveedores }}</p>
+        </div>
+      </div>
+
+      <div class="cell small-12 medium-4">
+        <div class="callout secondary">
+          <h5>Total Clasificaciones</h5>
+          <p class="lead">{{ total_clasificaciones }}</p>
+        </div>
+      </div>
+
+      <div class="cell small-12">
+        <div class="callout alert">
+          <h5>Productos con stock bajo (<= mínimo): {{ low_stock_count }}</h5>
+          {% if low_stock_items %}
+            <ul>
+              {% for p in low_stock_items %}
+                <li>{{ p.nombre }} — {{ p.stock_actual }} kg (mín: {{ p.stock_minimo }})</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No hay productos con stock bajo.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="cell small-12">
+        <div class="button-group align-center" style="margin-top: 1rem;">
+          <a href="{% url 'stock_app:all_productos' %}" class="button primary" style="margin-right:10px;">Ver Productos</a>
+          <a href="{% url 'stock_app:all_proveedores' %}" class="button secondary">Ver Proveedores</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock content %}
