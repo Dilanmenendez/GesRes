@@ -17,6 +17,7 @@ class Receta(models.Model):
         return self.producto_final.nombre
 
 # ---------- Modelo Ingredientes Receta --------- #
+
 class IngredientesReceta(models.Model):
     receta = models.ForeignKey(Receta, 
                                 on_delete=models.CASCADE,
@@ -35,6 +36,7 @@ class IngredientesReceta(models.Model):
     def __str__(self):
         return f'{self.producto.nombre} - {self.cantidad}'
 
+# --------- Modelo Produccion --------- #
 class Produccion(models.Model):
     producto = models.ForeignKey(
         'stock.Producto',
