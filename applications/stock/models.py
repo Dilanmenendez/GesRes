@@ -36,6 +36,15 @@ class Proveedor(models.Model):
 #---------------- Producto Model -------------------#
 
 class Producto(models.Model):
+    TIPO_CHOICES = (
+        ('MP', 'Materia Prima'),
+        ('PT', 'Producto Terminado'),
+        ('SC', 'Sin Clasificar'),
+    )
+    tipo = models.CharField(max_length=2, 
+                            choices=TIPO_CHOICES,
+                            default='SC'
+                            )
     nombre = models.CharField(max_length=50, 
                               unique=True)
     precio = models.DecimalField (max_digits=10, 
@@ -50,10 +59,14 @@ class Producto(models.Model):
                                       on_delete=models.SET_NULL,
                                       null=True,
                                       blank=True)
-    stock_actual = models.IntegerField(default=0,
+    stock_actual = models.DecimalField(default=0,
+                                       decimal_places=2,
+                                       max_digits=10,
                                        validators = [MinValueValidator(0)]
                                        )
-    stock_minimo = models.IntegerField(default=0, 
+    stock_minimo = models.DecimalField(default=0, 
+                                       decimal_places=2,
+                                       max_digits=10,
                                        help_text='cantidad minima antes de disparar alerta',
                                        validators = [MinValueValidator(0)]
                                        )

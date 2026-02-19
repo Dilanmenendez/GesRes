@@ -11,13 +11,16 @@ class ProductoForm(forms.ModelForm):
         """Meta definition for Productoform."""
 
         model = Producto
-        fields = ('nombre',
-                  'precio',
-                  'proveedor',
-                  'clasificacion',
-                  'stock_actual',
-                  'stock_minimo',
-                  'descripcion',)
+        fields = (
+            'nombre',
+            'tipo',
+            'precio',
+            'proveedor',
+            'clasificacion',
+            'stock_actual',
+            'stock_minimo',
+            'descripcion',
+        )
 
 #------------ Form de Proveedor -----------#
 class ProveedorForm(forms.ModelForm):

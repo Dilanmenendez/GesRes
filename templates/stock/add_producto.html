@@ -20,11 +20,16 @@
               {{ form.nombre.errors }}
             </li>
             <li>
+              <label><strong>{{ form.tipo.label }}</strong></label>
+              {{ form.tipo }}
+              {{ form.tipo.errors }}
+            </li>
+            <li>
               <label><strong>{{ form.precio.label }} (UYU) x kg</strong></label>
               {{ form.precio }}
               {{ form.precio.errors }}
             </li>
-            <li>
+            <li id="proveedor-field">
               <label><strong>{{ form.proveedor.label }}</strong></label>
               {{ form.proveedor }}
               {{ form.proveedor.errors }}
@@ -67,4 +72,21 @@
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var tipoField = document.getElementById('id_tipo');
+      var proveedorField = document.getElementById('proveedor-field');
+      function toggleProveedor() {
+        if (tipoField.value === 'PT') {
+          proveedorField.style.display = 'none';
+        } else {
+          proveedorField.style.display = '';
+        }
+      }
+      if (tipoField && proveedorField) {
+        tipoField.addEventListener('change', toggleProveedor);
+        toggleProveedor();
+      }
+    });
+  </script>
 {% endblock content %}

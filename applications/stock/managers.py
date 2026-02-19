@@ -10,6 +10,14 @@ class ProductoManager(models.Manager):
             id = producto_id
         ).order_by('id')
     
+    def buscar_producto_tipo(self, kword):
+        if kword == 'mp':
+            return self.filter(tipo='MP').order_by('id')
+        elif kword == 'pt':
+            return self.filter(tipo='PT').order_by('id')
+        elif kword == 'sc':
+            return self.filter(tipo='SC').order_by('id')
+        
     def buscar_producto(self, kword):
         if kword == 'des':
             return self.filter().order_by('-id')

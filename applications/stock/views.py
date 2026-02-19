@@ -19,7 +19,7 @@ class ProductoListView(ListView):
         palabra_clave = self.request.GET.get('kword', "")
         producto_id = self.request.GET.get('id', "")
         clasificacion_id = self.kwargs.get('clasificacion_id')
-
+        
         if producto_id:
             return Producto.objects.buscar_producto_id(producto_id)
         
@@ -27,7 +27,11 @@ class ProductoListView(ListView):
             return Producto.objects.filter(
                 clasificacion_id = clasificacion_id).order_by('id')
         
+        if palabra_clave in ['mp', 'pt', 'sc']:
+            return Producto.objects.buscar_producto_tipo(palabra_clave)
+        
         return Producto.objects.buscar_producto(palabra_clave)
+            
 
 
 class ProductoCreateView(CreateView):

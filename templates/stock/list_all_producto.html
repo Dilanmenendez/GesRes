@@ -9,12 +9,13 @@
     <div class="cell small-12">
 
       <h2 class="text-center" style="margin: 1.5rem 0;">
-        Listado de Materia Prima
+        Listado Stock
       </h2>
       <form method="get" class="grid-x grid-margin-x">
 
         <div class="cell large-8">
-          <input type="text" name="kword" id="kword" placeholder="Buscar por Nombre de la materia">
+          <input type="text" name="kword" id="kword" placeholder="Buscar por Nombre o tipo (mp, pt, sc)"
+            class="no-margin-bottom">
           <div class="grid-x grid-margin-x align-bottom">
             <div class="cell medium-9">
               <input type="number" name="id" id="id" placeholder="Buscar por ID"
@@ -37,6 +38,7 @@
           <tr>
             <th width="50">ID</th>
             <th>Nombre</th>
+            <th>Tipo</th>
             <th>Precio</th>
             <th>Proveedor</th>
             <th width="150">Clasificacion</th>
@@ -49,6 +51,7 @@
           <tr>
             <td>{{ materia.id }}</td>
             <td>{{ materia.nombre }}</td>
+            <td>{{ materia.tipo }}</td>
             <td>{{ materia.precio }} | xkg</td>
             <td>{{ materia.proveedor }}</td>
             <td>{{ materia.clasificacion }}</td>
