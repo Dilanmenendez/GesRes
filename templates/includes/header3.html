@@ -2,23 +2,23 @@
   <div class="top-bar-left">
     <ul class="dropdown menu align-left align-middle" data-dropdown-menu>
       <li>
-        <a href="#"
+        <a href="{% url 'produccion_app:Inicio' %}"
            style="color: #0a4d8c"
            class="menu-text">
            GesRes Producción
         </a>
       </li>
       <li>
-        <a href="#">Producciones</a>
+        <a href="{% url 'produccion_app:all_produccion' %}">Operaciones</a>
       </li>
       <li>
-        <a href="#">Recetas</a>
+        <a href="{% url 'produccion_app:all_receta' %}">Recetas</a>
       </li>
       <li>
-        <a href="#">Ingredientes</a>
+        <a href="#">Historial</a>
       </li>
       <li>
-        <a href="#">Dashboard Producción</a>
+        <a href="#">Dashboard</a>
       </li>
       <li>
         <a href="#">Volver a Stock</a>

@@ -28,8 +28,8 @@ urlpatterns = [
     #siempre que queramos mostrar un template en urls, debemos ponerle el .as_view() o include
     path('empleado', include('applications.empleado.urls')),
     path('departamento/', include('applications.departamento.urls')),
-    path('', include('applications.stock.urls')),
-    path('awdad', include('applications.produccion.urls')),
+    path('stock', include('applications.stock.urls')),
+    path('', include('applications.produccion.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
