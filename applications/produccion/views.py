@@ -22,6 +22,7 @@ class RecetaListView(ListView):
     model = Receta
     template_name = "produccion/list_all_receta.html"
     paginate_by = 4
+    
 
 #------ Ingredientes Receta Views ---------#
 

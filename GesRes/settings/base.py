@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'applications.home',
     'applications.departamento',
     'applications.stock',
+    'applications.produccion',
 ]
 
 MIDDLEWARE = [

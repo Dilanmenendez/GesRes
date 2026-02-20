@@ -44,7 +44,9 @@
           {% if low_stock_items %}
             <ul>
               {% for p in low_stock_items %}
-                <li>{{ p.nombre }} — {{ p.stock_actual }} kg (mín: {{ p.stock_minimo }})</li>
+                <li>{{ p.nombre }} — {{ p.stock_actual }} kg (mín: {{ p.stock_minimo }}) | Contacto: {{ p.proveedor.num_contacto }} | 
+                  Cantidad a comprar (10kg extra): {{ p.cantidad_a_comprar }} |
+                </li>
               {% endfor %}
             </ul>
           {% else %}

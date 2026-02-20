@@ -161,4 +161,7 @@ class StockDashboardView(TemplateView):
         context['low_stock_items'] = Producto.objects.filter(
             stock_actual__lte=F('stock_minimo')
             ).order_by('stock_actual')[:6]
+        
+        for producto in context['low_stock_items']:
+            producto.cantidad_a_comprar = max((producto.stock_minimo - producto.stock_actual) + 10, 0)
         return context
