@@ -48,7 +48,7 @@
             <td>{{ receta.producto_final }}</td>
             <td class="text-center">
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="#"
+                <a href="{% url 'produccion_app:detail_receta' receta.id %}"
                   class="button tiny clear"
                   style="color: green;">
                   Ver Detalles
@@ -81,7 +81,7 @@
            class="button hollow secondary">
           Volver
         </a>
-        <a href="#"
+        <a href="{% url 'produccion_app:create_receta' %}"
            class="button hollow primary">
           Registrar Receta
         </a>

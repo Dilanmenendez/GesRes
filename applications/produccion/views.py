@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView, DetailView
 from .models import *
 from .forms import *
@@ -10,6 +10,9 @@ from .forms import *
 class inicioView(TemplateView):
     template_name = "produccion/inicio.html"
 
+class SuccessView(TemplateView):
+    template_name = "produccion/success.html"
+
 # ------ Producción Views --------- #
 
 class ProduccionListView(ListView):
@@ -19,9 +22,9 @@ class ProduccionListView(ListView):
 
 class ProduccionCreateView(CreateView):
     model = Produccion
-    template_name = "produccion/add_produccion.html"
+    template_name = "produccion/create_produccion.html"
     form_class = ProduccionForm
-    success_url = reverse_lazy('produccion_app:all_produccion')
+    success_url = reverse_lazy('produccion_app:create_produccion')
 
 #------ Receta Views ---------#
 
@@ -30,16 +33,32 @@ class RecetaListView(ListView):
     template_name = "produccion/list_all_receta.html"
     paginate_by = 4
 
-class RecetaCreateView(CreateView):
+class RecetaDetailView(DetailView):
     model = Receta
-    template_name = "produccion/add_receta.html"
+    template_name = "produccion/detail_receta.html"
     form_class = RecetaForm
     success_url = reverse_lazy('produccion_app:all_receta')
+
+class RecetaCreateView(CreateView):
+    model = Receta
+    template_name = "produccion/create_receta.html"
+    form_class = RecetaForm
+    success_url = reverse_lazy('produccion_app:success')
 
 #------ Ingredientes Receta Views ---------#
 
 class IngredientesRecetaCreateView(CreateView):
     model = IngredientesReceta
-    template_name = "produccion/create_ingredientes_receta.html"
     form_class = IngredientesRecetaForm
-    success_url = reverse_lazy('produccion_app:all_ingredientes_receta')
+    template_name = "produccion/create_ingredientes_receta.html"
+
+    def form_valid(self, form):
+        # Asignamos automáticamente la receta desde la URL
+        form.instance.receta_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse(
+            'produccion_app:detail_receta',
+            kwargs={'pk': self.kwargs['pk']}
+        )

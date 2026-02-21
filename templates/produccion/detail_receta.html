@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'includes/header3.html' %}
+
+<div class="grid-container">
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12">
+
+      <!-- TÍTULO -->
+      <h2 class="text-center" style="margin: 1.5rem 0;">
+        Detalle de Receta
+      </h2>
+
+      <!-- PRODUCTO FINAL -->
+      <div class="callout primary">
+        <h4>
+          Producto Final: 
+          <strong>{{ object.producto_final.nombre }}</strong>
+        </h4>
+      </div>
+
+      <!-- INGREDIENTES -->
+      <h4 style="margin-top: 2rem;">Ingredientes</h4>
+
+      <table class="hover unstriped">
+        <thead>
+          <tr>
+            <th>Materia Prima</th>
+            <th width="150">Cantidad</th>
+            <th width="150" class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ingrediente in object.ingredientes.all %}
+          <tr>
+            <td>{{ ingrediente.producto.nombre }}</td>
+            <td>{{ ingrediente.cantidad }} kg</td>
+            <td class="text-center">
+              <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                <a href="#"
+                   class="button tiny warning">
+                   Editar
+                </a>
+
+                <a href="#"
+                   class="button tiny alert">
+                   Eliminar
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3" class="text-center">
+              No hay ingredientes cargados en esta receta.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- BOTONES -->
+      <div class="grid-x align-justify" style="margin-top: 2rem;">
+        
+        <a href="{% url 'produccion_app:all_receta' %}"
+           class="button secondary">
+          Volver
+        </a>
+
+        <a href="{% url 'produccion_app:create_ingredientes_receta' object.id %}"
+           class="button success">
+          Agregar Ingrediente
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

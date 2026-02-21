@@ -10,6 +10,10 @@ urlpatterns = [
             views.inicioView.as_view(), 
             name='Inicio'),
 
+        path('success_url', 
+            views.SuccessView.as_view(),
+            name='success'),
+
     # ----- Path Producción ----- #
 
         path('lista_all_produccion/', 
@@ -30,9 +34,13 @@ urlpatterns = [
             views.RecetaCreateView.as_view(),
             name='create_receta'),
 
+        path('detail_receta/<pk>/',
+             views.RecetaDetailView.as_view(),
+             name='detail_receta'),
+
     # ----- Path Ingredientes Receta ----- #
 
-        path('create_ingredientes_receta/',
+        path('create_ingredientes_receta/<pk>',
             views.IngredientesRecetaCreateView.as_view(),
             name='create_ingredientes_receta'),
             ]

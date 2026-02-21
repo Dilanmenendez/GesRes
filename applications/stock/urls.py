@@ -18,6 +18,7 @@ urlpatterns = [
      path('dashboard/',
           views.StockDashboardView.as_view(),
           name='dashboard'),
+     
 
      # ----- Path Productos ----- #
      

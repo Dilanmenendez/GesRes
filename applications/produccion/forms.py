@@ -33,7 +33,6 @@ class IngredientesRecetaForm(forms.ModelForm):
 
         model = IngredientesReceta
         fields = (
-            'receta',
             'producto',
             'cantidad',
         )
