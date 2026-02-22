@@ -38,10 +38,18 @@ urlpatterns = [
              views.RecetaDetailView.as_view(),
              name='detail_receta'),
 
+        path('delete-receta/<pk>/',
+             views.RecetaDeleteView.as_view(),
+             name='delete_receta'),
+
     # ----- Path Ingredientes Receta ----- #
 
         path('create_ingredientes_receta/<pk>',
             views.IngredientesRecetaCreateView.as_view(),
             name='create_ingredientes_receta'),
+        
+        path('delete_ingredientes_receta/<pk>',
+             views.IngredientesRecetaDeleteView.as_view(),
+             name='delete_ingredientes_receta')
             ]
         

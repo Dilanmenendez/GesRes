@@ -22,7 +22,9 @@ class RecetaForm(forms.ModelForm):
         """Meta definition for Recetaform."""
 
         model = Receta
-        fields = ('producto_final',)
+        fields = ('producto_final',
+                  'cantidad_por_receta',
+        )
     
 #------ Form de Ingredientes Receta ---------#
 class IngredientesRecetaForm(forms.ModelForm):

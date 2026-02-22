@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
+from .managers import ProduccionManager, RecetaManager
+
 
 # Create your models here.
 # --------- Modelo Receta --------- #
@@ -10,6 +12,11 @@ class Receta(models.Model):
                                         limit_choices_to={'tipo': 'PT'},
                                         related_name='receta')
 
+    cantidad_por_receta = models.DecimalField(
+        max_digits=10,
+        decimal_places=3
+    )
+    objects = RecetaManager()
     class Meta:
         ordering = ['id']
     
@@ -56,6 +63,7 @@ class Produccion(models.Model):
         decimal_places=2,
         default=0
     )
+    objects = ProduccionManager()
 
     def __str__(self):
         return f"{self.producto.nombre} - {self.cantidad_producida}"

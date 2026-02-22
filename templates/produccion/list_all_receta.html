@@ -38,6 +38,7 @@
           <tr>
             <th width="50">ID</th>
             <th>Receta</th>
+            <th>Cantidad por Receta (kg)</th>
             <th width="150" class="text-center">Acciones</th>
           </tr>
         </thead>
@@ -46,6 +47,7 @@
           <tr>
             <td>{{ receta.id }}</td>
             <td>{{ receta.producto_final }}</td>
+            <td>{{ receta.cantidad_por_receta|floatformat:-1 }}</td>
             <td class="text-center">
               <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <a href="{% url 'produccion_app:detail_receta' receta.id %}"
@@ -53,7 +55,7 @@
                   style="color: green;">
                   Ver Detalles
                 </a>
-                <a href="#"
+                <a href="{% url 'produccion_app:delete_receta' receta.id %}"
                   class="button tiny clear"
                   style="color: red;">
                   Eliminar

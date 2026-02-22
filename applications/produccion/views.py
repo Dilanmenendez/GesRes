@@ -45,6 +45,11 @@ class RecetaCreateView(CreateView):
     form_class = RecetaForm
     success_url = reverse_lazy('produccion_app:success')
 
+class RecetaDeleteView(DeleteView):
+    model = Receta
+    template_name = "produccion/delete_receta.html"
+    success_url = reverse_lazy('produccion_app:success')
+
 #------ Ingredientes Receta Views ---------#
 
 class IngredientesRecetaCreateView(CreateView):
@@ -53,7 +58,7 @@ class IngredientesRecetaCreateView(CreateView):
     template_name = "produccion/create_ingredientes_receta.html"
 
     def form_valid(self, form):
-        # Asignamos automáticamente la receta desde la URL
+        # Aca creamos una instancia de la receta a la cual le vamos a agregar un ingrediente
         form.instance.receta_id = self.kwargs['pk']
         return super().form_valid(form)
 
@@ -61,4 +66,14 @@ class IngredientesRecetaCreateView(CreateView):
         return reverse(
             'produccion_app:detail_receta',
             kwargs={'pk': self.kwargs['pk']}
+        )
+
+class IngredientesRecetaDeleteView(DeleteView):
+    model = IngredientesReceta
+    template_name = "produccion/delete_ingredientes_receta.html"
+
+    def get_success_url(self):
+        return reverse(
+            'produccion_app:detail_receta',
+            kwargs={'pk': self.object.receta_id}
         )
