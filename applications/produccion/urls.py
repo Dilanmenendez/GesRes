@@ -42,6 +42,10 @@ urlpatterns = [
              views.RecetaDeleteView.as_view(),
              name='delete_receta'),
 
+        path('update_receta/<pk>/',
+             views.RecetaUpdateView.as_view(),
+             name='update_receta'),
+             
     # ----- Path Ingredientes Receta ----- #
 
         path('create_ingredientes_receta/<pk>',
@@ -50,6 +54,10 @@ urlpatterns = [
         
         path('delete_ingredientes_receta/<pk>',
              views.IngredientesRecetaDeleteView.as_view(),
-             name='delete_ingredientes_receta')
+             name='delete_ingredientes_receta'),
+
+        path('update_ingredientes_receta/<pk>',
+             views.IngredientesRecetaUpdateView.as_view(),
+             name='update_ingredientes_receta'),
             ]
         

@@ -39,7 +39,7 @@
             <td>{{ ingrediente.cantidad }} kg</td>
             <td class="text-center">
               <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                <a href="#"
+                <a href="{% url 'produccion_app:update_ingredientes_receta' ingrediente.id %}"
                    class="button tiny warning">
                    Editar
                 </a>
