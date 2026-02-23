@@ -47,13 +47,14 @@ class IngredientesReceta(models.Model):
 class Produccion(models.Model):
     producto = models.ForeignKey(
         'stock.Producto',
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         limit_choices_to={'tipo': 'PT'}
     )
 
     cantidad_producida = models.DecimalField(
         max_digits=10,
-        decimal_places=2
+        decimal_places=2,
+        validators=[MinValueValidator(0.01)]
     )
 
     fecha = models.DateTimeField(auto_now_add=True)
@@ -67,3 +68,11 @@ class Produccion(models.Model):
 
     def __str__(self):
         return f"{self.producto.nombre} - {self.cantidad_producida}"
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.costo_total = (
+                self.producto.costo_calculado * self.cantidad_producida
+            )
+
+        super().save(*args, **kwargs)

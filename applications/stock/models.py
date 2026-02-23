@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.forms import ValidationError
 from .managers import ProductoManager, ClasificacionManager, ProveedorManager
 # Create your models here.
 
@@ -73,6 +74,33 @@ class Producto(models.Model):
     descripcion = models.TextField(blank=True)
     objects = ProductoManager()
     
+    @property
+    def costo_calculado(self):
+        if self.tipo != 'PT':
+            return self.precio
+
+        if not hasattr(self, 'receta'):
+            return 0
+
+        total = sum(
+            item.cantidad * item.ingrediente.precio
+            for item in self.receta.items.all()
+        )
+
+        return total
+
+    #validacion para dar consistencia
+    def clean(self):
+        if self.tipo == 'PT' and self.precio != 0:
+            raise ValidationError({
+                'precio': 'Un Producto Terminado no debe tener precio manual.'
+            })
+
+        if self.tipo == 'MP' and self.precio <= 0:
+            raise ValidationError({
+                'precio': 'La Materia Prima debe tener un precio mayor a 0.'
+            })
+
     class Meta:
         ordering = ['nombre']
         
