@@ -39,6 +39,7 @@
             <th width="50">ID</th>
             <th>Producto</th>
             <th>Fecha</th>
+            <th>Cantidad Producida</th>
             <th>Costo Total (UYU)</th>
             <th width="150" class="text-center">Acciones</th>
           </tr>
@@ -47,8 +48,9 @@
           {% for produccion in object_list %}
           <tr>
             <td>{{ produccion.id }}</td>
-            <td>{{ produccion.nombre }}</td>
+            <td>{{ produccion.producto }}</td>
             <td>{{ produccion.fecha }}</td>
+            <td>{{ produccion.cantidad_producida }} kg</td>
             <td>${{ produccion.costo_total }}</td>
 
             <td class="text-center">

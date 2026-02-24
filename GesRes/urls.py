@@ -26,9 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin-empleados'),
     path('home/', include('applications.home.urls')), 
     #siempre que queramos mostrar un template en urls, debemos ponerle el .as_view() o include
-    path('empleado', include('applications.empleado.urls')),
+    path('empleado/', include('applications.empleado.urls')),
     path('departamento/', include('applications.departamento.urls')),
-    path('stock', include('applications.stock.urls')),
+    path('stock/', include('applications.stock.urls')),
     path('', include('applications.produccion.urls')),
 ]
 if settings.DEBUG:

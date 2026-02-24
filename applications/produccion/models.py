@@ -1,6 +1,7 @@
 from django.db import models
-from django.core.validators import MinValueValidator
-
+from django.core.validators import MinValueValidator, ValidationError
+from django.db import transaction
+from django.db.models import F
 from .managers import ProduccionManager, RecetaManager
 
 
@@ -66,13 +67,49 @@ class Produccion(models.Model):
     )
     objects = ProduccionManager()
 
-    def __str__(self):
-        return f"{self.producto.nombre} - {self.cantidad_producida}"
-    
     def save(self, *args, **kwargs):
-        if not self.pk:
-            self.costo_total = (
-                self.producto.costo_calculado * self.cantidad_producida
-            )
 
-        super().save(*args, **kwargs)
+        if self.pk:
+            # Si ya existe, no recalculamos nada
+            return super().save(*args, **kwargs)
+
+        with transaction.atomic():
+
+            receta = getattr(self.producto, 'receta', None)
+            if not receta:
+                raise ValidationError("El producto no tiene receta asociada.")
+
+            if receta.cantidad_por_receta <= 0:
+                raise ValidationError("La receta tiene cantidad_por_receta inválida.")
+
+            factor = self.cantidad_producida / receta.cantidad_por_receta
+
+            costo_total = 0
+
+            # Bloqueamos ingredientes para evitar problemas concurrentes
+            ingredientes = receta.ingredientes.select_related('producto').select_for_update()
+
+            for item in ingredientes:
+
+                mp = item.producto
+                consumo = item.cantidad * factor
+
+                if mp.stock_actual < consumo:
+                    raise ValidationError(
+                        f"Stock insuficiente de {mp.nombre}. "
+                        f"Disponible: {mp.stock_actual}, Necesario: {consumo}"
+                    )
+
+                # Descontamos usando F() para seguridad
+                mp.stock_actual = F('stock_actual') - consumo
+                mp.save(update_fields=['stock_actual'])
+
+                costo_total += consumo * mp.precio
+
+            # Sumamos stock al producto terminado
+            self.producto.stock_actual = F('stock_actual') + self.cantidad_producida
+            self.producto.save(update_fields=['stock_actual'])
+
+            self.costo_total = costo_total
+
+            super().save(*args, **kwargs)
