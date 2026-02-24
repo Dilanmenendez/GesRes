@@ -1,4 +1,3 @@
-```html
 {% extends 'base.html' %}
 {% load static %}
 
@@ -23,7 +22,7 @@
             </li>
             <li>  
               <label><strong>Precio</strong></label>
-              <p class="no-margin-bottom">{{ object.precio }} | xkg</p>
+              <p class="no-margin-bottom">{{ object.costo_calculado|floatformat:1 }} UYU | xkg</p>
             </li>
             <li>
               <label><strong>Proveedor</strong></label>
@@ -59,4 +58,3 @@
   </div>
 
 {% endblock content %}
-```

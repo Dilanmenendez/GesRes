@@ -50,7 +50,8 @@ class Producto(models.Model):
                               unique=True)
     precio = models.DecimalField (max_digits=10, 
                                   decimal_places=2, 
-                                  validators = [MinValueValidator(0)]
+                                  validators = [MinValueValidator(0)],
+                                  default=0
                                   )
     proveedor = models.ForeignKey(Proveedor, 
                                   on_delete=models.SET_NULL,
@@ -79,15 +80,14 @@ class Producto(models.Model):
         if self.tipo != 'PT':
             return self.precio
 
+        # Si no tiene receta todavía
         if not hasattr(self, 'receta'):
             return 0
 
-        total = sum(
-            item.cantidad * item.ingrediente.precio
-            for item in self.receta.items.all()
+        return sum(
+            ingrediente.cantidad * ingrediente.producto.precio
+            for ingrediente in self.receta.ingredientes.all()
         )
-
-        return total
 
     #validacion para dar consistencia
     def clean(self):

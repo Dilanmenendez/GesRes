@@ -39,7 +39,7 @@
             <th width="50">ID</th>
             <th>Nombre</th>
             <th>Tipo</th>
-            <th>Precio</th>
+            <th>Precio (compra/producción)</th>
             <th>Proveedor</th>
             <th width="150">Clasificacion</th>
             <th width="150">Stock Actual</th>
@@ -48,11 +48,13 @@
         </thead>
         <tbody>
           {% for materia in object_list %}
-          <tr>
+          
+          {% if materia.tipo == 'PT' %}
+            <tr>
             <td>{{ materia.id }}</td>
             <td>{{ materia.nombre }}</td>
             <td>{{ materia.tipo }}</td>
-            <td>{{ materia.precio }} | xkg</td>
+            <td>{{ materia.costo_calculado|floatformat:1 }} UYU | xkg</td>
             <td>{{ materia.proveedor }}</td>
             <td>{{ materia.clasificacion }}</td>
             <td>{{ materia.stock_actual }}kg</td>
@@ -76,6 +78,37 @@
               </div>
             </td>
           </tr>
+          {% else %}
+            <tr>
+            <td>{{ materia.id }}</td>
+            <td>{{ materia.nombre }}</td>
+            <td>{{ materia.tipo }}</td>
+            <td>{{ materia.precio|floatformat:1 }} UYU | xkg</td>
+            <td>{{ materia.proveedor }}</td>
+            <td>{{ materia.clasificacion }}</td>
+            <td>{{ materia.stock_actual }}kg</td>
+            <td>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <a href="{% url 'stock_app:detail_producto' materia.id %}"
+                  class="button tiny clear"
+                  style="color: green;">
+                  Ver Detalles
+                </a>
+                <a href="{% url 'stock_app:delete_producto' materia.id %}"
+                  class="button tiny clear"
+                  style="color: red;">
+                  Eliminar
+                </a>
+                <a href="{% url 'stock_app:update_producto' materia.id %}"
+                  class="button tiny clear"
+                  style="color: rgb(127, 127, 17);">
+                  Editar
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endif %}
+            
           {% empty %}
           <tr>
             <td colspan="6" class="text-center">
