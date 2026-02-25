@@ -20,6 +20,15 @@ class ProduccionListView(ListView):
     template_name = "produccion/list_all_produccion.html"
     paginate_by = 4
 
+    def get_queryset(self):
+        palabra_clave = self.request.GET.get('kword', "")
+        id = self.request.GET.get('id', "")
+
+        if id:
+            return Produccion.objects.buscar_produccion_id(id)
+        
+        return Produccion.objects.buscar_produccion(palabra_clave)
+    
 class ProduccionCreateView(CreateView):
     model = Produccion
     template_name = "produccion/create_produccion.html"
@@ -33,6 +42,14 @@ class RecetaListView(ListView):
     template_name = "produccion/list_all_receta.html"
     paginate_by = 4
 
+    def get_queryset(self):
+        palabra_clave = self.request.GET.get('kword', "")
+        id = self.request.GET.get('id', "")
+
+        if id:
+            return Receta.objects.buscar_receta_id(id)
+        return Receta.objects.buscar_receta(palabra_clave)
+    
 class RecetaDetailView(DetailView):
     model = Receta
     template_name = "produccion/detail_receta.html"
