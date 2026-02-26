@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from multiprocessing import context
+
+from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, CreateView, DeleteView, UpdateView, DetailView
 from .models import Producto, Clasificacion, Proveedor, Compra, Consumo
@@ -146,6 +149,23 @@ class CompraCreateView(CreateView):
     form_class = CompraForm
     success_url = reverse_lazy('stock_app:success')
 
+    def form_valid(self, form):
+        producto = get_object_or_404(
+            Producto,
+            pk=self.kwargs['pk'],
+            tipo='MP'
+        )
+
+        form.instance.producto = producto
+        return super().form_valid(form)
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['producto_nombre'] = Producto.objects.get(pk=self.kwargs['pk']).nombre
+        return context
+    
+    
 # ----------------- Consumo Views ------------------ #
 
 
@@ -154,6 +174,30 @@ class ConsumoCreateView(CreateView):
     template_name = "stock/add_consumo.html"
     form_class = ConsumoForm
     success_url = reverse_lazy('stock_app:success')
+
+    def form_valid(self, form):
+        producto = get_object_or_404(
+            Producto,
+            pk=self.kwargs['pk'],
+            tipo='PT'
+        )
+
+        cantidad = form.cleaned_data['cantidad']
+
+        if cantidad > producto.stock_actual:
+            form.add_error(
+                'cantidad',
+                f"No hay stock suficiente. Stock actual: {producto.stock_actual}"
+            )
+            return self.form_invalid(form)
+        
+        form.instance.producto = producto
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['producto_nombre'] = Producto.objects.get(pk=self.kwargs['pk']).nombre
+        return context
 
 
 #---------------- Otras Views -----------------#

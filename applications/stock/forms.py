@@ -47,7 +47,6 @@ class CompraForm(forms.ModelForm):
     class Meta:
         model = Compra
         fields = (
-            'producto',
             'cantidad',
         )
         
@@ -57,7 +56,6 @@ class ConsumoForm(forms.ModelForm):
     class Meta:
         model = Consumo
         fields = (
-            'producto',
             'cantidad',
             'motivo',
         )

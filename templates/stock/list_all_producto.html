@@ -75,6 +75,11 @@
                   style="color: rgb(127, 127, 17);">
                   Editar
                 </a>
+                <a href="{% url 'stock_app:add_consumo' materia.id %}">
+                  <button class="button tiny clear" style="color: rgb(17, 127, 127);">
+                    Registrar Consumo
+                  </button>
+                </a>
               </div>
             </td>
           </tr>
@@ -103,6 +108,11 @@
                   class="button tiny clear"
                   style="color: rgb(127, 127, 17);">
                   Editar
+                </a>
+                <a href="{% url 'stock_app:add_compra' materia.id %}">
+                  <button class="button tiny clear" style="color: rgb(17, 127, 127);">
+                    Registrar Compra
+                  </button>
                 </a>
               </div>
             </td>

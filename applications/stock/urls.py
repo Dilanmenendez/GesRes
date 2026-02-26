@@ -85,4 +85,14 @@ urlpatterns = [
      path('update-clasificacion/<pk>',
           views.ClasificacionUpdateView.as_view(),
           name='update_clasificacion'),
+     
+     # -------- Path Compra --------- #
+     path('add-compra/<pk>/',
+          views.CompraCreateView.as_view(),
+          name='add_compra'),
+
+     # -------- Path Consumo --------- #
+     path('add-consumo/<pk>/',
+          views.ConsumoCreateView.as_view(),
+          name='add_consumo'),
      ]

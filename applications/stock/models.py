@@ -160,22 +160,11 @@ class Consumo(models.Model):
     def __str__(self):
         return f'{self.producto.nombre} - {self.cantidad}'
     
-    def clean(self):
-        if self.cantidad > self.producto.stock_actual:
-            raise ValidationError(
-                f"No hay stock suficiente para este consumo."
-                f"Consumo: {self.cantidad}"
-                f"Stock actual: {self.producto.stock_actual}"
-            )
-        
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.full_clean() # Esto llama al método clean() para validar antes de guardar
-
             with transaction.atomic():
                 self.producto.stock_actual -= self.cantidad
                 self.producto.save()
-
                 super().save(*args, **kwargs)
         else:
             super().save(*args, **kwargs)
