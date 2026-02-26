@@ -165,7 +165,19 @@ class CompraCreateView(CreateView):
         context['producto_nombre'] = Producto.objects.get(pk=self.kwargs['pk']).nombre
         return context
     
+class CompraListView(ListView):
+    model = Compra
+    template_name = "stock/list_all_compra.html"
+    paginate_by = 4
     
+    def get_queryset(self):
+        fecha = self.request.GET.get('fecha', "")
+        nombre = self.request.GET.get('kword', "")
+
+        if fecha:
+            return Compra.objects.buscar_compra_fecha(fecha)
+        
+        return Compra.objects.buscar_compra_producto(nombre)
 # ----------------- Consumo Views ------------------ #
 
 
@@ -199,7 +211,18 @@ class ConsumoCreateView(CreateView):
         context['producto_nombre'] = Producto.objects.get(pk=self.kwargs['pk']).nombre
         return context
 
+class ConsumoListView(ListView):
+    model = Consumo
+    template_name = "stock/list_all_consumo.html"
+    paginate_by = 4
 
+    def get_queryset(self):
+        fecha = self.request.GET.get('fecha', "")
+        nombre = self.request.GET.get('kword', "")
+        if fecha:
+            return Consumo.objects.buscar_consumo_fecha(fecha)
+        return Consumo.objects.buscar_consumo_producto(nombre)
+    
 #---------------- Otras Views -----------------#
 
 class SuccessView(TemplateView):

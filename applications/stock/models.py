@@ -1,7 +1,7 @@
 from django.db import models, transaction
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
-from .managers import ProductoManager, ClasificacionManager, ProveedorManager
+from .managers import ProductoManager, ClasificacionManager, ProveedorManager, CompraManager, ConsumoManager
 # Create your models here.
 
 
@@ -126,6 +126,7 @@ class Compra(models.Model):
         decimal_places=2)
 
     fecha = models.DateTimeField(auto_now_add=True)
+    objects = CompraManager()
 
     def save(self, *args, **kwargs):
         
@@ -157,6 +158,8 @@ class Consumo(models.Model):
                                blank=True,
                                help_text='Motivo del consumo, ej: venta, muestra, etc.'
                                )
+    objects = ConsumoManager()
+    
     def __str__(self):
         return f'{self.producto.nombre} - {self.cantidad}'
     

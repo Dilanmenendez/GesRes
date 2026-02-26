@@ -55,3 +55,29 @@ class ClasificacionManager(models.Manager):
         return self.filter(
             nombre__icontains = kword
         ).order_by('id')
+
+# ---------- Managers para Compra ------------ #
+
+class CompraManager(models.Manager):
+    def buscar_compra_fecha(self, fecha):
+        return self.filter(
+            fecha__date = fecha
+        ).order_by('-fecha')
+    
+    def buscar_compra_producto(self, producto_nombre):
+        return self.filter(
+            producto__nombre__icontains = producto_nombre
+        ).order_by('-fecha')
+    
+# ---------- Managers para Consumo ------------ #
+
+class ConsumoManager(models.Manager):
+    def buscar_consumo_fecha(self, fecha):
+        return self.filter(
+            fecha__date = fecha
+        ).order_by('-fecha')
+    
+    def buscar_consumo_producto(self, producto_nombre):
+        return self.filter(
+            producto__nombre__icontains = producto_nombre
+        ).order_by('-fecha')
