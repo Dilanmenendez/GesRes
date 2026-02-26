@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, CreateView, DeleteView, UpdateView, DetailView
-from .models import Producto, Clasificacion, Proveedor
-from .forms import ProductoForm, ClasificacionForm, ProveedorForm   
-from django.contrib import messages
+from .models import Producto, Clasificacion, Proveedor, Compra, Consumo
+from .forms import ProductoForm, ClasificacionForm, ProveedorForm, CompraForm, ConsumoForm
 from django.shortcuts import redirect
-from django.db.models import ProtectedError, F  
+from django.db.models import F  
 # Create your views here.
 
 #------------- Producto Views ---------------#
@@ -137,6 +136,25 @@ class ClasificacionUpdateView(UpdateView):
     template_name = "stock/update_clasificacion.html"
     form_class = ClasificacionForm
     success_url = reverse_lazy('stock_app:success')
+
+# ----------------- Compra Views ------------------ #
+
+
+class CompraCreateView(CreateView):
+    model = Compra
+    template_name = "stock/add_compra.html"
+    form_class = CompraForm
+    success_url = reverse_lazy('stock_app:success')
+
+# ----------------- Consumo Views ------------------ #
+
+
+class ConsumoCreateView(CreateView):
+    model = Consumo
+    template_name = "stock/add_consumo.html"
+    form_class = ConsumoForm
+    success_url = reverse_lazy('stock_app:success')
+
 
 #---------------- Otras Views -----------------#
 
