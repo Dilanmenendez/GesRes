@@ -33,7 +33,7 @@ class ProduccionCreateView(CreateView):
     model = Produccion
     template_name = "produccion/create_produccion.html"
     form_class = ProduccionForm
-    success_url = reverse_lazy('produccion_app:create_produccion')
+    success_url = reverse_lazy('produccion_app:success')
 
 #------ Receta Views ---------#
 

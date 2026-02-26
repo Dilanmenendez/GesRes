@@ -7,12 +7,12 @@ class ProduccionManager(models.Manager):
     def buscar_produccion_id(self, produccion_id):
         return self.filter(
             id = produccion_id
-        ).order_by('id')
+        ).order_by('-id')
     
     def buscar_produccion(self,kword):
         return self.filter(
             producto__nombre__icontains = kword
-        ).order_by('id')
+        ).order_by('-id')
 
 # ----------- Managers para Receta ------------#
 

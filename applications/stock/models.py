@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
 from .managers import ProductoManager, ClasificacionManager, ProveedorManager
@@ -106,3 +106,75 @@ class Producto(models.Model):
         
     def __str__(self):
         return f'{self.nombre}'
+    
+
+# ---------------- Compra Model -------------------#
+
+class Compra(models.Model):
+    
+    producto = models.ForeignKey(Producto,
+                                 on_delete=models.PROTECT,
+                                 limit_choices_to={'tipo': 'MP'},
+                                 related_name='compras')
+    cantidad = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2)
+    
+    total_pagado = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2)
+
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        
+        if not self.pk:
+            with transaction.atomic():
+                self.total_pagado = self.producto.precio * self.cantidad
+
+                self.producto.stock_actual += self.cantidad
+                self.producto.save()
+
+        super().save(*args, **kwargs)
+    
+# ---------------- Consumo Model ------------------- #
+
+class Consumo(models.Model):
+    producto = models.ForeignKey(Producto,
+                                 limit_choices_to={'tipo': 'PT'},
+                                 on_delete=models.PROTECT,
+                                 related_name='consumos')
+    cantidad = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01)]
+    )
+
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    motivo = models.CharField(max_length=75,
+                               blank=True,
+                               help_text='Motivo del consumo, ej: venta, muestra, etc.'
+                               )
+    def __str__(self):
+        return f'{self.producto.nombre} - {self.cantidad}'
+    
+    def clean(self):
+        if self.cantidad > self.producto.stock_actual:
+            raise ValidationError(
+                f"No hay stock suficiente para este consumo."
+                f"Consumo: {self.cantidad}"
+                f"Stock actual: {self.producto.stock_actual}"
+            )
+        
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.full_clean() # Esto llama al método clean() para validar antes de guardar
+
+            with transaction.atomic():
+                self.producto.stock_actual -= self.cantidad
+                self.producto.save()
+
+                super().save(*args, **kwargs)
+        else:
+            super().save(*args, **kwargs)
