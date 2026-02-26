@@ -1,4 +1,4 @@
-from .models import Producto, Proveedor, Clasificacion
+from .models import Producto, Proveedor, Clasificacion, Compra, Consumo
 from django import forms
 
 
@@ -41,3 +41,23 @@ class ClasificacionForm(forms.ModelForm):
 
         model = Clasificacion
         fields = ('nombre',)
+
+# ---------------- Form de Compra ------------------#
+class CompraForm(forms.ModelForm):
+    class Meta:
+        model = Compra
+        fields = (
+            'producto',
+            'cantidad',
+        )
+        
+
+# ---------------- Form de Consumo ------------------#
+class ConsumoForm(forms.ModelForm):
+    class Meta:
+        model = Consumo
+        fields = (
+            'producto',
+            'cantidad',
+            'motivo',
+        )

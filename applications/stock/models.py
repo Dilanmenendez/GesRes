@@ -116,6 +116,7 @@ class Compra(models.Model):
                                  on_delete=models.PROTECT,
                                  limit_choices_to={'tipo': 'MP'},
                                  related_name='compras')
+    
     cantidad = models.DecimalField(
         max_digits=10, 
         decimal_places=2)
