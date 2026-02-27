@@ -56,16 +56,16 @@
         </a>
       </li>
       <li class="has-submenu">
-        <a href="#">Transacciones</a>
+        <a>Transacciones</a>
         
         <ul class="submenu menu vertical" data-submenu>
               <li>
-                <a href="#">
+                <a href="{% url 'stock_app:all_compras' %}">
                   Compras
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="{% url 'stock_app:all_consumos' %}">
                   Consumos
                 </a>
               </li>

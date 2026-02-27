@@ -92,9 +92,13 @@ urlpatterns = [
           views.CompraCreateView.as_view(),
           name='add_compra'),
 
-     path('lista_al_compras/',
+     path('lista_all_compras/',
           views.CompraListView.as_view(),
           name='all_compras'),
+     
+     path('anulate-compra/<pk>/',
+          views.CompraAnulateView.as_view(),
+          name='anulate_compra'),
           
      # -------- Path Consumo --------- #
 

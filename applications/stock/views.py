@@ -1,5 +1,5 @@
 from multiprocessing import context
-
+from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
@@ -164,7 +164,25 @@ class CompraCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['producto_nombre'] = Producto.objects.get(pk=self.kwargs['pk']).nombre
         return context
-    
+
+class CompraAnulateView(DeleteView):
+    model = Compra
+    template_name = "stock/anulate_compra.html"
+    success_url = reverse_lazy('stock_app:success')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        with transaction.atomic():
+            producto = self.object.producto
+
+            producto.stock_actual -= self.object.cantidad
+            producto.save()
+
+            self.object.delete()
+
+        return redirect(self.success_url)
+
 class CompraListView(ListView):
     model = Compra
     template_name = "stock/list_all_compra.html"
