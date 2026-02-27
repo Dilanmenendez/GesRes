@@ -246,6 +246,23 @@ class ConsumoListView(ListView):
             return Consumo.objects.buscar_consumo_fecha(fecha)
         return Consumo.objects.buscar_consumo_producto(nombre)
     
+class ConsumoAnulateView(DeleteView):
+    model = Consumo
+    template_name = "stock/anulate_consumo.html"
+    success_url = reverse_lazy('stock_app:success')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        with transaction.atomic():
+            producto = self.object.producto
+
+            producto.stock_actual += self.object.cantidad
+            producto.save()
+
+            self.object.delete()
+        return redirect(self.success_url)
+    
 #---------------- Otras Views -----------------#
 
 class SuccessView(TemplateView):

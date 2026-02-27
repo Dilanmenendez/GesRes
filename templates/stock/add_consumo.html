@@ -15,8 +15,7 @@
           
           <ul class="vertical menu">
             <li>
-                <label><strong>Producto:</strong></label>
-                <p>{{ producto_nombre }}</p>
+                <label><strong>Producto: {{ producto_nombre }}</strong></label>
             </li>
             <li>
                 <label><strong>{{ form.cantidad.label }} del Consumo (kg)</strong></label>
@@ -24,6 +23,11 @@
                 {{ form.cantidad.errors }}
             </li>
           </ul>
+          <li>
+            <label><strong>{{ form.motivo.label }} </strong></label>
+            {{ form.motivo }}
+            {{ form.motivo.errors }}
+          </li>
 
           <div class="button-group align-center" style="margin-top: 3rem;">
             <button type="submit" class="button success" style="margin-right: 10px;">

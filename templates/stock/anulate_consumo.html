@@ -17,23 +17,20 @@
           
           <ul class="vertical menu" style="margin-bottom: 1.5rem; text-align: center;">
             <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Nombre Producto comprado:</strong> {{ object.producto.nombre }}</p>
+              <p><strong>Producto Consumido:</strong> {{ object.producto.nombre }}</p>
             </li>
             <li>
                 <p><strong>Fecha: {{ object.fecha }}</strong></p>
             </li>
             <li>
-                <p><strong>Cantidad comprada: {{ object.cantidad }} kg</strong></p>
+                <p><strong>Cantidad consumida: {{ object.cantidad }} kg</strong></p>
             </li>
             <li>
-                <p><strong>Proveedor: {{ object.producto.proveedor }}</strong></p>
-            </li>
-            <li>
-                <p><strong>Total Pagado: {{ object.total_pagado }} UYU</strong></p>
+                <p><strong>Motivo Consumo: {{ object.motivo }}</strong></p>
             </li>
           </ul>
           <div class="callout warning tiny text-center" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 0;"><small>Esta acción restará {{ object.cantidad }} kg
+            <p style="margin-bottom: 0;"><small>Esta acción devolverá {{ object.cantidad }} kg
                  de {{ object.producto.nombre }} al stock</small></p>
           </div>
 
@@ -45,7 +42,7 @@
             <button type="submit" class="button alert" style="margin-right: 10px;">
               Confirmar
             </button>
-            <a href="{% url 'stock_app:all_compras' %}" class="button secondary">
+            <a href="{% url 'stock_app:all_consumos' %}" class="button secondary">
               Cancelar
             </a>
           </div>
