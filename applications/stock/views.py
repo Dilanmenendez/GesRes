@@ -262,6 +262,11 @@ class ConsumoAnulateView(DeleteView):
 
             self.object.delete()
         return redirect(self.success_url)
+
+class ConsumoDetailView(DetailView):
+    model = Consumo
+    template_name = "stock/detail_consumo.html"
+    form_class = ConsumoForm
     
 #---------------- Otras Views -----------------#
 

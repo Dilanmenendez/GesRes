@@ -117,4 +117,8 @@ urlpatterns = [
      path('anulate-consumo/<pk>/',
           views.ConsumoAnulateView.as_view(),
           name='anulate_consumo'),
+     
+     path('detail-consumo/<pk>/',
+          views.ConsumoDetailView.as_view(),
+          name='detail_consumo'),
      ]

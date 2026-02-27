@@ -16,11 +16,14 @@
           {% csrf_token %}
           
           <ul class="vertical menu" style="margin-bottom: 1.5rem; text-align: center;">
+            <li>
+              <p><strong>Id Compra: {{ object.id }}</strong></p>
+            </li>
             <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Nombre Producto comprado:</strong> {{ object.producto.nombre }}</p>
+              <p><strong>Nombre Materia Prima:</strong> {{ object.producto.nombre }}</p>
             </li>
             <li>
-                <p><strong>Fecha: {{ object.fecha }}</strong></p>
+                <p><strong>Fecha Compra: {{ object.fecha }}</strong></p>
             </li>
             <li>
                 <p><strong>Cantidad comprada: {{ object.cantidad }} kg</strong></p>
