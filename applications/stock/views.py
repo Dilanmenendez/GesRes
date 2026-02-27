@@ -103,7 +103,6 @@ class ProveedorDetailView(DetailView):
     model = Proveedor
     template_name = "stock/detail_proveedor.html"
     form_class = ProveedorForm
-    success_url = reverse_lazy('stock_app:success')
 
 #------------ Clasificacion Views --------------#
 
@@ -196,8 +195,14 @@ class CompraListView(ListView):
             return Compra.objects.buscar_compra_fecha(fecha)
         
         return Compra.objects.buscar_compra_producto(nombre)
-# ----------------- Consumo Views ------------------ #
 
+
+class CompraDetailView(DetailView):
+    model = Compra
+    template_name = "stock/detail_compra.html"
+    form_class = CompraForm
+
+# ----------------- Consumo Views ------------------ #
 
 class ConsumoCreateView(CreateView):
     model = Consumo

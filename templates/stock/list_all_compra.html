@@ -60,7 +60,7 @@
                   style="color: red;">
                   Anular
                 </a>
-                <a href="#"
+                <a href="{% url 'stock_app:detail_compra' compra.id %}"
                   class="button tiny clear"
                   style="color: rgb(127, 127, 17);">
                   Ver Detalles
@@ -71,7 +71,7 @@
           {% empty %}
           <tr>
             <td colspan="6" class="text-center">
-              No hay Clasificaciones registradas.
+              No hay Compras registradas.
             </td>
           </tr>
           {% endfor %}
@@ -82,10 +82,6 @@
         <a href="{% url 'stock_app:Inicio' %}"
            class="button hollow secondary">
           Volver
-        </a>
-        <a href="{% url 'stock_app:add_clasificacion' %}"
-           class="button hollow primary">
-          Registrar Clasificacion
         </a>
       </div>
 
