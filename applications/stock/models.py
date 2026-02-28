@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models, transaction
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
@@ -119,26 +121,48 @@ class Compra(models.Model):
     
     cantidad = models.DecimalField(
         max_digits=10, 
-        decimal_places=2)
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal('0.01'))]
+        ) 
     
     total_pagado = models.DecimalField(
         max_digits=10, 
         decimal_places=2)
 
     fecha = models.DateTimeField(auto_now_add=True)
+
     objects = CompraManager()
 
+    def clean(self):
+        if self.cantidad <= 0:
+            raise ValidationError('La cantidad debe ser mayor a 0.')
+
     def save(self, *args, **kwargs):
-        
+
         if not self.pk:
             with transaction.atomic():
-                self.total_pagado = self.producto.precio * self.cantidad
 
-                self.producto.stock_actual += self.cantidad
-                self.producto.save()
+                producto = Producto.objects.select_for_update().get(pk=self.producto.pk)
+
+                self.total_pagado = producto.precio * self.cantidad
+
+                producto.stock_actual += self.cantidad
+                producto.save()
 
         super().save(*args, **kwargs)
     
+    def anular(self):
+        with transaction.atomic():
+            producto = Producto.objects.select_for_update().get(pk=self.producto.pk)
+
+            if self.cantidad > producto.stock_actual:
+                raise ValidationError("Stock inconsistente.")
+
+            producto.stock_actual -= self.cantidad
+            producto.save()
+
+            self.delete()
+            
 # ---------------- Consumo Model ------------------- #
 
 class Consumo(models.Model):
@@ -150,7 +174,7 @@ class Consumo(models.Model):
         max_digits=10,
         decimal_places=2,
         validators=[MinValueValidator(0.01)]
-    )
+)
 
     fecha = models.DateTimeField(auto_now_add=True)
 
@@ -162,12 +186,39 @@ class Consumo(models.Model):
     
     def __str__(self):
         return f'{self.producto.nombre} - {self.cantidad}'
+
+    # ------------- Metodo Clean ------------ #
+    def clean(self):
+        if self.cantidad <= 0:
+            raise ValidationError('La cantidad debe ser mayor a 0.')
     
+    # ------------- Metodo Save ------------ #
     def save(self, *args, **kwargs):
+
+        self.full_clean()
+
         if not self.pk:
             with transaction.atomic():
-                self.producto.stock_actual -= self.cantidad
-                self.producto.save()
-                super().save(*args, **kwargs)
-        else:
-            super().save(*args, **kwargs)
+                
+                # accedemos al prodcto y restamos stock.
+                producto = Producto.objects.select_for_update().get(pk=self.producto.pk)
+
+                if self.cantidad > producto.stock_actual:
+                    raise ValidationError(
+                        f"No hay stock suficiente. Stock actual: {producto.stock_actual}"
+                    )
+
+                producto.stock_actual -= self.cantidad
+                producto.save()
+
+        super().save(*args, **kwargs)
+    
+    # ------------- Metodo Anulate ------------ #
+    def anular(self):
+        with transaction.atomic():
+            producto = Producto.objects.select_for_update().get(pk=self.producto.pk)
+
+            producto.stock_actual += self.cantidad
+            producto.save()
+
+            self.delete()

@@ -1,4 +1,5 @@
 from multiprocessing import context
+from pyexpat.errors import messages
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, render
@@ -156,7 +157,13 @@ class CompraCreateView(CreateView):
         )
 
         form.instance.producto = producto
-        return super().form_valid(form)
+
+        try:
+            return super().form_valid(form)
+
+        except ValidationError as e:
+            form.add_error(None, e)
+            return self.form_invalid(form)
     
     
     def get_context_data(self, **kwargs):
@@ -170,16 +177,11 @@ class CompraAnulateView(DeleteView):
     success_url = reverse_lazy('stock_app:success')
 
     def post(self, request, *args, **kwargs):
+        # Accedemos al objecto
         self.object = self.get_object()
-
-        with transaction.atomic():
-            producto = self.object.producto
-
-            producto.stock_actual -= self.object.cantidad
-            producto.save()
-
-            self.object.delete()
-
+        # llamamos el metodo() anular del objecto
+        self.object.anular()
+        # redireccionamos a la url success
         return redirect(self.success_url)
 
 class CompraListView(ListView):
@@ -187,6 +189,7 @@ class CompraListView(ListView):
     template_name = "stock/list_all_compra.html"
     paginate_by = 4
     
+    # Logica de managers
     def get_queryset(self):
         fecha = self.request.GET.get('fecha', "")
         nombre = self.request.GET.get('kword', "")
@@ -217,17 +220,14 @@ class ConsumoCreateView(CreateView):
             tipo='PT'
         )
 
-        cantidad = form.cleaned_data['cantidad']
-
-        if cantidad > producto.stock_actual:
-            form.add_error(
-                'cantidad',
-                f"No hay stock suficiente. Stock actual: {producto.stock_actual}"
-            )
-            return self.form_invalid(form)
-        
         form.instance.producto = producto
-        return super().form_valid(form)
+
+        try:
+            return super().form_valid(form)
+
+        except ValidationError as e:
+            form.add_error(None, e)
+            return self.form_invalid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -252,15 +252,10 @@ class ConsumoAnulateView(DeleteView):
     success_url = reverse_lazy('stock_app:success')
 
     def post(self, request, *args, **kwargs):
+        # Recibimos el objecto
         self.object = self.get_object()
-
-        with transaction.atomic():
-            producto = self.object.producto
-
-            producto.stock_actual += self.object.cantidad
-            producto.save()
-
-            self.object.delete()
+        # llamamos elmetodo() anular del objecto
+        self.object.anular()
         return redirect(self.success_url)
 
 class ConsumoDetailView(DetailView):
