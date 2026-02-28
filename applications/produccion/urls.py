@@ -23,6 +23,10 @@ urlpatterns = [
         path('create_produccion/',
             views.ProduccionCreateView.as_view(),
             name='create_produccion'),
+        
+        path('anulate_producion/<pk>/',
+             views.ProduccionAnulateView.as_view(),
+             name='anulate_produccion'),
 
     # ----- Path Receta ----- #
 

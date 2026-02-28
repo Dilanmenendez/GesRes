@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView, DetailView
 from .models import *
@@ -35,6 +35,22 @@ class ProduccionCreateView(CreateView):
     form_class = ProduccionForm
     success_url = reverse_lazy('produccion_app:success')
 
+class ProduccionAnulateView(DeleteView):
+    model = Produccion
+    template_name = 'produccion/anulate_produccion.html'
+    form_class = ProduccionForm
+    success_url = reverse_lazy('produccion_app:success')
+
+    def post(self, request, *args, **kwargs):
+        # accedemos al object a anular
+        self.object = self.get_object()
+        try:
+            #llamamos a la funcion anular 
+            self.object.anular()
+        except ValidationError as e:
+            return redirect(self.success_url)
+        return redirect(self.success_url)
+    
 #------ Receta Views ---------#
 
 class RecetaListView(ListView):

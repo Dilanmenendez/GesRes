@@ -58,17 +58,12 @@
                 <a href="#"
                   class="button tiny clear"
                   style="color: green;">
-                  Registrar Consumo
+                  Ver Detalles
                 </a>
-                <a href="#"
+                <a href="{% url 'produccion_app:anulate_produccion' produccion.id %}"
                   class="button tiny clear"
                   style="color: red;">
-                  Registrar Producción
-                </a>
-                <a href="#"
-                  class="button tiny clear"
-                  style="color: rgb(127, 127, 17);">
-                  Editar
+                  Anular Producción
                 </a>
               </div>
             </td>

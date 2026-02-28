@@ -28,7 +28,9 @@
         <thead>
           <tr>
             <th>Materia Prima</th>
+            <th>Precio (xkg)</th>
             <th width="150">Cantidad</th>
+            <th>Precio Total por Producto</th>
             <th width="150" class="text-center">Acciones</th>
           </tr>
         </thead>
@@ -36,7 +38,9 @@
           {% for ingrediente in object.ingredientes.all %}
           <tr>
             <td>{{ ingrediente.producto.nombre }}</td>
+            <td>{{ ingrediente.producto.precio|floatformat:2 }} UYU</td>
             <td>{{ ingrediente.cantidad }} kg</td>
+            <td>{{ ingrediente.costo_total|floatformat:2 }} UYU</td>
             <td class="text-center">
               <div style="display: flex; gap: 0.5rem; justify-content: center;">
                 <a href="{% url 'produccion_app:update_ingredientes_receta' ingrediente.id %}"
@@ -60,6 +64,14 @@
           {% endfor %}
         </tbody>
       </table>
+      </table>
+
+      <div class="callout success" style="margin-top: 1.5rem;">
+        <h5>
+          Costo Total de la Receta:
+          <strong>{{ receta.costo_total|floatformat:2 }} UYU</strong>
+        </h5>
+      </div>
 
       <!-- BOTONES -->
       <div class="grid-x align-justify" style="margin-top: 2rem;">
