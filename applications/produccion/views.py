@@ -28,7 +28,13 @@ class ProduccionListView(ListView):
             return Produccion.objects.buscar_produccion_id(id)
         
         return Produccion.objects.buscar_produccion(palabra_clave)
-    
+
+
+class ProduccionDetailView(DetailView):
+    model = Produccion
+    template_name = "produccion/detail_produccion.html"
+    form_class = ProduccionForm
+
 class ProduccionCreateView(CreateView):
     model = Produccion
     template_name = "produccion/create_produccion.html"

@@ -28,6 +28,10 @@ urlpatterns = [
              views.ProduccionAnulateView.as_view(),
              name='anulate_produccion'),
 
+        path('detail_produccion/<pk>/',
+             views.ProduccionDetailView.as_view(),
+             name='detail_produccion'),
+             
     # ----- Path Receta ----- #
 
         path('lista_all_receta/',
