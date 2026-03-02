@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% include 'includes/header3.html' %}
+
+  <div class="grid-container">
+    <div class="grid-x align-center">
+      <h1 class="cell large-8" style="font-size:20px; text-align:center;">
+        Panel de Control - Producción
+      </h1>
+
+      <div class="cell large-7">
+        <div class="callout primary">
+          <h5>Resumen</h5>
+          <p>
+            Vista general de operaciones de producción y recetas.
+            Controla costos y actividad mensual.
+          </p>
+          <a href="{% url 'produccion_app:all_produccion' %}">
+            Ver Operaciones
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-x grid-margin-x" style="margin-top:1rem;">
+
+      <!-- Producciones del mes -->
+      <div class="cell small-12 medium-4">
+        <div class="callout secondary">
+          <h5>Producciones este mes</h5>
+          <p class="lead">{{ cantidad_producciones_mes }}</p>
+        </div>
+      </div>
+
+      <!-- Costo total mes -->
+      <div class="cell small-12 medium-4">
+        <div class="callout secondary">
+          <h5>Costo total del mes</h5>
+          <p class="lead">${{ costo_total_mes }}</p>
+        </div>
+      </div>
+
+      <!-- Total recetas -->
+      <div class="cell small-12 medium-4">
+        <div class="callout secondary">
+          <h5>Total Recetas</h5>
+          <p class="lead">{{ cantidad_recetas }}</p>
+        </div>
+      </div>
+
+      <!-- Producción por producto -->
+      <div class="cell small-12">
+        <div class="callout success">
+          <h5>Producción por producto (Mes actual)</h5>
+
+          {% if resumen_por_producto %}
+            <ul>
+              {% for producto, cantidad in resumen_por_producto.items %}
+                <li>
+                  {{ producto }} — {{ cantidad }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No hay producciones registradas este mes.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Últimas producciones -->
+      <div class="cell small-12">
+        <div class="callout warning">
+          <h5>Últimas Producciones</h5>
+
+          {% if ultimas_producciones %}
+            <ul>
+              {% for p in ultimas_producciones %}
+                <li>
+                  {{ p.producto.nombre }} —
+                  {{ p.cantidad_producida }} —
+                  ${{ p.costo_total }} —
+                  {{ p.fecha|date:"d/m/Y H:i" }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No hay producciones registradas.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="cell small-12">
+        <div class="button-group align-center" style="margin-top: 1rem;">
+          <a href="{% url 'produccion_app:create_produccion' %}" class="button primary" style="margin-right:10px;">
+            Nueva Producción
+          </a>
+
+          <a href="{% url 'produccion_app:all_receta' %}" class="button secondary">
+            Ver Recetas
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock content %}

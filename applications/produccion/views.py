@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView, DetailView
@@ -13,6 +14,53 @@ class inicioView(TemplateView):
 class SuccessView(TemplateView):
     template_name = "produccion/success.html"
 
+class ProduccionDashboardView(TemplateView):
+    template_name = "produccion/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        now = timezone.now()
+        inicio_mes = now.replace(day=1)
+
+        # Producciones del mes
+        producciones_mes = Produccion.objects.filter(
+            fecha__gte=inicio_mes
+        ).select_related("producto")
+
+        # Cantidad de producciones del mes
+        context["cantidad_producciones_mes"] = producciones_mes.count()
+
+        # Costo total del mes (sumado en Python)
+        costo_total = 0
+        for p in producciones_mes:
+            costo_total += p.costo_total
+
+        context["costo_total_mes"] = costo_total
+
+        # Últimas 5 producciones
+        context["ultimas_producciones"] = Produccion.objects.select_related(
+            "producto"
+        ).order_by("-fecha")[:5]
+
+        # Producción agrupada por producto (simple)
+        resumen_por_producto = {}
+
+        for p in producciones_mes:
+            nombre = p.producto.nombre
+
+            if nombre not in resumen_por_producto:
+                resumen_por_producto[nombre] = 0
+
+            resumen_por_producto[nombre] += p.cantidad_producida
+
+        context["resumen_por_producto"] = resumen_por_producto
+
+        #cantidad de recetas
+        context['cantidad_recetas'] = Receta.objects.count()
+
+        return context
+    
 # ------ Producción Views --------- #
 
 class ProduccionListView(ListView):
@@ -133,3 +181,5 @@ class IngredientesRecetaUpdateView(UpdateView):
             'produccion_app:detail_receta',
             kwargs={'pk': self.object.receta_id}
         )
+    
+
