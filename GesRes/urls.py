@@ -30,6 +30,7 @@ urlpatterns = [
     path('departamento/', include('applications.departamento.urls')),
     path('stock/', include('applications.stock.urls')),
     path('', include('applications.produccion.urls')),
+    path('ventas/', include('applications.ventas.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
