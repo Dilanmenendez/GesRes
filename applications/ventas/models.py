@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Sum
 from .managers import VentaManager, PlatoManager
 # Create your models here.
@@ -93,35 +93,36 @@ class DetalleVenta(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        with transaction.atomic():
+            nuevo = self.pk is None
 
-        nuevo = self.pk is None
+            # Cálculo previo (Obligatorio antes de guardar)
+            if not self.precio:
+                self.precio = self.plato.precio
+            
+            self.cantidad = self.cantidad or 1
+            self.subtotal = self.cantidad * self.precio
 
-        if self.precio is None:
-            self.precio = self.plato.precio
+            # Primer guardado: Aquí el detalle ya tiene ID y subtotal
+            super().save(*args, **kwargs)
 
-        if not self.cantidad:
-            self.cantidad = 1
+            # Logica stock
+            if nuevo:
+                # Usamos select_for_update() para bloquear la fila del producto 
+                # y que nadie más la toque hasta que terminemos
+                for ingrediente in self.plato.ingredientes.select_related("producto"):
+                    producto = ingrediente.producto
+                    consumo = ingrediente.cantidad * self.cantidad
+                    
+                    producto.stock_actual -= consumo
+                    producto.save(update_fields=["stock_actual"])
 
-        self.subtotal = self.cantidad * self.precio
-
-        super().save(*args, **kwargs)
-
-        if nuevo:
-            for ingrediente in self.plato.ingredientes.select_related("producto"):
-
-                producto = ingrediente.producto
-
-                consumo = ingrediente.cantidad * self.cantidad
-
-                producto.stock_actual -= consumo
-                producto.save(update_fields=["stock_actual"])
-
-        total = self.venta.detalles.aggregate(
-            total=Sum("subtotal")
-        )["total"] or 0
-
-        self.venta.total = total
-        self.venta.save(update_fields=["total"])
-
-    def __str__(self):
-        return f"{self.plato} x {self.cantidad}"
+            # 4. Actualizar el total de la Venta 
+            # Usamos filter().aggregate() para que la DB haga el trabajo pesado
+            total_venta = self.venta.detalles.aggregate(
+                res=Sum("subtotal")
+            )["res"] or 0
+            
+            # Actualizamos la venta sin disparar toda la lógica pesada de Venta.save()
+            self.venta.total = total_venta
+            self.venta.save(update_fields=["total"])
