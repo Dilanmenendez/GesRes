@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models import Sum
-
+from .managers import VentaManager, PlatoManager
 # Create your models here.
 
 # --------- Plato Model ------------ #
+
 class Plato(models.Model):
 
     nombre = models.CharField(max_length=120)
@@ -16,6 +17,8 @@ class Plato(models.Model):
     activo = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = PlatoManager()
 
     def __str__(self):
         return self.nombre
@@ -56,6 +59,8 @@ class Venta(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = VentaManager()
 
     def __str__(self):
         return f"Venta {self.id}"
