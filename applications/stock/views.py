@@ -269,7 +269,7 @@ class SuccessView(TemplateView):
     template_name = 'stock/success.html'
 
 class InicioView(TemplateView):
-    template_name = "inicio_stock.html"
+    template_name = "stock/inicio_stock.html"
 
 
 class StockDashboardView(TemplateView):
