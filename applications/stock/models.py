@@ -167,7 +167,6 @@ class Compra(models.Model):
 
 class Consumo(models.Model):
     producto = models.ForeignKey(Producto,
-                                 limit_choices_to={'tipo': 'PT'},
                                  on_delete=models.PROTECT,
                                  related_name='consumos')
     cantidad = models.DecimalField(

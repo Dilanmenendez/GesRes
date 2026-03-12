@@ -1,6 +1,7 @@
 from django.db import models, transaction
 from django.db.models import Sum
 from .managers import VentaManager, PlatoManager
+from applications.stock.models import Consumo
 # Create your models here.
 
 # --------- Plato Model ------------ #
@@ -91,34 +92,32 @@ class DetalleVenta(models.Model):
     def save(self, *args, **kwargs):
         with transaction.atomic():
             nuevo = self.pk is None
-
-            # Cálculo previo (Obligatorio antes de guardar)
+            
+            # 1. Cálculos de precio y subtotal del detalle
             if not self.precio:
                 self.precio = self.plato.precio
-            
             self.cantidad = self.cantidad or 1
             self.subtotal = self.cantidad * self.precio
 
-            # Primer guardado: Aquí el detalle ya tiene ID y subtotal
+            # 2. Guardamos el detalle primero para tener ID
             super().save(*args, **kwargs)
 
-            # Logica stock
             if nuevo:
-                # Usamos select_for_update() para bloquear la fila del producto 
-                # y que nadie más la toque hasta que terminemos
                 for ingrediente in self.plato.ingredientes.select_related("producto"):
-                    producto = ingrediente.producto
-                    consumo = ingrediente.cantidad * self.cantidad
-                    
-                    producto.stock_actual -= consumo
-                    producto.save(update_fields=["stock_actual"])
+                    # (Cantidad que pide la receta) x (Cantidad de platos vendidos)
+                    cantidad_total_consumo = ingrediente.cantidad * self.cantidad
 
-            # 4. Actualizar el total de la Venta 
-            # Usamos filter().aggregate() para que la DB haga el trabajo pesado
+                    # Esto descuenta el stock_actual del Producto (sea MP o PT)
+                    Consumo.objects.create(
+                        producto=ingrediente.producto,
+                        cantidad=cantidad_total_consumo,
+                        motivo=f"Venta #{self.venta.id} - Plato: {self.plato.nombre}",
+                    )
+
+            # 3. Actualizar el total de la Venta
             total_venta = self.venta.detalles.aggregate(
                 res=Sum("subtotal")
             )["res"] or 0
             
-            # Actualizamos la venta sin disparar toda la lógica pesada de Venta.save()
             self.venta.total = total_venta
             self.venta.save(update_fields=["total"])
