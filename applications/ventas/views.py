@@ -18,11 +18,16 @@ class VentaListView(ListView):
 
     def get_queryset(self):
         fecha = self.request.GET.get("fecha", "")
-        id = self.request.GET.get("id", "")
+        id_venta = self.request.GET.get("key", "") # Evita usar 'id' como nombre de variable (es palabra reservada)
 
         if fecha:
             return Venta.objects.buscar_venta_fecha(fecha)
-        return Venta.objects.buscar_fecha_id(id)
+        
+        if id_venta:
+            return Venta.objects.buscar_venta_id(id_venta)
+        
+        # Si no hay ni fecha ni ID, devuelve la lista completa
+        return Venta.objects.all().order_by('-fecha')
     
 # -------- Plato Views --------- #
 

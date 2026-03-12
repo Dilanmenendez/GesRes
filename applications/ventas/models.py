@@ -16,8 +16,6 @@ class Plato(models.Model):
 
     activo = models.BooleanField(default=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-
     objects = PlatoManager()
 
     def __str__(self):
@@ -57,8 +55,6 @@ class Venta(models.Model):
         decimal_places=2,
         default=0
     )
-
-    created_at = models.DateTimeField(auto_now_add=True)
 
     objects = VentaManager()
 
