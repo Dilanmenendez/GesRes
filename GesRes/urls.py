@@ -29,7 +29,7 @@ urlpatterns = [
     path('empleado/', include('applications.empleado.urls')),
     path('departamento/', include('applications.departamento.urls')),
     path('stock/', include('applications.stock.urls')),
-    path('produccion', include('applications.produccion.urls')),
+    path('produccion/', include('applications.produccion.urls')),
     path('', include('applications.ventas.urls')),
 ]
 if settings.DEBUG:

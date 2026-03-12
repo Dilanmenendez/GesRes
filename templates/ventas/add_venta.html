@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'includes/header4.html' %}
+
+<div class="grid-container">
+
+  <div class="grid-x grid-margin-x align-center">
+    <div class="cell small-12 medium-10 large-8">
+
+      <h2 class="text-center" style="margin: 1.5rem 0;">
+        Registrar Venta
+      </h2>
+
+      <form method="post" class="callout secondary shadow">
+
+        {% csrf_token %}
+
+        {{ formset.management_form }}
+
+        <table class="stack" id="detalle-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for form in formset %}
+            <tr class="detalle-form">
+
+              <td>
+                {{ form.plato }}
+                {{ form.plato.errors }}
+              </td>
+
+              <td>
+                {{ form.cantidad }}
+                {{ form.cantidad.errors }}
+              </td>
+
+              <td class="text-center">
+                {{ form.DELETE }}
+              </td>
+
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+
+        <div class="text-center" style="margin-top: 1rem;">
+          <button type="button" class="button primary" id="add-form">
+            Agregar producto
+          </button>
+        </div>
+
+
+        <div class="button-group align-center" style="margin-top: 2rem;">
+
+          <button type="submit" class="button success">
+            Guardar Venta
+          </button>
+
+          <a href="{% url 'ventas_app:all_ventas' %}" 
+             class="button secondary">
+            Volver
+          </a>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const addButton = document.getElementById("add-form");
+    const totalForms = document.querySelector('[name$="-TOTAL_FORMS"]');
+    const tableBody = document.querySelector("#detalle-table tbody");
+
+    addButton.addEventListener("click", function(){
+
+        let formNum = parseInt(totalForms.value);
+
+        let firstRow = tableBody.querySelector(".detalle-form");
+
+        let newRow = firstRow.cloneNode(true);
+
+        let regex = new RegExp(`-(\\d+)-`, 'g');
+
+        newRow.innerHTML = newRow.innerHTML.replace(regex, `-${formNum}-`);
+
+        // limpiar valores
+        newRow.querySelectorAll("input").forEach(input => {
+            if(input.type !== "hidden" && input.type !== "checkbox"){
+                input.value = "";
+            }
+        });
+
+        newRow.querySelectorAll("select").forEach(select => {
+            select.selectedIndex = 0;
+        });
+
+        tableBody.appendChild(newRow);
+
+        totalForms.value = formNum + 1;
+
+    });
+
+});
+
+</script>
+
+{%endblock%}
