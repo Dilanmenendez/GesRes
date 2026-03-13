@@ -23,6 +23,10 @@ urlpatterns = [
     path('add_venta/',
          views.VentaCreateView.as_view(),
          name='add_venta'),
+     
+     path('detail_venta/<pk>/', 
+          views.VentaDetailView.as_view(), 
+          name='detail_venta'),
 
     # --------- Plato paths ----------- #
     

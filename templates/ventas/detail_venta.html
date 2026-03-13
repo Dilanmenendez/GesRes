@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'includes/header4.html' %}
+
+<div class="grid-container">
+
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12">
+
+      <!-- TITULO -->
+      <h2 class="text-center" style="margin:1.5rem 0;">
+        Detalles de Venta ID: {{ object.id }}
+      </h2>
+
+
+      <!-- INFO VENTA -->
+      <div class="callout primary">
+
+        <p>
+          <strong>Fecha:</strong>
+          {{ object.fecha }}
+        </p>
+
+        <p>
+          <strong>Total:</strong>
+          {{ object.total|floatformat:2 }} UYU
+        </p>
+
+      </div>
+
+
+      <!-- DETALLE DE PLATOS -->
+      <h4 style="margin-top:2rem;">Platos Vendidos</h4>
+
+      <table class="hover unstriped">
+
+        <thead>
+          <tr>
+            <th>Plato</th>
+            <th width="120">Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+        {% for detalle in object.detalles.all %}
+
+          <tr>
+
+            <td>
+              {{ detalle.plato.nombre }}
+            </td>
+
+            <td>
+              {{ detalle.cantidad }}
+            </td>
+
+            <td>
+              {{ detalle.precio|floatformat:2 }} UYU
+            </td>
+
+            <td>
+              {{ detalle.subtotal|floatformat:2 }} UYU
+            </td>
+
+          </tr>
+
+        {% empty %}
+
+          <tr>
+            <td colspan="4" class="text-center">
+              No hay platos registrados en esta venta.
+            </td>
+          </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+      </table>
+
+
+      <!-- TOTAL FINAL -->
+      <div class="callout success" style="margin-top:1.5rem;">
+
+        <h5>
+          Total de la Venta:
+          <strong>{{ object.total|floatformat:2 }} UYU</strong>
+        </h5>
+
+      </div>
+
+
+      <!-- BOTONES -->
+      <div class="grid-x align-justify" style="margin-top:2rem;">
+
+        <a href="{% url 'ventas_app:all_ventas' %}"
+           class="button secondary">
+           Volver
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock content %}

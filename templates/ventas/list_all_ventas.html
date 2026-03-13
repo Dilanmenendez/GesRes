@@ -50,7 +50,7 @@
             <td>{{ venta.total }}</td>
             <td class="text-center">
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="#"
+                <a href="{% url 'ventas_app:detail_venta' venta.id %}"
                   class="button tiny clear"
                   style="color: green;">
                   Ver Detalles

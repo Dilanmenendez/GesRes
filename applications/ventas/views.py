@@ -64,6 +64,16 @@ class VentaCreateView(CreateView):
             return super().form_valid(form)
 
         return self.form_invalid(form)
+
+
+class VentaDetailView(DetailView):
+    model = Venta
+    template_name = "ventas/detail_venta.html"
+
+    def get_queryset(self):
+        return Venta.objects.prefetch_related(
+            "detalles__plato"
+        )
     
 # -------- Plato Views --------- #
 
