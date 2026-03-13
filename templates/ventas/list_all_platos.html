@@ -55,16 +55,11 @@
                 <a href="{% url 'ventas_app:detail_plato' plato.id %}"
                   class="button tiny clear"
                   style="color: green;">
-                  Ver Detalles
+                  Ver / Editar Detalles
                 </a>
-                <a href="#"
-                  class="button tiny clear"
-                  style="color: red;">
-                  Eliminar Plato
-                </a>
-                <a href="#"
+                <a href="{% url 'ventas_app:update_plato' plato.id %}"
                     class="button tiny clear"
-                    style="color: green;">
+                    style="color: rgb(164, 157, 54);">
                     Editar Plato
                 </a>
               </div>

@@ -42,6 +42,10 @@ urlpatterns = [
           views.PlatoDetailView.as_view(),
           name='detail_plato'),
 
+     path('update_plato/<pk>/', 
+          views.PlatoUpdateView.as_view(), 
+          name='update_plato'),
+
      # ----- IngredientesPlato Paths --------- #
 
      path('add_ingrediente_plato/<pk>/',

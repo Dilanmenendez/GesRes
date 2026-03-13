@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 from .models import *
 from .forms import *
 # Create your views here.
@@ -101,6 +101,14 @@ class PlatoCreateView(CreateView):
 class PlatoDetailView(DetailView):
     model = Plato
     template_name = "ventas/detail_plato.html"
+
+
+class PlatoUpdateView(UpdateView):
+    model = Plato
+    template_name = "ventas/update_plato.html"
+    form_class = PlatoForm
+    success_url = reverse_lazy('ventas_app:success')
+
 
 # -------- IngredientePlato Views ----------- #
 

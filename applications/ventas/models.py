@@ -82,7 +82,8 @@ class DetalleVenta(models.Model):
 
     plato = models.ForeignKey(
         Plato,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        limit_choices_to={'activo': 'True'}
     )
 
     cantidad = models.PositiveIntegerField()
