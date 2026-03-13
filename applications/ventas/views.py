@@ -127,3 +127,14 @@ class IngredientePlatoCreateView(CreateView):
             'ventas_app:detail_plato',
             kwargs={'pk': self.kwargs['pk']}
         )
+
+class IngredientePlatoUpdateView(UpdateView):
+    model = IngredientePlato
+    template_name = "ventas/update_ingrediente_plato.html"
+    form_class = IngredientePlatoForm
+
+    def get_success_url(self):
+        return reverse(
+            "ventas_app:detail_plato",
+            kwargs={"pk": self.object.plato.id}
+        )

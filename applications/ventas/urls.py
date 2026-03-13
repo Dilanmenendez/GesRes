@@ -51,4 +51,9 @@ urlpatterns = [
      path('add_ingrediente_plato/<pk>/',
           views.IngredientePlatoCreateView.as_view(),
           name='create_ingrediente_plato'),
+     
+     path('update_ingrediente_plato/<pk>/',
+          views.IngredientePlatoUpdateView.as_view(),
+          name='update_ingrediente_plato'),
+          
 ]
