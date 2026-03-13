@@ -32,5 +32,15 @@ urlpatterns = [
      
      path('add_plato/',
           views.PlatoCreateView.as_view(),
-          name='add_plato')
+          name='add_plato'),
+     
+     path('detail_plato/<pk>/',
+          views.PlatoDetailView.as_view(),
+          name='detail_plato'),
+
+     # ----- IngredientesPlato Paths --------- #
+
+     path('add_ingrediente_plato/<pk>/',
+          views.IngredientePlatoCreateView.as_view(),
+          name='create_ingrediente_plato'),
 ]

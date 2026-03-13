@@ -14,7 +14,7 @@
       <form method="get" class="grid-x grid-margin-x">
 
         <div class="cell large-8">
-          <input type="date" name="kword" id="kword" placeholder="Buscar por Fecha"
+          <input type="text" name="kword" id="kword" placeholder="Buscar por Nombre del Plato"
             class="no-margin-bottom">
           <div class="grid-x grid-margin-x align-bottom">
             <div class="cell medium-9">
@@ -52,20 +52,20 @@
             <td>{{ plato.activo }}</td>
             <td class="text-center">
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="#"
+                <a href="{% url 'ventas_app:detail_plato' plato.id %}"
                   class="button tiny clear"
                   style="color: green;">
                   Ver Detalles
                 </a>
                 <a href="#"
-                    class="button tiny clear"
-                    style="color: green;">
-                    Editar Plato
-                </a>
-                <a href="#"
                   class="button tiny clear"
                   style="color: red;">
                   Eliminar Plato
+                </a>
+                <a href="#"
+                    class="button tiny clear"
+                    style="color: green;">
+                    Editar Plato
                 </a>
               </div>
             </td>
@@ -85,7 +85,7 @@
            class="button hollow secondary">
           Volver
         </a>
-        <a href="{% url 'ventas_app:Inicio' %}"
+        <a href="{% url 'ventas_app:add_plato' %}"
            class="button hollow primary">
           Nuevo Plato
         </a>

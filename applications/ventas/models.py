@@ -19,6 +19,10 @@ class Plato(models.Model):
 
     objects = PlatoManager()
 
+    @property
+    def costo_total(self):
+        return sum(i.costo_total for i in self.ingredientes.all())
+    
     def __str__(self):
         return self.nombre
 
@@ -42,6 +46,10 @@ class IngredientePlato(models.Model):
         decimal_places=2
     )
 
+    @property
+    def costo_total(self):
+        return self.producto.precio * self.cantidad
+    
     def __str__(self):
         return f"{self.producto} - {self.plato}"
 

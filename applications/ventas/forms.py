@@ -10,7 +10,7 @@ class PlatoForm(forms.ModelForm):
 class IngredientePlatoForm(forms.ModelForm):
     class Meta:
         model = IngredientePlato
-        fields = ['plato', 'producto', 'cantidad']
+        fields = ['producto', 'cantidad']
 
 
 class DetalleVentaForm(forms.ModelForm):

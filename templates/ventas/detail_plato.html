@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'includes/header4.html' %}
+
+<div class="grid-container">
+
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12">
+
+      <!-- TITULO -->
+      <h2 class="text-center" style="margin: 1.5rem 0;">
+        Detalles: {{ object.nombre }}
+      </h2>
+
+      <!-- INFO DEL PLATO -->
+      <div class="callout primary">
+
+        <h4>
+          Plato:
+          <strong>{{ object.nombre }}</strong>
+        </h4>
+
+        <p>
+          Precio de Venta:
+          <strong>{{ object.precio|floatformat:2 }} UYU</strong>
+        </p>
+
+      </div>
+
+
+      <!-- INGREDIENTES -->
+      <h4 style="margin-top:2rem;">Ingredientes</h4>
+
+      <table class="hover unstriped">
+
+        <thead>
+          <tr>
+            <th>Componentes del Plato</th>
+            <th>Precio x Kg</th>
+            <th width="120">Cantidad Plato</th>
+            <th>Costo Total</th>
+            <th width="150" class="text-center">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {% for ingrediente in object.ingredientes.all %}
+
+          <tr>
+
+            <td>
+              {{ ingrediente.producto.nombre }}
+            </td>
+
+            <td>
+              {{ ingrediente.producto.precio|floatformat:2 }} UYU
+            </td>
+
+            <td>
+              {{ ingrediente.cantidad }} kg
+            </td>
+
+            <td>
+              {{ ingrediente.costo_total|floatformat:2 }} UYU
+            </td>
+
+            <td class="text-center">
+
+              <div style="display:flex; gap:0.5rem; justify-content:center;">
+
+                <a href=""
+                   class="button tiny warning">
+                   Editar
+                </a>
+
+                <a href=""
+                   class="button tiny alert">
+                   Eliminar
+                </a>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+          {% empty %}
+
+          <tr>
+            <td colspan="5" class="text-center">
+              Este plato no tiene ingredientes cargados.
+            </td>
+          </tr>
+
+          {% endfor %}
+
+        </tbody>
+
+      </table>
+
+
+      <!-- COSTO TOTAL -->
+      <div class="callout success" style="margin-top:1.5rem;">
+
+        <h5>
+          Costo de Producción Total:
+          <strong>{{ object.costo_total|floatformat:2 }} UYU</strong>
+        </h5>
+
+      </div>
+
+
+      <!-- BOTONES -->
+      <div class="grid-x align-justify" style="margin-top:2rem;">
+
+        <a href="{% url 'ventas_app:all_platos' %}"
+           class="button secondary">
+           Volver
+        </a>
+
+        <a href="{% url 'ventas_app:create_ingrediente_plato' object.id %}"
+           class="button success">
+           Agregar Ingrediente
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock content %}

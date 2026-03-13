@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView
 from .models import *
 from .forms import *
 # Create your views here.
@@ -74,7 +74,7 @@ class PlatoListView(ListView):
 
     def get_queryset(self):
         kword = self.request.GET.get("kword", "")
-        id = self.request.GET.get("id", "")
+        id = self.request.GET.get("key", "")
 
         if id:
             return Plato.objects.buscar_plato_id(id)
@@ -86,3 +86,26 @@ class PlatoCreateView(CreateView):
     template_name = "ventas/add_plato.html"
     form_class = PlatoForm
     success_url = reverse_lazy('ventas_app:success')
+
+
+class PlatoDetailView(DetailView):
+    model = Plato
+    template_name = "ventas/detail_plato.html"
+
+# -------- IngredientePlato Views ----------- #
+
+class IngredientePlatoCreateView(CreateView):
+    model = IngredientePlato
+    template_name = "ventas/add_ingrediente_plato.html"
+    form_class = IngredientePlatoForm
+
+    def form_valid(self, form):
+        plato = get_object_or_404(Plato, pk=self.kwargs['pk'])
+        form.instance.plato = plato
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse(
+            'ventas_app:detail_plato',
+            kwargs={'pk': self.kwargs['pk']}
+        )
