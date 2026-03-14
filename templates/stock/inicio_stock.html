@@ -21,8 +21,8 @@
                     <a href="{% url 'stock_app:all_productos' %}" class="button primary shadow" style="border-radius: 8px; font-weight: 600; padding: 0.8rem 1.5rem;">
                         Ver Inventario
                     </a>
-                    <a href="{% url 'stock_app:all_compras' %}" class="button hollow secondary" style="border-radius: 8px; font-weight: 600; padding: 0.8rem 1.5rem;">
-                        Registrar Compra
+                    <a href="{% url 'stock_app:add_producto' %}" class="button hollow secondary" style="border-radius: 8px; font-weight: 600; padding: 0.8rem 1.5rem;">
+                        Registrar Materia Prima
                     </a>
                 </div>
             </div>
@@ -35,29 +35,49 @@
     <div class="grid-x grid-margin-x">
         
         <div class="cell small-12 medium-4">
-            <div class="module-card card-shadow text-center" style="transition: transform 0.3s ease; border-top: 4px solid var(--color-primary);">
-                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🍎</div>
-                <h5 style="font-weight: 700; color: var(--color-primary);">Materia Prima</h5>
-                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Administra ingredientes, clasificaciones y niveles críticos.</p>
-                <a href="{% url 'stock_app:all_productos' %}" class="button clear primary small" style="font-weight: 700; margin-bottom: 0;">Gestionar →</a>
+            <div class="module-card card-shadow text-center" style="display: flex; flex-direction: column; transition: transform 0.3s ease; border-top: 4px solid var(--color-primary); height: 100%; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚛</div>
+                <h5 style="font-weight: 700; color: var(--color-primary);">Proveedores</h5>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Gestiona tus contactos comerciales y fuentes de suministro.</p>
+                <div style="margin-top: auto;">
+                    <a href="{% url 'stock_app:all_proveedores' %}" class="button clear primary small" style="font-weight: 700; margin-bottom: 0;">Gestionar Proveedores →</a>
+                </div>
             </div>
         </div>
 
         <div class="cell small-12 medium-4">
-            <div class="module-card card-shadow text-center" style="transition: transform 0.3s ease; border-top: 4px solid #38A169;">
+            <div class="module-card card-shadow text-center" style="display: flex; flex-direction: column; transition: transform 0.3s ease; border-top: 4px solid #2F855A; height: 100%; padding: 1.5rem;">
                 <div style="font-size: 2.5rem; margin-bottom: 1rem;">💳</div>
                 <h5 style="font-weight: 700; color: #2F855A;">Transacciones</h5>
-                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Registra compras a proveedores y consumos internos.</p>
-                <a href="{% url 'stock_app:all_compras' %}" class="button clear success small" style="font-weight: 700; margin-bottom: 0;">Ver Movimientos →</a>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Registra entradas de mercadería y salidas por producción.</p>
+                
+                <div class="grid-x grid-margin-x" style="margin-top: auto; padding-top: 1rem;">
+                    <div class="cell small-6">
+                        <a href="{% url 'stock_app:all_compras' %}" 
+                           class="button hollow success expanded" 
+                           style="border-radius: 6px; font-weight: 700; font-size: 0.7rem; padding: 0.8rem 0;">
+                           COMPRAS
+                        </a>
+                    </div>
+                    <div class="cell small-6">
+                        <a href="{% url 'stock_app:all_consumos' %}" 
+                           class="button hollow alert expanded" 
+                           style="border-radius: 6px; font-weight: 700; font-size: 0.7rem; padding: 0.8rem 0;">
+                           CONSUMOS
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="cell small-12 medium-4">
-            <div class="module-card card-shadow text-center" style="transition: transform 0.3s ease; border-top: 4px solid var(--color-secondary);">
+            <div class="module-card card-shadow text-center" style="display: flex; flex-direction: column; transition: transform 0.3s ease; border-top: 4px solid var(--color-secondary); height: 100%; padding: 1.5rem;">
                 <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
                 <h5 style="font-weight: 700; color: var(--color-secondary);">Estadísticas</h5>
                 <p style="color: var(--color-text-soft); font-size: 0.9rem;">Visualiza el valor de tu stock y reportes de consumo.</p>
-                <a href="{% url 'stock_app:dashboard' %}" class="button clear secondary small" style="font-weight: 700; margin-bottom: 0;">Abrir Panel →</a>
+                <div style="margin-top: auto;">
+                    <a href="{% url 'stock_app:dashboard' %}" class="button clear secondary small" style="font-weight: 700; margin-bottom: 0;">Abrir Panel →</a>
+                </div>
             </div>
         </div>
 
@@ -65,11 +85,17 @@
 
     <div class="grid-x" style="margin-top: 2rem; margin-bottom: 4rem;">
         <div class="cell small-12">
-            <div class="callout secondary card-shadow" style="border: none; border-left: 5px solid #CBD5E0; background: white; border-radius: 8px;">
+            <div class="callout secondary card-shadow" style="border: none; border-left: 5px solid {% if low_stock_count > 0 %}#C53030{% else %}#CBD5E0{% endif %}; background: white; border-radius: 8px;">
                 <div class="grid-x align-middle">
                     <div class="cell auto">
                         <h6 style="margin: 0; font-weight: 700; color: var(--color-text);">Sugerencia del sistema</h6>
-                        <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-soft);">Revisa periódicamente los productos con stock bajo en el Dashboard para evitar quiebres de inventario.</p>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-soft);">
+                            {% if low_stock_count > 0 %}
+                                <strong style="color: #C53030;">Atención:</strong> Tienes {{ low_stock_count }} productos con stock bajo. Revisa el panel para evitar quiebres.
+                            {% else %}
+                                Revisa periódicamente los niveles de stock para mantener tu inventario al día.
+                            {% endif %}
+                        </p>
                     </div>
                     <div class="cell shrink">
                         <a href="{% url 'stock_app:dashboard' %}" class="button clear primary small" style="margin: 0;">Revisar ahora</a>

@@ -75,7 +75,7 @@ transition:all .15s ease;
 
 .module-card:hover{
 transform:translateY(-4px);
-box-shadow:0 10px 18px rgba(0,0,0,0.06);
+box-shadow:0 10px 18px rgba(204, 186, 186, 0.06);
 }
 
 .module-title{
@@ -116,5 +116,11 @@ text-align:center;
 .td-numeric {
     text-align: center !important;
     font-variant-numeric: tabular-nums; /* Esto hace que los números midan lo mismo */
+}
+
+tbody tr:hover {
+    background-color: #8db0d3 !important;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
 }
 

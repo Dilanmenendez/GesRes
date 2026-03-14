@@ -1,59 +1,89 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} GesRes Ventas {% endblock title %}
-
+{% block title %} GesRes | Gestión de Ventas {% endblock title %}
 
 {% block content %}
-
 {% include 'includes/header4.html' %}
 
-<!--Inicio de la imagen de portada-->
-
-<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
-  <div class="orbit-wrapper">
-    <div class="orbit-controls">
-      <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
-      <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+<div class="grid-container" style="padding-top: 3rem;">
+    
+    <div class="module-card card-shadow" style="background: linear-gradient(135deg, #ffffff 0%, #f1fcf4 100%); border: none; padding: 3rem; margin-bottom: 2rem; border-radius: 12px;">
+        <div class="grid-x align-middle">
+            <div class="cell medium-7">
+                <h1 style="color: #2F855A; font-weight: 800; font-size: 2.5rem; margin-bottom: 1rem; margin-right: 150px">
+                    Gestión de Ventas
+                </h1>
+                <p style="color: var(--color-text-soft); font-size: 1.1rem; margin-bottom: 2rem; max-width: 500px;">
+                    Gestiona la carta, registra pedidos en tiempo real y analiza el flujo de ingresos de tu negocio de manera eficiente.
+                </p>
+                <div style="display: flex; gap: 15px;">
+                    <a href="{% url 'ventas_app:all_ventas' %}" class="button success shadow" style="border-radius: 8px; font-weight: 600; padding: 0.8rem 1.5rem; background-color: #2F855A;">
+                        Nueva Venta
+                    </a>
+                    <a href="{% url 'ventas_app:all_platos' %}" class="button hollow secondary" style="border-radius: 8px; font-weight: 600; padding: 0.8rem 1.5rem;">
+                        Ver Menú / Platos
+                    </a>
+                </div>
+            </div>
+            <div class="cell medium-5 hide-for-small-only text-center">
+                <span style="font-size: 8rem; opacity: 0.8;">💰</span>
+            </div>
+        </div>
     </div>
-    <ul class="orbit-container">
-      <li class="is-active orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="{% static 'img/img5.jpg' %}" alt="Space">
-          <figcaption class="orbit-caption">Space, the final frontier.</figcaption>
-        </figure>
-      </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-im  age" src="{% static 'img/img4.jpg' %}" alt="Space">
-          <figcaption class="orbit-caption">Lets Rocket!</figcaption>
-        </figure>
-      </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="{% static 'img/img8.png' %}" alt="Space">
-          <figcaption class="orbit-caption">Lets Rocket!</figcaption>
-        </figure>
-      </li>
-    </ul>
-  </div>
-</div>
 
-<!--fin de la imagen de portada-->
+    <div class="grid-x grid-margin-x">
+        
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="display: flex; flex-direction: column; transition: transform 0.3s ease; border-top: 4px solid #2F855A; height: 100%; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🍽️</div>
+                <h5 style="font-weight: 700; color: #2F855A;">Menú y Platos</h5>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Administra los productos de la carta, precios y categorías de venta.</p>
+                <div style="margin-top: auto;">
+                    <a href="{% url 'ventas_app:all_platos' %}" class="button clear success small" style="font-weight: 700; margin-bottom: 0; color: #2F855A;">Gestionar Carta →</a>
+                </div>
+            </div>
+        </div>
 
-<!--Bloque de bienvenida (de foundation)-->
-<div class="grid-x align-center"> <!--align-center sirve para centrar los hijos de dicho grid-->
-    <h1 class="cell large-8" style="font-size: 20px; text-align: center;">Bienvenido a Ventas</h1>
-    <div class="cell large-7">
-        <!--esta es la caja del final, la sacas de la documentacion ;D-->
-        <div class="callout success">
-        <h5>Gestiona Tus Ventas a la perfección</h5>
-        <p>¡Que no se te escape nada!</p>
-        <a href="#">Ver Ventas</a>
-</div>
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="display: flex; flex-direction: column; transition: transform 0.3s ease; border-top: 4px solid var(--color-primary); height: 100%; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🧾</div>
+                <h5 style="font-weight: 700; color: var(--color-primary);">Registro Diario</h5>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Consulta el historial de tickets emitidos y anulaciones de ventas.</p>
+                <div style="margin-top: auto;">
+                    <a href="{% url 'ventas_app:all_ventas' %}" class="button clear primary small" style="font-weight: 700; margin-bottom: 0;">Ver Historial →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="display: flex; flex-direction: column; transition: transform 0.3s ease; border-top: 4px solid var(--color-secondary); height: 100%; padding: 1.5rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">📈</div>
+                <h5 style="font-weight: 700; color: var(--color-secondary);">Reportes</h5>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Analiza los platos más vendidos y el rendimiento económico del día.</p>
+                <div style="margin-top: auto;">
+                    <a href="#" class="button clear secondary small" style="font-weight: 700; margin-bottom: 0;">Abrir Panel →</a>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <div class="grid-x" style="margin-top: 2rem; margin-bottom: 4rem;">
+        <div class="cell small-12">
+            <div class="callout secondary card-shadow" style="border: none; border-left: 5px solid #2F855A; background: white; border-radius: 8px;">
+                <div class="grid-x align-middle">
+                    <div class="cell auto">
+                        <h6 style="margin: 0; font-weight: 700; color: var(--color-text);">Gestiona Tus Ventas a la perfección</h6>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-soft);">¡Que no se te escape nada! Revisa tus cierres de caja diariamente.</p>
+                    </div>
+                    <div class="cell shrink">
+                        <a href="{% url 'ventas_app:all_ventas' %}" class="button clear success small" style="margin: 0; font-weight: 700;">Ver Ventas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
-<!--Fin del bloque de bienvenida-->
 {% endblock content %}
-    
-    

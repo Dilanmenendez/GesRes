@@ -1,28 +1,27 @@
-<div class="top-bar" id="responsive-menu">
-  <div class="top-bar-left">
-    <ul class="dropdown menu align-left align-middle" data-dropdown-menu>
-      <li>
-        <a href="{% url 'ventas_app:Inicio' %}"
-           style="color: #0a4d8c"
-           class="menu-text">
-           GesRes Ventas
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'ventas_app:all_platos' %}">Platos / Carta</a>
-      </li>
-      <li>
-        <a href="{% url 'ventas_app:all_ventas' %}">Ventas</a>
-      </li>
-      <li>
-        <a href="#">Historial</a>
-      </li>
-      <li>
-        <a href="#">Dashboard</a>
-      </li>
-      <li>
-        <a href="#">Volver al Inicio</a>
-      </li>
-    </ul>
-  </div>
+<div class="erp-header">
+    <div class="grid-container">
+        <div class="grid-x align-middle">
+            
+            <div class="cell small-4">
+                <a href="{% url 'ventas_app:Inicio' %}" class="erp-logo" style="margin-left: -100px;">
+                    GesRes Ventas
+                </a>
+            </div>
+
+            <div class="cell small-4 text-center">
+                <nav class="erp-nav">
+                    <a href="{% url 'ventas_app:all_platos' %}">Platos / Carta</a>
+                    <a href="{% url 'ventas_app:all_ventas' %}">Ventas</a>
+                    <a href="#">Dashboard</a>
+                </nav>
+            </div>
+
+            <div class="cell shrink">
+                <a href="#" class="button small hollow primary shadow-sm" style="margin-bottom: 0; margin-left: 250px; border-radius: 6px;">
+                    Ir a Finanzas →
+                </a>
+            </div>
+
+        </div>
+    </div>
 </div>
