@@ -39,6 +39,7 @@
             <th width="50">ID</th>
             <th>Fecha</th>
             <th>Total (UYU)</th>
+            <th>Anulada</th>
             <th width="150" class="text-center">Acciones</th>
           </tr>
         </thead>
@@ -48,6 +49,7 @@
             <td>{{ venta.id }}</td>
             <td>{{ venta.fecha|date:"d/m/Y H:i" }}</td>
             <td>{{ venta.total }}</td>
+            <td>{{ venta.anulada }}</td>
             <td class="text-center">
               <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <a href="{% url 'ventas_app:detail_venta' venta.id %}"
@@ -55,7 +57,7 @@
                   style="color: green;">
                   Ver Detalles
                 </a>
-                <a href="#"
+                <a href="{% url 'ventas_app:anular_venta' venta.id %}"
                   class="button tiny clear"
                   style="color: red;">
                   Anular Venta

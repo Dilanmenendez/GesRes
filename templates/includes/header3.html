@@ -1,25 +1,86 @@
-<div class="top-bar" id="responsive-menu">
-  <div class="top-bar-left">
-    <ul class="dropdown menu align-left align-middle" data-dropdown-menu>
-      <li>
-        <a href="{% url 'produccion_app:Inicio' %}"
-           style="color: #0a4d8c"
-           class="menu-text">
-           GesRes Producción
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'produccion_app:all_produccion' %}">Operaciones</a>
-      </li>
-      <li>
-        <a href="{% url 'produccion_app:all_receta' %}">Recetas</a>
-      </li>
-      <li>
-        <a href="{% url 'produccion_app:dashboard' %}">Dashboard</a>
-      </li>
-      <li>
-        <a href="{% url 'stock_app:Inicio' %}">Volver a Stock</a>
-      </li>
-    </ul>
-  </div>
+<style>
+.erp-header{
+background:white;
+border-bottom:1px solid #E5E9F0;
+padding:0.8rem 0;
+}
+
+.erp-logo{
+font-weight:600;
+font-size:1.15rem;
+color:#2F5D8C;
+}
+
+.erp-nav{
+text-align:center;
+}
+
+.erp-nav a{
+margin:0 0.9rem;
+color:#5f6c7b;
+font-size:0.95rem;
+text-decoration:none;
+}
+
+.erp-nav a:hover{
+color:#2F5D8C;
+}
+
+.erp-action{
+text-align:right;
+}
+
+</style>
+
+
+<div class="erp-header">
+
+<div class="grid-container">
+
+<div class="grid-x align-middle">
+
+<!-- Logo -->
+
+<div class="cell small-4">
+
+<a href="{% url 'produccion_app:Inicio' %}" class="erp-logo">
+GesRes
+</a>
+
+</div>
+
+
+<!-- Navegación -->
+
+<div class="cell small-4 erp-nav">
+
+<a href="{% url 'produccion_app:all_produccion' %}">
+Operaciones
+</a>
+
+<a href="{% url 'produccion_app:all_receta' %}">
+Recetas
+</a>
+
+<a href="{% url 'produccion_app:dashboard' %}">
+Dashboard
+</a>
+
+</div>
+
+
+<!-- Acción -->
+
+<div class="cell small-4 erp-action">
+
+<a href="{% url 'stock_app:Inicio' %}" class="button small hollow">
+Stock
+</a>
+
+</div>
+
+</div>
+
+</div>
+
 </div>

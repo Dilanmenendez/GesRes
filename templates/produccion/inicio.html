@@ -1,59 +1,218 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} GesRes Producción {% endblock title %}
-
+{% block title %}GesRes Producción{% endblock title %}
 
 {% block content %}
 
 {% include 'includes/header3.html' %}
 
-<!--Inicio de la imagen de portada-->
+<style>
 
-<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
-  <div class="orbit-wrapper">
-    <div class="orbit-controls">
-      <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
-      <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
-    </div>
-    <ul class="orbit-container">
-      <li class="is-active orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="{% static 'img/img5.jpg' %}" alt="Space">
-          <figcaption class="orbit-caption">Space, the final frontier.</figcaption>
-        </figure>
-      </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-im  age" src="{% static 'img/img4.jpg' %}" alt="Space">
-          <figcaption class="orbit-caption">Lets Rocket!</figcaption>
-        </figure>
-      </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="{% static 'img/img8.png' %}" alt="Space">
-          <figcaption class="orbit-caption">Lets Rocket!</figcaption>
-        </figure>
-      </li>
-    </ul>
-  </div>
+body{
+background:#F7F9FC;
+}
+
+.hero{
+padding:4rem 0;
+text-align:center;
+}
+
+.hero-title{
+font-size:2.2rem;
+font-weight:600;
+color:#2F5D8C;
+}
+
+.hero-subtitle{
+margin-top:1rem;
+color:#6b7785;
+font-size:1.1rem;
+max-width:520px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.hero-buttons{
+margin-top:2rem;
+}
+
+.hero-buttons .button{
+margin:0 0.4rem;
+border-radius:6px;
+}
+
+.modules{
+margin-top:3rem;
+}
+
+.module-card{
+background:white;
+border:1px solid #E5E9F0;
+border-radius:10px;
+padding:1.6rem;
+text-align:center;
+transition:all .15s ease;
+}
+
+.module-card:hover{
+transform:translateY(-4px);
+box-shadow:0 10px 18px rgba(0,0,0,0.06);
+}
+
+.module-title{
+font-weight:600;
+color:#2F5D8C;
+margin-bottom:0.5rem;
+}
+
+.module-text{
+color:#6b7785;
+font-size:0.95rem;
+margin-bottom:1.3rem;
+}
+
+.info-section{
+margin-top:3rem;
+margin-bottom:3rem;
+background:white;
+border:1px solid #E5E9F0;
+border-radius:10px;
+padding:2rem;
+text-align:center;
+}
+
+.info-section h5{
+color:#2F5D8C;
+margin-bottom:1rem;
+}
+
+</style>
+
+
+<div class="grid-container">
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="hero-title">
+Gestión de Producción
 </div>
 
-<!--fin de la imagen de portada-->
+<div class="hero-subtitle">
+Controla operaciones, administra recetas y analiza el rendimiento
+de producción de forma simple y organizada.
+</div>
 
-<!--Bloque de bienvenida (de foundation)-->
-<div class="grid-x align-center"> <!--align-center sirve para centrar los hijos de dicho grid-->
-    <h1 class="cell large-8" style="font-size: 20px; text-align: center;">Bienvenido a Producción</h1>
-    <div class="cell large-7">
-        <!--esta es la caja del final, la sacas de la documentacion ;D-->
-        <div class="callout success">
-        <h5>Gestiona producción a la perfección</h5>
-        <p>¡Que no se te escape nada!</p>
-        <a href="#">Ver Producción</a>
+<div class="hero-buttons">
+
+<a href="{% url 'produccion_app:all_produccion' %}" class="button primary">
+Ver Producción
+</a>
+
+<a href="{% url 'produccion_app:all_receta' %}" class="button hollow">
+Administrar Recetas
+</a>
+
 </div>
-    </div>
+
 </div>
-<!--Fin del bloque de bienvenida-->
+
+
+<!-- MÓDULOS -->
+
+<div class="modules">
+
+<div class="grid-x grid-margin-x align-center">
+
+
+<div class="cell medium-4">
+
+<div class="module-card">
+
+<div class="module-title">
+Operaciones
+</div>
+
+<div class="module-text">
+Gestiona las producciones activas
+y registra nuevas operaciones.
+</div>
+
+<a href="{% url 'produccion_app:all_produccion' %}" class="button small expanded">
+Ir a Operaciones
+</a>
+
+</div>
+
+</div>
+
+
+<div class="cell medium-4">
+
+<div class="module-card">
+
+<div class="module-title">
+Recetas
+</div>
+
+<div class="module-text">
+Administra ingredientes y cantidades
+necesarias para cada producto.
+</div>
+
+<a href="{% url 'produccion_app:all_receta' %}" class="button small expanded">
+Gestionar Recetas
+</a>
+
+</div>
+
+</div>
+
+
+<div class="cell medium-4">
+
+<div class="module-card">
+
+<div class="module-title">
+Dashboard
+</div>
+
+<div class="module-text">
+Visualiza estadísticas y métricas
+del rendimiento de producción.
+</div>
+
+<a href="{% url 'produccion_app:dashboard' %}" class="button small success expanded">
+Abrir Dashboard
+</a>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- INFORMACIÓN -->
+
+<div class="info-section">
+
+<h5>Acerca del módulo de Producción</h5>
+
+<p>
+Este módulo permite gestionar el flujo completo de producción:
+crear recetas, registrar operaciones y analizar resultados
+para mejorar la eficiencia del negocio.
+</p>
+
+</div>
+
+
+</div>
+
 {% endblock content %}
-    
-    

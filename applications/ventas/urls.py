@@ -28,6 +28,10 @@ urlpatterns = [
           views.VentaDetailView.as_view(), 
           name='detail_venta'),
 
+     path("anular_venta/<int:pk>/",
+          views.VentaAnularView.as_view(),
+          name="anular_venta"),
+
     # --------- Plato paths ----------- #
     
     path("all_platos/",
@@ -55,5 +59,9 @@ urlpatterns = [
      path('update_ingrediente_plato/<pk>/',
           views.IngredientePlatoUpdateView.as_view(),
           name='update_ingrediente_plato'),
-          
+     
+     path('delete_ingrediente_plato/<pk>/',
+          views.IngredientePlatoDeleteView.as_view(),
+          name='delete_ingrediente_plato'),
+
 ]

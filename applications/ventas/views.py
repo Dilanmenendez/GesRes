@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 from .models import *
 from .forms import *
@@ -31,7 +32,7 @@ class VentaListView(ListView):
             return Venta.objects.buscar_venta_id(id_venta)
         
         # Si no hay ni fecha ni ID, devuelve la lista completa
-        return Venta.objects.all().order_by('-fecha')
+        return Venta.objects.ventas_legitimas().order_by('-fecha')
 
 
 class VentaCreateView(CreateView):
@@ -74,7 +75,17 @@ class VentaDetailView(DetailView):
         return Venta.objects.prefetch_related(
             "detalles__plato"
         )
-    
+
+class VentaAnularView(UpdateView):
+    model = Venta
+    template_name = "ventas/anular_venta.html"
+    success_url = reverse_lazy('ventas_app:success')
+    fields = []
+
+    def form_valid(self, form):
+        self.object.anular_venta()
+        return super().form_valid(form)
+
 # -------- Plato Views --------- #
 
 class PlatoListView(ListView):
@@ -138,3 +149,14 @@ class IngredientePlatoUpdateView(UpdateView):
             "ventas_app:detail_plato",
             kwargs={"pk": self.object.plato.id}
         )
+
+class IngredientePlatoDeleteView(DeleteView):
+    model = IngredientePlato
+    template_name = "ventas/delete_ingrediente_plato.html"
+
+    def get_success_url(self):
+        return reverse(
+            "ventas_app:detail_plato",
+            kwargs={"pk": self.object.plato.id}
+        )
+

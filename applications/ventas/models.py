@@ -64,8 +64,30 @@ class Venta(models.Model):
         decimal_places=2,
         default=0
     )
+    anulada = models.BooleanField(default=False)
 
     objects = VentaManager()
+
+    def anular_venta(self):
+
+        if self.anulada:
+            return
+
+        with transaction.atomic():
+
+            for detalle in self.detalles.select_related("plato"):
+
+                for ingrediente in detalle.plato.ingredientes.select_related("producto"):
+
+                    cantidad_devolver = ingrediente.cantidad * detalle.cantidad
+
+                    producto = ingrediente.producto
+                    producto.stock_actual += cantidad_devolver
+                    producto.save(update_fields=["stock_actual"])
+
+            self.total = 0
+            self.anulada = True
+            self.save(update_fields=["total", "anulada"])
 
     def __str__(self):
         return f"Venta {self.id}"

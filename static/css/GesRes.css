@@ -1,0 +1,102 @@
+/* fondo general */
+
+body{
+background:#F7F9FC;
+}
+
+
+/* HEADER */
+
+.erp-header{
+background:white;
+border-bottom:1px solid #E5E9F0;
+padding:0.8rem 0;
+}
+
+.erp-logo{
+font-weight:600;
+font-size:1.15rem;
+color:#2F5D8C;
+}
+
+.erp-nav{
+text-align:center;
+}
+
+.erp-nav a{
+margin:0 0.9rem;
+color:#5f6c7b;
+font-size:0.95rem;
+text-decoration:none;
+}
+
+.erp-nav a:hover{
+color:#2F5D8C;
+}
+
+
+
+/* HERO */
+
+.hero{
+padding:4rem 0;
+text-align:center;
+}
+
+.hero-title{
+font-size:2.2rem;
+font-weight:600;
+color:#2F5D8C;
+}
+
+.hero-subtitle{
+margin-top:1rem;
+color:#6b7785;
+font-size:1.1rem;
+max-width:520px;
+margin-left:auto;
+margin-right:auto;
+}
+
+
+
+/* TARJETAS */
+
+.module-card{
+background:white;
+border:1px solid #E5E9F0;
+border-radius:10px;
+padding:1.6rem;
+text-align:center;
+transition:all .15s ease;
+}
+
+.module-card:hover{
+transform:translateY(-4px);
+box-shadow:0 10px 18px rgba(0,0,0,0.06);
+}
+
+.module-title{
+font-weight:600;
+color:#2F5D8C;
+}
+
+.module-text{
+color:#6b7785;
+font-size:0.95rem;
+margin-bottom:1.2rem;
+}
+
+
+
+/* INFO BOX */
+
+.info-section{
+margin-top:3rem;
+margin-bottom:3rem;
+background:white;
+border:1px solid #E5E9F0;
+border-radius:10px;
+padding:2rem;
+text-align:center;
+}

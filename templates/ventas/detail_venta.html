@@ -95,15 +95,26 @@
       </div>
 
 
-      <!-- BOTONES -->
-      <div class="grid-x align-justify" style="margin-top:2rem;">
+    <!-- BOTONES -->
+    <div class="grid-x align-justify" style="margin-top:2rem;">
 
-        <a href="{% url 'ventas_app:all_ventas' %}"
-           class="button secondary">
-           Volver
-        </a>
+    <a href="{% url 'ventas_app:all_ventas' %}"
+        class="button secondary">
+        Volver
+    </a>
 
-      </div>
+    {% if not object.anulada %}
+    <a href="{% url 'ventas_app:anular_venta' object.id %}"
+        class="button alert">
+        Anular Venta
+    </a>
+    {% else %}
+    <span class="label alert">
+        Venta Anulada
+    </span>
+    {% endif %}
+
+    </div>
 
     </div>
   </div>

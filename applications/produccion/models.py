@@ -6,7 +6,9 @@ from .managers import ProduccionManager, RecetaManager
 
 
 # Create your models here.
+
 # --------- Modelo Receta --------- #
+
 class Receta(models.Model):
     producto_final = models.OneToOneField('stock.Producto',
                                         on_delete=models.CASCADE,
@@ -57,6 +59,7 @@ class IngredientesReceta(models.Model):
         return f'{self.producto.nombre} - {self.cantidad}'
 
 # --------- Modelo Produccion --------- #
+
 class Produccion(models.Model):
     producto = models.ForeignKey(
         'stock.Producto',

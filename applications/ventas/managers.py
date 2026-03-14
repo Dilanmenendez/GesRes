@@ -7,22 +7,22 @@ from django.utils.timezone import now
 
 class VentaManager(models.Manager):
 
+    def ventas_legitimas(self):
+        return self.filter(
+            anulada=False
+        )
+    
     def buscar_venta_id(self, venta_id):
         return self.filter(
-            id=venta_id
+            id=venta_id,
+            anulada=False
         ).order_by('-id')
 
     def buscar_venta_fecha(self, fecha_venta):
         return self.filter(
-            fecha__date=fecha_venta
+            fecha__date=fecha_venta,
+            anulada=False
         ).order_by('-fecha')
-
-    def ventas_hoy(self):
-        hoy = now().date()
-        return self.filter(
-            fecha__date=hoy
-        )
-
 
 
 # --------------- Plato Manager --------------- #
