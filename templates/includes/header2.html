@@ -1,82 +1,64 @@
-<div class="top-bar" id="responsive-menu">
-  <div class="top-bar-left">
-    <ul class="dropdown menu align-left align-middle" data-dropdown-menu>
-      
-      <li>
-        <a href="{% url 'stock_app:Inicio' %}" 
-           style="color: #0a4d8c" 
-           class="menu-text">
-           GesRes Stock
-        </a>
-      </li>
-
-      <li class="has-submenu">
-        <a href="{% url 'stock_app:all_productos' %}">Materia Prima</a>
-        
-        <ul class="submenu menu vertical" data-submenu>
-
-          {% for clasificacion in clasificaciones_menu %}
-            {% if clasificacion.nombre != "Otros varios" %}
-              <li>
-                <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
-                  {{ clasificacion.nombre }}
+<div class="erp-header">
+    <div class="grid-container">
+        <div class="grid-x align-middle">
+            
+            <div class="cell shrink">
+                <a href="{% url 'stock_app:Inicio' %}" class="erp-logo" style="margin-right: 2rem;">
+                    GesRes <span style="font-weight: 300; opacity: 0.7;">Stock</span>
                 </a>
-              </li>
-            {% endif %}
-          {% empty %}
-            <li>
-              <span style="padding: 10px; display: block;">
-                No hay clasificaciones
-              </span>
-            </li>
-          {% endfor %}
+            </div>
 
-          {% for clasificacion in clasificaciones_menu %}
-            {% if clasificacion.nombre == "Otros varios" %}
-              <li>
-                <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
-                  {{ clasificacion.nombre }}
+            <div class="cell auto">
+                <ul class="dropdown menu erp-nav" data-dropdown-menu>
+                    
+                    <li class="has-submenu">
+                        <a href="{% url 'stock_app:all_productos' %}">Materia Prima</a>
+                        <ul class="submenu menu vertical card-shadow" data-submenu>
+                            {% for clasificacion in clasificaciones_menu %}
+                                {% if clasificacion.nombre != "Otros varios" %}
+                                    <li>
+                                        <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
+                                            {{ clasificacion.nombre }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% empty %}
+                                <li class="disabled"><a href="#">No hay clasificaciones</a></li>
+                            {% endfor %}
+
+                            {% for clasificacion in clasificaciones_menu %}
+                                {% if clasificacion.nombre == "Otros varios" %}
+                                    <li style="border-top: 1px solid #eee;">
+                                        <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
+                                            {{ clasificacion.nombre }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li><a href="{% url 'stock_app:all_clasificaciones' %}">Clasificaciones</a></li>
+                    <li><a href="{% url 'stock_app:all_proveedores' %}">Proveedores</a></li>
+
+                    <li class="has-submenu">
+                        <a href="#">Transacciones</a>
+                        <ul class="submenu menu vertical card-shadow" data-submenu>
+                            <li><a href="{% url 'stock_app:all_compras' %}">Compras</a></li>
+                            <li><a href="{% url 'stock_app:all_consumos' %}">Consumos</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="{% url 'stock_app:dashboard' %}">Dashboard</a></li>
+                </ul>
+            </div>
+
+            <div class="cell shrink">
+                <a href="{% url 'produccion_app:Inicio' %}" class="button small hollow primary shadow-sm" style="margin-bottom: 0; border-radius: 6px;">
+                    Ir a Producción →
                 </a>
-              </li>
-            {% endif %}
-          {% endfor %}
+            </div>
 
-        </ul>
-      </li>
-
-      <li>
-        <a href="{% url 'stock_app:all_clasificaciones' %}">
-          Clasificaciones
-        </a>
-      </li>
-
-      <li>
-        <a href="{% url 'stock_app:all_proveedores' %}">
-          Proveedores
-        </a>
-      </li>
-      <li class="has-submenu">
-        <a>Transacciones</a>
-        
-        <ul class="submenu menu vertical" data-submenu>
-              <li>
-                <a href="{% url 'stock_app:all_compras' %}">
-                  Compras
-                </a>
-              </li>
-              <li>
-                <a href="{% url 'stock_app:all_consumos' %}">
-                  Consumos
-                </a>
-              </li>
-        </ul>
-
-      <li>
-        <a href="{% url 'stock_app:dashboard' %}">Dashboard</a>
-      </li>
-      <li>
-        <a href="{% url 'produccion_app:Inicio' %}">Ir a Producción</a>
-      </li>
-    </ul>
-  </div>
+        </div>
+    </div>
 </div>

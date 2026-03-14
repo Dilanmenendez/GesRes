@@ -1,172 +1,143 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} GesRes Stock | Inventario {% endblock title %}
+
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container">
-  <div class="grid-x grid-margin-x">
-    <div class="cell small-12">
+<div class="grid-container" style="padding-top: 2rem;">
+  
+  <div class="grid-x align-middle" style="margin-bottom: 2rem;">
+    <div class="cell auto">
+      <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Inventario General</h2>
+      <p style="color: var(--color-text-soft); margin: 0;">Control de existencias, insumos y productos terminados</p>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'stock_app:add_producto' %}" class="button primary shadow" style="border-radius: 8px; font-weight: 600;">
+        + Registrar Materia
+      </a>
+    </div>
+  </div>
 
-      <h2 class="text-center" style="margin: 1.5rem 0;">
-        Listado Stock
-      </h2>
-      <form method="get" class="grid-x grid-margin-x">
-
-        <div class="cell large-8">
-          <input type="text" name="kword" id="kword" placeholder="Buscar por Nombre o tipo (mp, pt, sc)"
-            class="no-margin-bottom">
-          <div class="grid-x grid-margin-x align-bottom">
-            <div class="cell medium-9">
-              <input type="number" name="id" id="id" placeholder="Buscar por ID"
-                class="no-margin-bottom">
-            </div>
-            <div class="cell medium-3">
-              <button
-                type="submit"
-                class="button success expanded"
-                style="height: 39px;">
-                Buscar
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <table class="hover unstriped">
-        <thead>
-          <tr>
-            <th width="50">ID</th>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Precio (compra/producción)</th>
-            <th>Proveedor</th>
-            <th width="150">Clasificacion</th>
-            <th width="150">Stock Actual</th>
-            <th width="150" class="text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for materia in object_list %}
-          
-          {% if materia.tipo == 'PT' %}
-            <tr>
-            <td>{{ materia.id }}</td>
-            <td>{{ materia.nombre }}</td>
-            <td>{{ materia.tipo }}</td>
-            <td>{{ materia.costo_calculado|floatformat:1 }} UYU | xkg</td>
-            <td>{{ materia.proveedor }}</td>
-            <td>{{ materia.clasificacion }}</td>
-            <td>{{ materia.stock_actual }}kg</td>
-            <td>
-              <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="{% url 'stock_app:detail_producto' materia.id %}"
-                  class="button tiny clear"
-                  style="color: green;">
-                  Ver Detalles
-                </a>
-                <a href="{% url 'stock_app:delete_producto' materia.id %}"
-                  class="button tiny clear"
-                  style="color: red;">
-                  Eliminar
-                </a>
-                <a href="{% url 'stock_app:update_producto' materia.id %}"
-                  class="button tiny clear"
-                  style="color: rgb(127, 127, 17);">
-                  Editar
-                </a>
-                <a href="{% url 'stock_app:add_consumo' materia.id %}">
-                  <button class="button tiny clear" style="color: rgb(17, 127, 127);">
-                    Registrar Consumo
-                  </button>
-                </a>
-              </div>
-            </td>
-          </tr>
-          {% else %}
-            <tr>
-            <td>{{ materia.id }}</td>
-            <td>{{ materia.nombre }}</td>
-            <td>{{ materia.tipo }}</td>
-            <td>{{ materia.precio|floatformat:1 }} UYU | xkg</td>
-            <td>{{ materia.proveedor }}</td>
-            <td>{{ materia.clasificacion }}</td>
-            <td>{{ materia.stock_actual }}kg</td>
-            <td>
-              <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="{% url 'stock_app:detail_producto' materia.id %}"
-                  class="button tiny clear"
-                  style="color: green;">
-                  Ver Detalles
-                </a>
-                <a href="{% url 'stock_app:delete_producto' materia.id %}"
-                  class="button tiny clear"
-                  style="color: red;">
-                  Eliminar
-                </a>
-                <a href="{% url 'stock_app:update_producto' materia.id %}"
-                  class="button tiny clear"
-                  style="color: rgb(127, 127, 17);">
-                  Editar
-                </a>
-                <a href="{% url 'stock_app:add_compra' materia.id %}">
-                  <button class="button tiny clear" style="color: rgb(17, 127, 127);">
-                    Registrar Compra
-                  </button>
-                </a>
-              </div>
-            </td>
-          </tr>
-          {% endif %}
-            
-          {% empty %}
-          <tr>
-            <td colspan="6" class="text-center">
-              No hay Materia Prima registrada.
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-      <div class="grid-x align-justify" style="margin-top: 1.5rem;">
-        <a href="{% url 'stock_app:Inicio' %}"
-           class="button hollow secondary">
-          Volver
-        </a>
-        <a href="{% url 'stock_app:add_producto' %}"
-           class="button hollow primary">
-          Registrar Materia
-        </a>
+  <div class="module-card card-shadow" style="padding: 1.5rem; margin-bottom: 2rem; border: none;">
+    <form method="get" class="grid-x grid-margin-x align-bottom">
+      <div class="cell medium-6">
+        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem;">BÚSQUEDA POR NOMBRE O TIPO</label>
+        <input type="text" name="kword" placeholder="Ej: Harina o 'pt'..." class="no-margin-bottom" style="border-radius: 6px;">
       </div>
-
-      <div class="cell">
-        {% if is_paginated %}
-          <nav aria-label="Pagination">
-            <ul class="pagination text-center">
-
-              {% if page_obj.has_previous %}
-                <li class="pagination-previous">
-                  <a href="?page={{ page_obj.previous_page_number }}">Atrás</a>
-                </li>
-              {% endif %}
-
-              {% for pagina in paginator.page_range %}
-                <li class="{% if page_obj.number == pagina %}current{% endif %}">
-                  <a href="?page={{ pagina }}">{{ pagina }}</a>
-                </li>
-              {% endfor %}
-
-              {% if page_obj.has_next %}
-                <li class="pagination-next">
-                  <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                </li>
-              {% endif %}
-
-            </ul>
-          </nav>
-        {% endif %}
+      <div class="cell medium-4">
+        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem;">ID PRODUCTO</label>
+        <input type="number" name="id" placeholder="ID" class="no-margin-bottom" style="border-radius: 6px;">
       </div>
+      <div class="cell medium-2">
+        <button type="submit" class="button secondary expanded" style="height: 39px; margin-bottom: 5; border-radius: 6px; font-weight: 600;">
+          Buscar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none; background: white;">
+    <table class="hover unstriped" style="margin-bottom: 0;">
+      <thead style="background: #f8fafc; border-bottom: 2px solid var(--color-background);">
+        <tr>
+          <th width="70" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">ID</th>
+          <th style="padding-left: 3rem; color: var(--color-text-soft); font-size: 0.8rem;">NOMBRE / TIPO</th>
+          <th style="padding-left: 3rem; color: var(--color-text-soft); font-size: 0.8rem;">PRECIO (UYU/KG)</th>
+          <th style="padding-left: 4rem; color: var(--color-text-soft); font-size: 0.8rem;">PROVEEDOR / CLASIF.</th>
+          <th class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">STOCK ACTUAL</th>
+          <th width="280" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for materia in object_list %}
+        <tr style="border-bottom: 1px solid #f1f5f9;">
+          <td class="td-numeric" style="padding: 1rem;">
+            <span style="background: var(--color-background); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-weight: 600; color: var(--color-primary);">
+              #{{ materia.id }}
+            </span>
+          </td>
+
+          <td style="padding: 1rem;">
+            <strong style="color: var(--color-text); display: block;">{{ materia.nombre }}</strong>
+            <span class="label {% if materia.tipo == 'PT' %}success{% else %}secondary{% endif %}" style="font-size: 0.65rem; border-radius: 4px;">
+              {{ materia.get_tipo_display|default:materia.tipo }}
+            </span>
+          </td>
+
+          <td style="padding: 1rem; font-weight: 600; color: #4A5568;">
+            {% if materia.tipo == 'PT' %}
+              ${{ materia.costo_calculado|floatformat:1 }}
+            {% else %}
+              ${{ materia.precio|floatformat:1 }}
+            {% endif %}
+            <small style="color: var(--color-text-soft); font-weight: 400;">/ kg</small>
+          </td>
+
+          <td style="padding: 1rem; font-size: 0.9rem;">
+            <span style="display: block; color: var(--color-text);">{{ materia.proveedor|default:"---" }}</span>
+            <small style="color: var(--color-text-soft);">{{ materia.clasificacion }}</small>
+          </td>
+
+          <td class="td-numeric" style="padding: 1rem;">
+            <strong style="font-size: 1.1rem; color: {% if materia.stock_actual <= materia.stock_minimo %}#C53030{% else %}var(--color-text){% endif %};">
+              {{ materia.stock_actual }}
+            </strong>
+            <small style="color: var(--color-text-soft);">kg</small>
+          </td>
+
+          <td style="padding: 1rem;">
+            <div style="display: flex; gap: 4px; justify-content: center; flex-wrap: wrap;">
+              <a href="{% url 'stock_app:detail_producto' materia.id %}" class="button tiny clear primary" style="margin: 0; font-weight: 700; font-size: 0.7rem;">DETALLES</a>
+              <a href="{% url 'stock_app:update_producto' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #b7950b;">EDITAR</a>
+              
+              {% if materia.tipo == 'PT' %}
+                <a href="{% url 'stock_app:add_consumo' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #2c7a7b;">CONSUMO</a>
+              {% else %}
+                <a href="{% url 'stock_app:add_compra' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #2c7a7b;">COMPRA</a>
+              {% endif %}
+              
+              <a href="{% url 'stock_app:delete_producto' materia.id %}" class="button tiny clear alert" style="margin: 0; font-weight: 700; font-size: 0.7rem;">ELIMINAR</a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center" style="padding: 4rem; color: var(--color-text-soft);">
+            <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">📦</div>
+            No se encontraron productos en el inventario.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-x align-middle" style="margin-top: 2rem; margin-bottom: 3rem;">
+    <div class="cell auto">
+      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary small" style="border-radius: 6px;">
+        ← Volver al Inicio
+      </a>
+    </div>
+    <div class="cell shrink">
+      {% if is_paginated %}
+        <nav aria-label="Pagination">
+          <ul class="pagination text-center" style="margin-bottom: 0;">
+            {% if page_obj.has_previous %}
+              <li class="pagination-previous"><a href="?page={{ page_obj.previous_page_number }}">Atrás</a></li>
+            {% endif %}
+            {% for pagina in paginator.page_range %}
+              <li class="{% if page_obj.number == pagina %}current{% endif %}">
+                <a href="?page={{ pagina }}">{{ pagina }}</a>
+              </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li class="pagination-next"><a href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
     </div>
   </div>
 </div>

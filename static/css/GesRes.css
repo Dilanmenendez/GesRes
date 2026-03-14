@@ -1,14 +1,16 @@
 /* fondo general */
 
-body{
-background:#F7F9FC;
+body {
+    background-color: #cad0d7 !important;
+    margin: 0;
+    padding: 0;
 }
 
 
 /* HEADER */
 
 .erp-header{
-background:white;
+background:rgb(69, 67, 62);
 border-bottom:1px solid #E5E9F0;
 padding:0.8rem 0;
 }
@@ -100,3 +102,19 @@ border-radius:10px;
 padding:2rem;
 text-align:center;
 }
+
+/* Forzar alineación en tablas de GesRes */
+.text-center-force {
+    text-align: center !important;
+}
+
+.text-right-force {
+    text-align: right !important;
+}
+
+/* Para que los números queden alineados verticalmente entre sí */
+.td-numeric {
+    text-align: center !important;
+    font-variant-numeric: tabular-nums; /* Esto hace que los números midan lo mismo */
+}
+

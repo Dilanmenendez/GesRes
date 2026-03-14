@@ -1,59 +1,84 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} GesRes Stock {% endblock title %}
-
+{% block title %} GesRes | Gestión de Stock {% endblock title %}
 
 {% block content %}
-
 {% include 'includes/header2.html' %}
 
-<!--Inicio de la imagen de portada-->
-
-<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
-  <div class="orbit-wrapper">
-    <div class="orbit-controls">
-      <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
-      <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+<div class="grid-container" style="padding-top: 3rem;">
+    
+    <div class="module-card card-shadow" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: none; padding: 3rem; margin-bottom: 2rem; border-radius: 12px;">
+        <div class="grid-x align-middle">
+            <div class="cell medium-7">
+                <h1 style="color: var(--color-primary); font-weight: 800; font-size: 2.5rem; margin-bottom: 1rem;">
+                    Gestión de Inventario
+                </h1>
+                <p style="color: var(--color-text-soft); font-size: 1.1rem; margin-bottom: 2rem; max-width: 500px;">
+                    Controla tus materias primas, gestiona proveedores y supervisa cada movimiento de stock en tiempo real.
+                </p>
+                <div style="display: flex; gap: 15px;">
+                    <a href="{% url 'stock_app:all_productos' %}" class="button primary shadow" style="border-radius: 8px; font-weight: 600; padding: 0.8rem 1.5rem;">
+                        Ver Inventario
+                    </a>
+                    <a href="{% url 'stock_app:all_compras' %}" class="button hollow secondary" style="border-radius: 8px; font-weight: 600; padding: 0.8rem 1.5rem;">
+                        Registrar Compra
+                    </a>
+                </div>
+            </div>
+            <div class="cell medium-5 hide-for-small-only text-center">
+                <span style="font-size: 8rem; opacity: 0.8;">📦</span>
+            </div>
+        </div>
     </div>
-    <ul class="orbit-container">
-      <li class="is-active orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="{% static 'img/img5.jpg' %}" alt="Space">
-          <figcaption class="orbit-caption">Space, the final frontier.</figcaption>
-        </figure>
-      </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-im  age" src="{% static 'img/img4.jpg' %}" alt="Space">
-          <figcaption class="orbit-caption">Lets Rocket!</figcaption>
-        </figure>
-      </li>
-      <li class="orbit-slide">
-        <figure class="orbit-figure">
-          <img class="orbit-image" src="{% static 'img/img8.png' %}" alt="Space">
-          <figcaption class="orbit-caption">Lets Rocket!</figcaption>
-        </figure>
-      </li>
-    </ul>
-  </div>
-</div>
 
-<!--fin de la imagen de portada-->
+    <div class="grid-x grid-margin-x">
+        
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="transition: transform 0.3s ease; border-top: 4px solid var(--color-primary);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🍎</div>
+                <h5 style="font-weight: 700; color: var(--color-primary);">Materia Prima</h5>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Administra ingredientes, clasificaciones y niveles críticos.</p>
+                <a href="{% url 'stock_app:all_productos' %}" class="button clear primary small" style="font-weight: 700; margin-bottom: 0;">Gestionar →</a>
+            </div>
+        </div>
 
-<!--Bloque de bienvenida (de foundation)-->
-<div class="grid-x align-center"> <!--align-center sirve para centrar los hijos de dicho grid-->
-    <h1 class="cell large-8" style="font-size: 20px; text-align: center;">Bienvenido a Gestion De Stock</h1>
-    <div class="cell large-7">
-        <!--esta es la caja del final, la sacas de la documentacion ;D-->
-        <div class="callout success">
-        <h5>Gestionar Stock a la perfección</h5>
-        <p>¡Que no se te escape nada!</p>
-        <a href="#">Ver Productos</a>
-</div>
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="transition: transform 0.3s ease; border-top: 4px solid #38A169;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">💳</div>
+                <h5 style="font-weight: 700; color: #2F855A;">Transacciones</h5>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Registra compras a proveedores y consumos internos.</p>
+                <a href="{% url 'stock_app:all_compras' %}" class="button clear success small" style="font-weight: 700; margin-bottom: 0;">Ver Movimientos →</a>
+            </div>
+        </div>
+
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="transition: transform 0.3s ease; border-top: 4px solid var(--color-secondary);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
+                <h5 style="font-weight: 700; color: var(--color-secondary);">Estadísticas</h5>
+                <p style="color: var(--color-text-soft); font-size: 0.9rem;">Visualiza el valor de tu stock y reportes de consumo.</p>
+                <a href="{% url 'stock_app:dashboard' %}" class="button clear secondary small" style="font-weight: 700; margin-bottom: 0;">Abrir Panel →</a>
+            </div>
+        </div>
+
     </div>
+
+    <div class="grid-x" style="margin-top: 2rem; margin-bottom: 4rem;">
+        <div class="cell small-12">
+            <div class="callout secondary card-shadow" style="border: none; border-left: 5px solid #CBD5E0; background: white; border-radius: 8px;">
+                <div class="grid-x align-middle">
+                    <div class="cell auto">
+                        <h6 style="margin: 0; font-weight: 700; color: var(--color-text);">Sugerencia del sistema</h6>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-soft);">Revisa periódicamente los productos con stock bajo en el Dashboard para evitar quiebres de inventario.</p>
+                    </div>
+                    <div class="cell shrink">
+                        <a href="{% url 'stock_app:dashboard' %}" class="button clear primary small" style="margin: 0;">Revisar ahora</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
-<!--Fin del bloque de bienvenida-->
+
 {% endblock content %}
-    
-    

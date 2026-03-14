@@ -1,68 +1,125 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} GesRes Stock | Dashboard {% endblock title %}
+
 {% block content %}
-  {% include 'includes/header2.html' %}
+{% include 'includes/header2.html' %}
 
-  <div class="grid-container">
-    <div class="grid-x align-center">
-      <h1 class="cell large-8" style="font-size:20px; text-align:center;">Panel de Control - Stock</h1>
-      <div class="cell large-7">
-        <div class="callout success">
-          <h5>Resumen</h5>
-          <p>Vista rápida de productos, proveedores y clasificaciones. Detecta productos con stock por debajo del mínimo.</p>
-          <a href="{% url 'stock_app:all_productos' %}">Ver Productos</a>
+<div class="grid-container" style="padding-top: 2rem;">
+    
+    <div class="grid-x align-middle" style="margin-bottom: 2rem;">
+        <div class="cell auto">
+            <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Panel de Control</h2>
+            <p style="color: var(--color-text-soft); margin: 0;">Resumen general del inventario y alertas críticas</p>
         </div>
-      </div>
+        <div class="cell shrink">
+            <span style="background: var(--color-background); padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; color: var(--color-primary); font-weight: 600; border: 1px solid var(--color-border);">
+                Estado del Sistema: Online
+            </span>
+        </div>
     </div>
 
-    <div class="grid-x grid-margin-x" style="margin-top:1rem;">
-      <div class="cell small-12 medium-4">
-        <div class="callout secondary">
-          <h5>Total Productos</h5>
-          <p class="lead">{{ total_productos }}</p>
+    <div class="grid-x grid-margin-x" style="margin-bottom: 1rem;">
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="border-bottom: 4px solid var(--color-primary);">
+                <p style="color: var(--color-text-soft); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Total Productos</p>
+                <h3 style="font-weight: 800; color: var(--color-text); margin: 0;">{{ total_productos }}</h3>
+            </div>
         </div>
-      </div>
 
-      <div class="cell small-12 medium-4">
-        <div class="callout secondary">
-          <h5>Total Proveedores</h5>
-          <p class="lead">{{ total_proveedores }}</p>
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="border-bottom: 4px solid var(--color-secondary);">
+                <p style="color: var(--color-text-soft); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Proveedores</p>
+                <h3 style="font-weight: 800; color: var(--color-text); margin: 0;">{{ total_proveedores }}</h3>
+            </div>
         </div>
-      </div>
 
-      <div class="cell small-12 medium-4">
-        <div class="callout secondary">
-          <h5>Total Clasificaciones</h5>
-          <p class="lead">{{ total_clasificaciones }}</p>
+        <div class="cell small-12 medium-4">
+            <div class="module-card card-shadow text-center" style="border-bottom: 4px solid #A0AEC0;">
+                <p style="color: var(--color-text-soft); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 0.5rem;">Clasificaciones</p>
+                <h3 style="font-weight: 800; color: var(--color-text); margin: 0;">{{ total_clasificaciones }}</h3>
+            </div>
         </div>
-      </div>
-
-      <div class="cell small-12">
-        <div class="callout alert">
-          <h5>Productos con stock bajo (<= mínimo): {{ low_stock_count }}</h5>
-          {% if low_stock_items %}
-            <ul>
-              {% for p in low_stock_items %}
-                <li>{{ p.nombre }} — {{ p.stock_actual }} kg (mín: {{ p.stock_minimo }}) | Contacto: {{ p.proveedor.num_contacto }} | 
-                  Cantidad a comprar (10kg extra): {{ p.cantidad_a_comprar }} |
-                </li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p>No hay productos con stock bajo.</p>
-          {% endif %}
-        </div>
-      </div>
-
-      <div class="cell small-12">
-        <div class="button-group align-center" style="margin-top: 1rem;">
-          <a href="{% url 'stock_app:all_productos' %}" class="button primary" style="margin-right:10px;">Ver Productos</a>
-          <a href="{% url 'stock_app:all_proveedores' %}" class="button secondary">Ver Proveedores</a>
-        </div>
-      </div>
-
     </div>
-  </div>
+
+    <div class="grid-x grid-margin-x">
+        <div class="cell small-12">
+            <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none;">
+                <div style="background: {% if low_stock_count > 0 %}#FFF5F5{% else %}#F0FFF4{% endif %}; padding: 1.5rem; border-bottom: 1px solid var(--color-border);">
+                    <div class="grid-x align-middle">
+                        <div class="cell auto">
+                            <h5 style="margin: 0; font-weight: 700; color: {% if low_stock_count > 0 %}#C53030{% else %}#2F855A{% endif %};">
+                                {% if low_stock_count > 0 %}
+                                    ⚠️ Alertas de Stock Bajo ({{ low_stock_count }})
+                                {% else %}
+                                    ✅ Inventario Optimizado
+                                {% endif %}
+                            </h5>
+                        </div>
+                        <div class="cell shrink">
+                            <a href="{% url 'stock_app:all_productos' %}" class="button tiny shadow-sm" style="background: white; color: var(--color-text); margin: 0; font-weight: 700; border: 1px solid var(--color-border);">
+                                Ver Lista Completa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding: 1rem;">
+                    {% if low_stock_items %}
+                        <table class="unstriped hover" style="margin: 0; border: none; background: transparent;">
+                            <thead>
+                                <tr>
+                                    <th style="color: var(--color-text-soft); font-size: 0.8rem;">PRODUCTO</th>
+                                    <th class="text-center" style="color: var(--color-text-soft); font-size: 0.8rem;">STOCK ACTUAL</th>
+                                    <th class="text-center" style="color: var(--color-text-soft); font-size: 0.8rem;">MIN. REQUERIDO</th>
+                                    <th class="text-center" style="color: var(--color-text-soft); font-size: 0.8rem;">PEDIDO SUGERIDO</th>
+                                    <th class="text-right" style="color: var(--color-text-soft); font-size: 0.8rem;">PROVEEDOR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in low_stock_items %}
+                                <tr style="border-bottom: 1px solid #edf2f7;">
+                                    <td style="font-weight: 700; color: #2D3748;">{{ p.nombre }}</td>
+                                    <td class="text-center"><span style="color: #C53030; font-weight: 700;">{{ p.stock_actual }} kg</span></td>
+                                    <td class="text-center" style="color: var(--color-text-soft);">{{ p.stock_minimo }} kg</td>
+                                    <td class="text-center">
+                                        <span style="background: #EBF8FF; color: #2B6CB0; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.9rem;">
+                                            + {{ p.cantidad_a_comprar }} kg
+                                        </span>
+                                    </td>
+                                    <td class="text-right" style="font-size: 0.85rem;">
+                                        <strong>{{ p.proveedor.nombre }}</strong><br>
+                                        <small style="color: var(--color-text-soft);">{{ p.proveedor.num_contacto }}</small>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="text-center" style="padding: 3rem;">
+                            <span style="font-size: 2.5rem;">🎉</span>
+                            <p style="margin-top: 1rem; color: var(--color-text-soft);">Todos los niveles de stock están por encima del mínimo.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-x align-center" style="margin-top: 3rem; margin-bottom: 4rem;">
+        <div class="cell shrink">
+            <div style="display: flex; gap: 15px;">
+                <a href="{% url 'stock_app:all_proveedores' %}" class="button hollow secondary" style="border-radius: 8px; font-weight: 600;">
+                    Gestionar Proveedores
+                </a>
+                <a href="{% url 'stock_app:all_compras' %}" class="button primary shadow" style="border-radius: 8px; font-weight: 600;">
+                    Registrar Nueva Compra
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 {% endblock content %}

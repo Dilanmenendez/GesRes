@@ -1,121 +1,135 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}GesRes | Listado de Recetas{% endblock title %}
+
 {% block content %}
 {% include 'includes/header3.html' %}
 
-<div class="grid-container">
-  <div class="grid-x grid-margin-x">
-    <div class="cell small-12">
+<div class="grid-container" style="padding-top: 2rem;">
+  
+  <div class="grid-x align-middle" style="margin-bottom: 2rem;">
+    <div class="cell auto">
+      <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Recetas</h2>
+      <p style="color: var(--color-text-soft); margin: 0;">Administración de fórmulas y proporciones</p>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'produccion_app:create_receta' %}" class="button primary shadow" style="border-radius: 8px; font-weight: 600;">
+        + Registrar Receta
+      </a>
+    </div>
+  </div>
 
-      <h2 class="text-center" style="margin: 1.5rem 0;">
-        Listado Recetas
-      </h2>
-      <form method="get" class="grid-x grid-margin-x">
-
-        <div class="cell large-8">
-          <input type="text" name="kword" id="kword" placeholder="Buscar por Nombre"
-            class="no-margin-bottom">
-          <div class="grid-x grid-margin-x align-bottom">
-            <div class="cell medium-9">
-              <input type="number" name="id" id="id" placeholder="Buscar por ID"
-                class="no-margin-bottom">
-            </div>
-            <div class="cell medium-3">
-              <button
-                type="submit"
-                class="button success expanded"
-                style="height: 39px;">
-                Buscar
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <table class="hover unstriped">
-        <thead>
-          <tr>
-            <th width="50">ID</th>
-            <th>Receta</th>
-            <th>Cantidad por Receta (kg)</th>
-            <th width="150" class="text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for receta in object_list %}
-          <tr>
-            <td>{{ receta.id }}</td>
-            <td>{{ receta.producto_final }}</td>
-            <td>{{ receta.cantidad_por_receta|floatformat:-1 }}</td>
-            <td class="text-center">
-              <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="{% url 'produccion_app:detail_receta' receta.id %}"
-                  class="button tiny clear"
-                  style="color: green;">
-                  Ver Detalles
-                </a>
-                <a href="{% url 'produccion_app:delete_receta' receta.id %}"
-                  class="button tiny clear"
-                  style="color: red;">
-                  Eliminar
-                </a>
-                <a href="{% url 'produccion_app:update_receta' receta.id %}"
-                  class="button tiny clear"
-                  style="color: rgb(127, 127, 17);">
-                  Editar
-                </a>
-              </div>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="6" class="text-center">
-              No hay recetas registradas.
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-      <div class="grid-x align-justify" style="margin-top: 1.5rem;">
-        <a href="{% url 'produccion_app:Inicio' %}"
-           class="button hollow secondary">
-          Volver
-        </a>
-        <a href="{% url 'produccion_app:create_receta' %}"
-           class="button hollow primary">
-          Registrar Receta
-        </a>
+  <div class="module-card" style="padding: 1.2rem; margin-bottom: 1.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+    <form method="get" class="grid-x grid-margin-x align-bottom">
+      <div class="cell medium-6 large-7">
+        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-right: 470px">NOMBRE DE LA RECETA</label>
+        <input type="text" name="kword" placeholder="Ej: Masa de Sorrentinos..." 
+               style="border-radius: 6px; border: 1px solid var(--color-border); box-shadow: none; margin-bottom: 0;">
       </div>
-
-      <div class="cell">
-        {% if is_paginated %}
-          <nav aria-label="Pagination">
-            <ul class="pagination text-center">
-
-              {% if page_obj.has_previous %}
-                <li class="pagination-previous">
-                  <a href="?page={{ page_obj.previous_page_number }}">Atrás</a>
-                </li>
-              {% endif %}
-
-              {% for pagina in paginator.page_range %}
-                <li class="{% if page_obj.number == pagina %}current{% endif %}">
-                  <a href="?page={{ pagina }}">{{ pagina }}</a>
-                </li>
-              {% endfor %}
-
-              {% if page_obj.has_next %}
-                <li class="pagination-next">
-                  <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                </li>
-              {% endif %}
-
-            </ul>
-          </nav>
-        {% endif %}
+      <div class="cell medium-3 large-3">
+        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-right: 170px">ID RECETA</label>
+        <input type="number" name="id" placeholder="000" 
+               style="border-radius: 6px; border: 1px solid var(--color-border); box-shadow: none; margin-bottom: 0;">
       </div>
+      <div class="cell medium-3 large-2">
+        <button type="submit" class="button secondary expanded" style="margin-bottom: 0; height: 39px; border-radius: 6px; font-weight: 600;">
+          Filtrar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none; background: white;">
+    <table class="hover unstriped" style="margin-bottom: 0;">
+      <thead style="background: #f8fafc; border-bottom: 2px solid var(--color-background);">
+        <tr>
+          <th width="80" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.85rem;">ID</th>
+          <th style="padding-left: 13rem; color: var(--color-text-soft); font-size: 0.85rem;">RECETA</th>
+          <th class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.85rem;">CANTIDAD x RECETA (kg)</th>
+          <th width="250" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.85rem;">ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for receta in object_list %}
+        <tr style="border-bottom: 1px solid #f1f5f9;">
+          <td class="td-numeric" style="padding: 1.2rem 1rem;">
+            <span style="background: var(--color-background); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-weight: 600; color: var(--color-primary);">
+              #{{ receta.id }}
+            </span>
+          </td>
+          <td style="padding: 1.2rem 1rem; font-weight: 600; color: var(--color-text);">
+            {{ receta.producto_final }}
+          </td>
+          <td class="td-numeric" style="padding: 1.2rem 1rem;">
+            <strong style="color: var(--color-text); font-size: 1.1rem;">{{ receta.cantidad_por_receta|floatformat:-1 }}</strong> <small>kg</small>
+          </td>
+          <td style="padding: 1.2rem 1rem;">
+            <div style="display: flex; gap: 4px; justify-content: center;">
+              <a href="{% url 'produccion_app:detail_receta' receta.id %}" 
+                 class="button tiny clear primary" style="margin-bottom: 0; font-weight: 700; font-size: 0.7rem;">
+                DETALLES
+              </a>
+              <a href="{% url 'produccion_app:update_receta' receta.id %}" 
+                 class="button tiny clear" style="margin-bottom: 0; font-weight: 700; font-size: 0.7rem; color: #b7950b;">
+                EDITAR
+              </a>
+              <a href="{% url 'produccion_app:delete_receta' receta.id %}" 
+                 class="button tiny clear alert" style="margin-bottom: 0; font-weight: 700; font-size: 0.7rem;">
+                ELIMINAR
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center" style="padding: 4rem; color: var(--color-text-soft);">
+            <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">📝</div>
+            No hay recetas registradas.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-x align-middle" style="margin-top: 2rem; margin-bottom: 3rem;">
+    <div class="cell auto">
+      <a href="{% url 'produccion_app:Inicio' %}" class="button hollow secondary small" style="border-radius: 6px;">
+        ← Volver al Inicio
+      </a>
+    </div>
+    
+    <div class="cell shrink">
+      {% if is_paginated %}
+        <nav aria-label="Pagination">
+          <ul class="pagination text-center" style="margin-bottom: 0;">
+            {% if page_obj.has_previous %}
+              <li class="pagination-previous">
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                  Atrás
+                </a>
+              </li>
+            {% endif %}
+
+            {% for pagina in paginator.page_range %}
+              <li class="{% if page_obj.number == pagina %}current{% endif %}">
+                <a href="?page={{ pagina }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                  {{ pagina }}
+                </a>
+              </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="pagination-next">
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                  Siguiente
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
     </div>
   </div>
 </div>
