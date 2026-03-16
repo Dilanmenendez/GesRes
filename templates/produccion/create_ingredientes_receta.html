@@ -1,49 +1,89 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} GesRes | Agregar Ingrediente {% endblock title %}
+
 {% block content %}
 {% include 'includes/header3.html' %}
 
-<div class="grid-container">
-  <div class="grid-x grid-margin-x align-center">
+<div class="grid-container" style="padding-top: 3rem;">
+  <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
 
-      <h2 class="text-center" style="margin: 1.5rem 0;">
-        Agregar Ingrediente a la Receta
-      </h2>
+      <div class="text-center" style="margin-bottom: 2rem;">
+        <h2 class="hero-title">Agregar Ingrediente</h2>
+        <p class="module-text">Incorpora una nueva materia prima a la composición de la receta</p>
+      </div>
 
-      <form method="post" class="callout secondary shadow">
-        {% csrf_token %}
+      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; text-align: left;">
+        
+        <form method="post">
+          {% csrf_token %}
 
-        <ul class="vertical menu">
-          <li>
-            <label><strong>{{ form.producto.label }}</strong></label>
-            {{ form.producto }}
-            {{ form.producto.errors }}
-          </li>
+          <div class="grid-x grid-margin-x">
+            
+            <div class="cell small-12" style="margin-bottom: 1.5rem;">
+              <label style="color: #6b7785; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+                {{ form.producto.label }}
+              </label>
+              {{ form.producto }}
+              {% if form.producto.errors %}
+                <small style="color: #cc4b37; font-weight: 700;">{{ form.producto.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-          <li>
-            <label><strong>{{ form.cantidad.label }} (kg)</strong></label>
-            {{ form.cantidad }}
-            {{ form.cantidad.errors }}
-          </li>
-        </ul>
+            <div class="cell small-12" style="margin-bottom: 2rem;">
+              <label style="color: #6b7785; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+                {{ form.cantidad.label }} (KG)
+              </label>
+              {{ form.cantidad }}
+              {% if form.cantidad.errors %}
+                <small style="color: #cc4b37; font-weight: 700;">{{ form.cantidad.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-        <div class="button-group align-center" style="margin-top: 2rem;">
-          <button type="submit" class="button success">
-            Guardar
-          </button>
+            <div class="cell small-12">
+              <button type="submit" class="button success expanded shadow-sm" style="border-radius: 6px; font-weight: 700; height: 45px; margin-bottom: 1rem;">
+                Guardar Ingrediente
+              </button>
+              
+              <a href="{% url 'produccion_app:detail_receta' view.kwargs.pk %}" class="button secondary clear expanded" style="font-weight: 600;">
+                ← Cancelar y Volver a la Receta
+              </a>
+            </div>
 
-          <a href="{% url 'produccion_app:detail_receta' view.kwargs.pk %}"
-             class="button secondary">
-            Volver
-          </a>
-        </div>
+          </div>
+        </form>
 
-      </form>
-
+      </div>
     </div>
   </div>
 </div>
+
+<style>
+  /* Estilos de inputs para mantener la coherencia en GesRes */
+  input[type="text"], input[type="number"], select {
+    margin-bottom: 0 !important;
+    border-radius: 6px !important;
+    border: 1px solid #E5E9F0 !important;
+    background-color: #fcfcfc;
+    height: 42px !important;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+  
+  input:focus, select:focus {
+    border-color: #2F5D8C !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 2px rgba(47, 93, 140, 0.1) !important;
+    outline: none !important;
+  }
+
+  /* Desactivamos la transformación en el hover para formularios */
+  .module-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  }
+</style>
 
 {% endblock content %}

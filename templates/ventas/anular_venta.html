@@ -1,85 +1,74 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} GesRes | Confirmar Anulación {% endblock title %}
+
 {% block content %}
 {% include 'includes/header4.html' %}
 
-<div class="grid-container">
-  <div class="grid-x grid-margin-x align-center">
+<div class="grid-container" style="padding-top: 3rem;">
+  <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
 
-      <h2 class="text-center" style="margin: 1.5rem 0; color:#cc4b37;">
-        ¿Desea anular esta venta?
-      </h2>
-
-      <form method="post" class="callout secondary shadow">
-        {% csrf_token %}
-
-        <ul class="vertical menu" style="margin-bottom: 1rem; text-align:center;">
-          
-          <li style="border-bottom:1px solid #e6e6e6; padding:0.5rem 0;">
-            <p><strong>Venta:</strong> #{{ object.id }}</p>
-          </li>
-
-          <li style="border-bottom:1px solid #e6e6e6; padding:0.5rem 0;">
-            <p><strong>Fecha:</strong> {{ object.fecha }}</p>
-          </li>
-
-          <li style="padding:0.5rem 0;">
-            <p><strong>Total:</strong> {{ object.total|floatformat:2 }} UYU</p>
-          </li>
-
-        </ul>
-
-        <h5 style="margin-top:1rem;">Platos vendidos</h5>
-
-        <table class="hover unstriped">
-          <thead>
-            <tr>
-              <th>Plato</th>
-              <th width="80">Cantidad</th>
-              <th width="120">Subtotal</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {% for detalle in object.detalles.all %}
-            <tr>
-              <td>{{ detalle.plato.nombre }}</td>
-              <td>{{ detalle.cantidad }}</td>
-              <td>{{ detalle.subtotal|floatformat:2 }} UYU</td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="3" class="text-center">
-                No hay detalles en esta venta.
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <div class="callout warning tiny text-center" style="margin-top:1.2rem;">
-          <p style="margin-bottom:0;">
-            <small>
-              Atención: Esta acción devolverá el stock de los ingredientes y marcará la venta como anulada.
-            </small>
-          </p>
+      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; background: white; border-radius: 12px; border-top: 5px solid #cc4b37; margin-bottom: 3rem;">
+        
+        <div class="text-center" style="margin-bottom: 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+            <h3 style="color: #cc4b37; font-weight: 800; margin-bottom: 0.5rem;">¿Anular esta venta?</h3>
+            <p style="color: var(--color-text-soft); margin: 0;">Esta acción no se puede deshacer y afectará el inventario.</p>
         </div>
 
-        <div class="button-group align-center" style="margin-top:1.5rem;">
-          <button type="submit" class="button alert">
-            Confirmar Anulación
-          </button>
-
-          <a href="{% url 'ventas_app:all_ventas' %}" 
-          class="button secondary" style="margin-left: 5px;">
-            Cancelar
-          </a>
+        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #f1f5f9; margin-bottom: 2rem;">
+            <div class="grid-x">
+                <div class="cell small-6">
+                    <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.7rem; text-transform: uppercase;">Ticket</label>
+                    <p style="font-weight: 700; color: #2D3748; margin: 0;">#{{ object.id }}</p>
+                </div>
+                <div class="cell small-6 text-right">
+                    <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.7rem; text-transform: uppercase;">Importe Total</label>
+                    <p style="font-weight: 800; color: #cc4b37; margin: 0;">$ {{ object.total|floatformat:2 }}</p>
+                </div>
+            </div>
         </div>
 
-      </form>
+        <div style="margin-bottom: 2rem;">
+            <h6 style="font-weight: 700; color: var(--color-primary); font-size: 0.85rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px;">Detalle de ítems</h6>
+            <table class="unstriped" style="margin-bottom: 0; background: transparent;">
+                <tbody style="border: none;">
+                    {% for detalle in object.detalles.all %}
+                    <tr style="border-bottom: 1px solid #f1f5f9; background: transparent;">
+                        <td style="padding: 0.75rem 0; color: #4a5568;">{{ detalle.plato.nombre }}</td>
+                        <td width="50" style="padding: 0.75rem 0; font-weight: 700; text-align: center;">x{{ detalle.cantidad }}</td>
+                        <td width="100" style="padding: 0.75rem 0; text-align: right; color: #718096;">$ {{ detalle.subtotal|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
+        <div style="background: #fff5f5; padding: 1rem; border-radius: 6px; border: 1px solid #feb2b2; margin-bottom: 2rem;">
+            <p style="margin: 0; color: #c53030; font-size: 0.85rem; text-align: center; font-weight: 600;">
+                Se devolverá el stock de los ingredientes correspondientes de forma automática.
+            </p>
+        </div>
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="grid-x grid-margin-x">
+            <div class="cell small-12 medium-6">
+                <a href="{% url 'ventas_app:all_ventas' %}" class="button secondary expanded hollow" style="border-radius: 6px; font-weight: 700;">
+                    No, Cancelar
+                </a>
+            </div>
+            <div class="cell small-12 medium-6">
+                <button type="submit" class="button alert expanded shadow-sm" style="border-radius: 6px; font-weight: 700;">
+                    Sí, Confirmar Anulación
+                </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
     </div>
   </div>
 </div>

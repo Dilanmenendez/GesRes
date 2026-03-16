@@ -1,42 +1,87 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} GesRes | Editar Ingrediente de Receta {% endblock title %}
+
 {% block content %}
-  {% include 'includes/header3.html' %}
+{% include 'includes/header3.html' %}
 
-  <div class="grid-container">
-    <div class="grid-x grid-margin-x align-center">
-      <div class="cell small-12 medium-8 large-6">
+<div class="grid-container" style="padding-top: 3rem;">
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
+      
+      <div class="text-center" style="margin-bottom: 2rem;">
+        <h2 class="hero-title">Editar Ingrediente</h2>
+        <p class="module-text">Modificando componente para la receta de <strong>{{ object.receta.producto_final.nombre }}</strong></p>
+      </div>
+
+      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; text-align: left;">
         
-        <h2 class="text-center" style="margin: 1.5rem 0;">Actualizar Ingrediente de Receta</h2>
-
-        <form method="post" class="callout secondary shadow">{% csrf_token %}
+        <form method="post">
+          {% csrf_token %}
           
-          <ul class="vertical menu">
+          <div class="grid-x grid-margin-x">
+            
             {% for field in form %}
-              <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-                <label style="font-weight: bold;">
-                  {{ field.label }}
-                </label>
-                {{ field }}
-                {% if field.errors %}
-                  <p class="help-text" style="color: #cc4b37;">{{ field.errors|striptags }}</p>
-                {% endif %}
-              </li>
+            <div class="cell small-12" style="margin-bottom: 1.5rem;">
+              <label style="color: #6b7785; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+                {{ field.label }}
+              </label>
+              
+              {{ field }}
+              
+              {% if field.errors %}
+                {% for error in field.errors %}
+                  <p style="color: #cc4b37; font-size: 0.85rem; font-weight: 700; margin-top: 0.3rem; margin-bottom: 0;">
+                    {{ error|striptags }}
+                  </p>
+                {% endfor %}
+              {% endif %}
+            </div>
             {% endfor %}
-          </ul>
 
-          <div class="button-group align-center" style="margin-top: 1.5rem;">
-            <button type="submit" class="button success" style="margin-right: 10px;">
-              Guardar Cambios
-            </button>
-            <a href="{% url 'produccion_app:detail_receta' object.receta.id %}" class="button secondary">
-              Volver
-            </a>
+            <div class="cell small-12" style="margin-top: 1rem;">
+              <button type="submit" class="button success expanded shadow-sm" style="border-radius: 6px; font-weight: 700; height: 45px; margin-bottom: 1rem;">
+                Guardar Cambios
+              </button>
+              
+              <a href="{% url 'produccion_app:detail_receta' object.receta.id %}" class="button secondary clear expanded" style="font-weight: 600;">
+                ← Cancelar y Volver al Detalle
+              </a>
+            </div>
+
           </div>
         </form>
 
       </div>
     </div>
   </div>
+</div>
+
+<style>
+  /* Estilos para inputs consistentes con GesRes */
+  input[type="text"], input[type="number"], select {
+    margin-bottom: 0 !important;
+    border-radius: 6px !important;
+    border: 1px solid #E5E9F0 !important;
+    background-color: #fcfcfc;
+    height: 42px !important;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+  
+  /* El foco cambia a naranja suave para indicar edición */
+  input:focus, select:focus {
+    border-color: #ffae00 !important; 
+    background: #ffffff !important;
+    box-shadow: 0 0 0 2px rgba(255, 174, 0, 0.1) !important;
+    outline: none !important;
+  }
+
+  .module-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  }
+</style>
+
 {% endblock content %}

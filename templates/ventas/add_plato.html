@@ -1,53 +1,94 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
-  {% include 'includes/header4.html' %}
+{% block title %} GesRes | Registrar Plato {% endblock title %}
 
-  <div class="grid-container">
-    <div class="grid-x grid-margin-x align-center">
-      <div class="cell small-12 medium-8 large-6"> 
+{% block content %}
+{% include 'includes/header4.html' %}
+
+<div class="grid-container" style="padding-top: 2rem;">
+
+  <div class="grid-x grid-margin-x align-center" style="margin-bottom: 2rem;">
+    <div class="cell small-12 medium-8 large-6 text-center">
+      <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Registrar Nuevo Plato</h2>
+      <p style="color: var(--color-text-soft); margin: 0;">Añade un nuevo ítem al menú del restaurante</p>
+    </div>
+  </div>
+
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
+      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; background: white; border-radius: 12px; margin-bottom: 3rem;">
         
-        <h2 class="text-center" style="margin: 1.5rem 0;">
-          Registrar Plato
-        </h2>
-        
-        <form method="post" class="callout secondary shadow"> 
+        <form method="post">
           {% csrf_token %}
           
-          <ul class="vertical menu">
-            <li>
-              <label><strong>{{ form.nombre.label }}</strong></label>
+          <div class="grid-x grid-margin-x">
+            
+            <div class="cell small-12" style="margin-bottom: 1.5rem;">
+              <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                Nombre del Plato
+              </label>
               {{ form.nombre }}
-              {{ form.nombre.errors }}
-            </li>
-            <li>
-                <label><strong> {{ form.precio.label }} (UYU)</strong></label>
-                {{ form.precio }}
-                {{ form.precio.errors }}
-            </li>
-            <li>
-                <label><strong>{{ form.activo.label }}</strong></label>
-                {{ form.activo }}
-                {{ form.activo.errors }}
-            </li>
-          </ul>
+              {% if form.nombre.errors %}
+                <small style="color: #cc4b37; font-weight: 600;">{{ form.nombre.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-          <div class="button-group align-center" style="margin-top: 2rem;">
-            <button type="submit" class="button success">
-              Guardar
-            </button>
+            <div class="cell small-12 medium-7" style="margin-bottom: 1.5rem;">
+              <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                Precio (UYU)
+              </label>
+              {{ form.precio }}
+              {% if form.precio.errors %}
+                <small style="color: #cc4b37; font-weight: 600;">{{ form.precio.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-            <a href="{% url 'ventas_app:all_platos' %}" 
-               class="button secondary"
-               style="margin-left: 5px;">
-              Volver
-            </a>
+            <div class="cell small-12 medium-5" style="margin-bottom: 1.5rem;">
+                <label style="color: transparent; font-size: 0.8rem; margin-bottom: 0.5rem; display: block;" class="show-for-medium">Alineador</label>
+                <div style="background: #f8fafc; padding: 0 15px; border-radius: 6px; border: 1px solid #e2e8f0; height: 39px; display: flex; align-items: center; gap: 10px;">
+                    {{ form.activo }}
+                    <label style="color: var(--color-primary); font-weight: 700; margin-bottom: 0; font-size: 0.85rem; cursor: pointer;">
+                        Activo
+                    </label>
+                </div>
+            </div>
+
+            <div class="cell small-12" style="margin-top: 1rem;">
+              <button type="submit" class="button success expanded shadow-sm" style="border-radius: 6px; font-weight: 700; height: 45px; margin-bottom: 1rem;">
+                Guardar Plato en Menú
+              </button>
+              
+              <a href="{% url 'ventas_app:all_platos' %}" class="button secondary clear expanded" style="font-weight: 600; margin-bottom: 0;">
+                ← Cancelar y Volver
+              </a>
+            </div>
+
           </div>
-
         </form>
+
       </div>
     </div>
   </div>
+</div>
+
+<style>
+  input[type="text"], input[type="number"], select {
+    margin-bottom: 0 !important;
+    border-radius: 6px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    height: 39px !important;
+    width: 100%;
+  }
+  input:focus {
+    border-color: var(--color-primary) !important;
+    background: #fff !important;
+  }
+  input[type="checkbox"] {
+      margin: 0 !important;
+      transform: scale(1.1);
+  }
+</style>
 
 {% endblock content %}

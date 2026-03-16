@@ -1,49 +1,82 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} GesRes | Agregar Componente {% endblock title %}
+
 {% block content %}
 {% include 'includes/header4.html' %}
 
-<div class="grid-container">
-  <div class="grid-x grid-margin-x align-center">
+<div class="grid-container" style="padding-top: 2rem;">
+
+  <div class="grid-x grid-margin-x align-center" style="margin-bottom: 2rem;">
+    <div class="cell small-12 medium-8 large-6 text-center">
+      <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Agregar Componente</h2>
+      <p style="color: var(--color-text-soft); margin: 0;">Define un nuevo ingrediente y su cantidad para este plato</p>
+    </div>
+  </div>
+
+  <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
+      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; background: white; border-radius: 12px; margin-bottom: 3rem;">
+        
+        <form method="post">
+          {% csrf_token %}
+          
+          <div class="grid-x grid-margin-x">
+            
+            <div class="cell small-12" style="margin-bottom: 1.5rem;">
+              <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                Seleccionar Producto
+              </label>
+              {{ form.producto }}
+              {% if form.producto.errors %}
+                <small style="color: #cc4b37; font-weight: 600;">{{ form.producto.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-      <h2 class="text-center" style="margin: 1.5rem 0;">
-        Agregar Componente al Plato 
-      </h2>
+            <div class="cell small-12" style="margin-bottom: 1.5rem;">
+              <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-bottom: 0.5rem; text-transform: uppercase;">
+                Cantidad Necesaria (KG / Receta)
+              </label>
+              {{ form.cantidad }}
+              {% if form.cantidad.errors %}
+                <small style="color: #cc4b37; font-weight: 600;">{{ form.cantidad.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-      <form method="post" class="callout secondary shadow">
-        {% csrf_token %}
+            <div class="cell small-12" style="margin-top: 1rem;">
+              <button type="submit" class="button success expanded shadow-sm" style="border-radius: 6px; font-weight: 700; height: 45px; margin-bottom: 1rem;">
+                Guardar Componente
+              </button>
+              
+              <a href="{% url 'ventas_app:detail_plato' view.kwargs.pk %}" class="button secondary clear expanded" style="font-weight: 600; margin-bottom: 0;">
+                ← Cancelar y Volver al Plato
+              </a>
+            </div>
 
-        <ul class="vertical menu">
-          <li>
-            <label><strong>{{ form.producto.label }}</strong></label>
-            {{ form.producto }}
-            {{ form.producto.errors }}
-          </li>
+          </div>
+        </form>
 
-          <li>
-            <label><strong>{{ form.cantidad.label }} (kg)</strong></label>
-            {{ form.cantidad }}
-            {{ form.cantidad.errors }}
-          </li>
-        </ul>
-
-        <div class="button-group align-center" style="margin-top: 2rem;">
-          <button type="submit" class="button success">
-            Guardar
-          </button>
-
-          <a href="{% url 'ventas_app:detail_plato' view.kwargs.pk %}"
-             class="button secondary">
-            Volver
-          </a>
-        </div>
-
-      </form>
-
+      </div>
     </div>
   </div>
 </div>
+
+<style>
+  /* Estilo unificado para inputs y selects de GesRes */
+  input[type="text"], input[type="number"], select {
+    margin-bottom: 0 !important;
+    border-radius: 6px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    height: 39px !important;
+    width: 100%;
+  }
+  input:focus, select:focus {
+    border-color: var(--color-primary) !important;
+    background: #fff !important;
+    outline: none !important;
+  }
+</style>
 
 {% endblock content %}
