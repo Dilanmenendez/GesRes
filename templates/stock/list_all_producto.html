@@ -8,122 +8,134 @@
 
 <div class="grid-container" style="padding-top: 2rem;">
   
-  <div class="grid-x align-middle" style="margin-bottom: 2rem;">
-    <div class="cell auto">
-      <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Inventario General</h2>
-      <p style="color: var(--color-text-soft); margin: 0;">Control de existencias, insumos y productos terminados</p>
+  <div class="grid-x grid-margin-x align-middle" style="margin-bottom: 2rem;">
+    <div class="cell small-12 medium-auto text-center medium-text-left" style="margin-bottom: 1rem; medium-margin-bottom: 0;">
+      <h2 style="color: var(--azul-primario); font-weight: 700; margin: 0;">Inventario General</h2>
+      <p style="color: var(--texto-gris); margin: 0;">Control de existencias, insumos y productos terminados</p>
     </div>
-    <div class="cell shrink">
-      <a href="{% url 'stock_app:add_producto' %}" class="button primary shadow" style="border-radius: 8px; font-weight: 600;">
+    <div class="cell small-12 medium-shrink text-center">
+      <a href="{% url 'stock_app:add_producto' %}" class="button primary expanded medium-unexpanded shadow" style="border-radius: 8px; font-weight: 600;">
         + Registrar Materia
       </a>
     </div>
   </div>
 
-  <div class="module-card card-shadow" style="padding: 1.5rem; margin-bottom: 2rem; border: none;">
-    <form method="get" class="grid-x grid-margin-x align-bottom">
-      <div class="cell medium-6">
-        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem;">BÚSQUEDA POR NOMBRE O TIPO</label>
-        <input type="text" name="kword" placeholder="Ej: Harina o 'pt'..." class="no-margin-bottom" style="border-radius: 6px;">
-      </div>
-      <div class="cell medium-4">
-        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem;">ID PRODUCTO</label>
-        <input type="number" name="id" placeholder="ID" class="no-margin-bottom" style="border-radius: 6px;">
-      </div>
-      <div class="cell medium-2">
-        <button type="submit" class="button secondary expanded" style="height: 39px; margin-bottom: 5; border-radius: 6px; font-weight: 600;">
-          Buscar
-        </button>
+  <div class="module-card card-shadow" style="padding: 1.5rem; margin-bottom: 2rem; border: none; background: white; border-radius: 12px;">
+    <form method="get">
+      <div class="grid-x grid-margin-x align-bottom">
+        <div class="cell small-12 medium-6" style="margin-bottom: 1rem; medium-margin-bottom: 0;">
+          <label style="color: var(--texto-gris); font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">Búsqueda por nombre o tipo</label>
+          <input type="text" name="kword" placeholder="Ej: Harina o 'pt'..." style="border-radius: 6px; margin-bottom: 0;">
+        </div>
+        <div class="cell small-12 medium-3" style="margin-bottom: 1rem; medium-margin-bottom: 0;">
+          <label style="color: var(--texto-gris); font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">ID Producto</label>
+          <input type="number" name="id" placeholder="ID" style="border-radius: 6px; margin-bottom: 0;">
+        </div>
+        <div class="cell small-12 medium-3">
+          <button type="submit" class="button secondary expanded" style="border-radius: 6px; font-weight: 600; height: 39px; margin-bottom: 0;">
+            Buscar
+          </button>
+        </div>
       </div>
     </form>
   </div>
 
-  <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none; background: white;">
-    <table class="hover unstriped" style="margin-bottom: 0;">
-      <thead style="background: #f8fafc; border-bottom: 2px solid var(--color-background);">
-        <tr>
-          <th width="70" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">ID</th>
-          <th style="padding-left: 3rem; color: var(--color-text-soft); font-size: 0.8rem;">NOMBRE / TIPO</th>
-          <th style="padding-left: 3rem; color: var(--color-text-soft); font-size: 0.8rem;">PRECIO (UYU/KG)</th>
-          <th style="padding-left: 4rem; color: var(--color-text-soft); font-size: 0.8rem;">PROVEEDOR / CLASIF.</th>
-          <th class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">STOCK ACTUAL</th>
-          <th width="280" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">ACCIONES</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for materia in object_list %}
-        <tr style="border-bottom: 1px solid #f1f5f9;">
-          <td class="td-numeric" style="padding: 1rem;">
-            <span style="background: var(--color-background); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-weight: 600; color: var(--color-primary);">
-              #{{ materia.id }}
-            </span>
-          </td>
+  <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none; background: white; border-radius: 12px; margin-bottom: 2rem;">
+    <div style="overflow-x: auto;">
+      <table class="hover unstriped" style="margin-bottom: 0; min-width: 950px;">
+        <thead style="background: #f8fafc; border-bottom: 2px solid var(--gris-suave);">
+          <tr>
+            <th width="70" class="text-center" style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">ID</th>
+            <th style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">NOMBRE / TIPO</th>
+            <th style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">PRECIO (UYU)</th>
+            <th style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">PROVEEDOR / CLASIF.</th>
+            <th class="text-center" style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">STOCK ACTUAL</th>
+            <th width="280" class="text-center" style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">ACCIONES</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for materia in object_list %}
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            
+            <td class="text-center" style="padding: 1.5rem 1rem; vertical-align: middle;">
+              <span style="background: var(--gris-suave); padding: 4px 10px; border-radius: 4px; font-family: monospace; font-weight: 700; color: var(--azul-primario); display: inline-block;">
+                #{{ materia.id }}
+              </span>
+            </td>
 
-          <td style="padding: 1rem;">
-            <strong style="color: var(--color-text); display: block;">{{ materia.nombre }}</strong>
-            <span class="label {% if materia.tipo == 'PT' %}success{% else %}secondary{% endif %}" style="font-size: 0.65rem; border-radius: 4px;">
-              {{ materia.get_tipo_display|default:materia.tipo }}
-            </span>
-          </td>
+            <td class="text-center" style="padding: 1.5rem 1rem; vertical-align: middle;">
+              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <strong style="color: var(--texto-oscuro); font-size: 1.1rem; margin-bottom: 4px; display: block;">
+                  {{ materia.nombre }}
+                </strong>
+                <span class="label {% if materia.tipo == 'PT' %}success{% else %}secondary{% endif %}" 
+                      style="font-size: 0.7rem; border-radius: 6px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                  {{ materia.get_tipo_display|default:materia.tipo }}
+                </span>
+              </div>
+            </td>
 
-          <td style="padding: 1rem; font-weight: 600; color: #4A5568;">
-            {% if materia.tipo == 'PT' %}
-              ${{ materia.costo_calculado|floatformat:1 }}
-            {% else %}
-              ${{ materia.precio|floatformat:1 }}
-            {% endif %}
-            <small style="color: var(--color-text-soft); font-weight: 400;">/ kg</small>
-          </td>
+            <td class="text-center" style="padding: 1.5rem 1rem; vertical-align: middle; font-weight: 600; color: #4A5568;">
+              <div style="font-size: 1rem;">
+                {% if materia.tipo == 'PT' %}
+                  ${{ materia.costo_calculado|floatformat:1 }}
+                {% else %}
+                  ${{ materia.precio|floatformat:1 }}
+                {% endif %}
+              </div>
+              <small style="color: var(--texto-gris); font-weight: 400; display: block;">por kg</small>
+            </td>
 
-          <td style="padding: 1rem; font-size: 0.9rem;">
-            <span style="display: block; color: var(--color-text);">{{ materia.proveedor|default:"---" }}</span>
-            <small style="color: var(--color-text-soft);">{{ materia.clasificacion }}</small>
-          </td>
+            <td class="text-center" style="padding: 1.5rem 1rem; vertical-align: middle;">
+              <span style="display: block; color: var(--texto-oscuro); font-weight: 500;">{{ materia.proveedor|default:"---" }}</span>
+              <small style="color: var(--texto-gris); display: block;">{{ materia.clasificacion }}</small>
+            </td>
 
-          <td class="td-numeric" style="padding: 1rem;">
-            <strong style="font-size: 1.1rem; color: {% if materia.stock_actual <= materia.stock_minimo %}#C53030{% else %}var(--color-text){% endif %};">
-              {{ materia.stock_actual }}
-            </strong>
-            <small style="color: var(--color-text-soft);">kg</small>
-          </td>
+            <td class="text-center" style="padding: 1.5rem 1rem; vertical-align: middle;">
+              <strong style="font-size: 1.2rem; display: block; color: {% if materia.stock_actual <= materia.stock_minimo %}var(--rojo-alerta, #C53030){% else %}var(--texto-oscuro){% endif %};">
+                {{ materia.stock_actual }}
+              </strong>
+              <small style="color: var(--texto-gris); font-weight: 600; text-transform: uppercase; font-size: 0.65rem;">Kilogramos</small>
+            </td>
 
-          <td style="padding: 1rem;">
-            <div style="display: flex; gap: 4px; justify-content: center; flex-wrap: wrap;">
-              <a href="{% url 'stock_app:detail_producto' materia.id %}" class="button tiny clear primary" style="margin: 0; font-weight: 700; font-size: 0.7rem;">DETALLES</a>
-              <a href="{% url 'stock_app:update_producto' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #b7950b;">EDITAR</a>
-              
-              {% if materia.tipo == 'PT' %}
-                <a href="{% url 'stock_app:add_consumo' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #2c7a7b;">CONSUMO</a>
-              {% else %}
-                <a href="{% url 'stock_app:add_compra' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #2c7a7b;">COMPRA</a>
-              {% endif %}
-              
-              <a href="{% url 'stock_app:delete_producto' materia.id %}" class="button tiny clear alert" style="margin: 0; font-weight: 700; font-size: 0.7rem;">ELIMINAR</a>
-            </div>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="6" class="text-center" style="padding: 4rem; color: var(--color-text-soft);">
-            <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">📦</div>
-            No se encontraron productos en el inventario.
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+            <td style="padding: 1.5rem 1rem; vertical-align: middle;">
+              <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; max-width: 220px; margin: 0 auto;">
+                <a href="{% url 'stock_app:detail_producto' materia.id %}" class="button tiny clear primary" style="margin: 0; font-weight: 700; font-size: 0.7rem;">DETALLES</a>
+                <a href="{% url 'stock_app:update_producto' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #b7950b;">EDITAR</a>
+                
+                {% if materia.tipo == 'PT' %}
+                  <a href="{% url 'stock_app:add_consumo' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #2c7a7b;">CONSUMO</a>
+                {% else %}
+                  <a href="{% url 'stock_app:add_compra' materia.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; font-size: 0.7rem; color: #2c7a7b;">COMPRA</a>
+                {% endif %}
+                
+                <a href="{% url 'stock_app:delete_producto' materia.id %}" class="button tiny clear alert" style="margin: 0; font-weight: 700; font-size: 0.7rem;">ELIMINAR</a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center" style="padding: 4rem; color: var(--texto-gris);">
+              <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">📦</div>
+              No se encontraron productos en el inventario.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="grid-x align-middle" style="margin-top: 2rem; margin-bottom: 3rem;">
-    <div class="cell auto">
-      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary small" style="border-radius: 6px;">
+  <div class="grid-x grid-margin-x align-middle" style="margin-bottom: 4rem;">
+    <div class="cell small-12 medium-auto text-center medium-text-left" style="margin-bottom: 1.5rem; medium-margin-bottom: 0;">
+      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary small" style="border-radius: 6px; margin: 0;">
         ← Volver al Inicio
       </a>
     </div>
-    <div class="cell shrink">
+    <div class="cell small-12 medium-shrink text-center">
       {% if is_paginated %}
         <nav aria-label="Pagination">
-          <ul class="pagination text-center" style="margin-bottom: 0;">
+          <ul class="pagination text-center" style="margin-bottom: 0; display: inline-flex;">
             {% if page_obj.has_previous %}
               <li class="pagination-previous"><a href="?page={{ page_obj.previous_page_number }}">Atrás</a></li>
             {% endif %}
@@ -142,4 +154,4 @@
   </div>
 </div>
 
-{% endblock content %}
+{% endblock content %}  

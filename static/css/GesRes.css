@@ -1,8 +1,21 @@
 /* =========================================
-   ESTILOS GENERALES - GESRES
+   VARIABLES DE COLOR - GESRES
    ========================================= */
+:root {
+    --azul-primario: #2F5D8C;
+    --azul-hover: #8db0d3;
+    --rojo-alerta: #cc4b37;
+    --verde-exito: #3adb76;
+    --naranja-edicion: #ffae00;
+    --gris-suave: #f8fafc;
+    --borde-color: #E5E9F0;
+    --texto-oscuro: #2D3748;
+    --texto-gris: #6b7785;
+}
 
-/* Fondo general */
+/* =========================================
+   ESTILOS GENERALES
+   ========================================= */
 body {
     background-color: #cad0d7 !important;
     margin: 0;
@@ -10,41 +23,12 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
 }
 
-/* =========================================
-   HEADER (STOCK & VENTAS)
-   ========================================= */
-
-/* =========================================
-   HEADER (STOCK & VENTAS)
-   ========================================= */
-
 .erp-header {
-    background: rgb(69, 67, 62) !important; /* Forzamos el fondo oscuro */
-    border-bottom: 1px solid #E5E9F0;
+    background: rgb(69, 67, 62) !important;
+    border-bottom: 1px solid var(--borde-color);
     padding: 0.8rem 0;
 }
 
-/* Forzar el color en los enlaces del menú de Foundation */
-.erp-nav.menu a {
-    color: #93abbb !important; 
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    background: transparent; /* Evita fondos grises por defecto */
-}
-
-/* Color al pasar el cursor */
-.erp-nav.menu a:hover {
-    color: #ffffff !important;
-    background: rgba(255, 255, 255, 0.05); /* Un toque sutil de brillo */
-}
-
-/* Ajuste para los ítems que tienen submenú (la flechita) */
-.erp-nav.menu .has-submenu > a::after {
-    border-color: #93abbb transparent transparent !important;
-}
-
-/* Estilo para el logo dentro del header */
 .erp-logo {
     font-weight: 600;
     font-size: 1.15rem;
@@ -53,95 +37,120 @@ body {
 }
 
 /* =========================================
-   TABLAS Y DATOS
+   FORMULARIOS (FUERZA BRUTA PARA LO REDONDITO)
    ========================================= */
+.form-label-custom {
+    color: var(--texto-gris);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: block;
+    letter-spacing: 0.5px;
+}
 
-/* Efecto hover en las filas de las tablas */
-tbody tr:hover {
-    background-color: #8db0d3 !important; /* El color de tu captura */
-    transition: background-color 0.2s ease;
+/* Selector de alta jerarquía para ganar a Foundation */
+body .grid-container form input[type="text"], 
+body .grid-container form input[type="email"], 
+body .grid-container form input[type="tel"], 
+body .grid-container form input[type="number"], 
+body .grid-container form textarea, 
+body .grid-container form select {
+    margin-bottom: 0 !important;
+    border-radius: 8px !important; /* Bordes redonditos */
+    border: 1px solid var(--borde-color) !important;
+    background-color: #fcfcfc !important;
+    height: 40px !important;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.2s ease-in-out !important;
+    box-shadow: none !important;
+    font-size: 0.95rem;
+}
+
+body .grid-container form input:focus, 
+body .grid-container form textarea:focus, 
+body .grid-container form select:focus {
+    border-color: var(--azul-primario) !important;
+    box-shadow: 0 0 0 3px rgba(47, 93, 140, 0.1) !important;
+    background-color: #fff !important;
+    outline: none !important;
+}
+
+/* Checkbox estético */
+body .grid-container form input[type="checkbox"] {
+    margin: 0 !important;
+    width: 17px;
+    height: 17px;
     cursor: pointer;
 }
 
-/* Forzar alineación en tablas */
-.text-center-force {
-    text-align: center !important;
-}
-
-.text-right-force {
-    text-align: right !important;
-}
-
-/* Alineación para números */
-.td-numeric {
-    text-align: center !important;
-    font-variant-numeric: tabular-nums;
-}
-
 /* =========================================
-   TARJETAS Y MÓDULOS (Dashboard / Listados)
+   TARJETAS Y TABLAS
    ========================================= */
-
 .module-card {
     background: white;
-    border: 1px solid #E5E9F0;
-    border-radius: 10px;
-    padding: 1.6rem;
-    text-align: center;
-    transition: all .15s ease;
+    border: none;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.module-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 18px rgba(0,0,0,0.06);
+.custom-table {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    width: 100%;
 }
 
-.module-title {
-    font-weight: 600;
-    color: #2F5D8C;
+.custom-table tbody tr:hover {
+    background-color: var(--azul-hover) !important;
+    color: white !important;
+    transform: scale(1.01);
 }
 
-.module-text {
-    color: #6b7785;
-    font-size: 0.95rem;
-    margin-bottom: 1.2rem;
+/* Tarjetas estáticas de confirmación (Anulaciones) */
+.card-confirm {
+    border-top: 5px solid var(--rojo-alerta) !important;
 }
 
-/* Sombra extra para contenedores de tabla */
-.card-shadow {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+.card-confirm:hover, .no-hover:hover {
+    transform: none !important; /* Evita que baile al pasar el mouse */
 }
 
 /* =========================================
-   SECCIONES DE INFORMACIÓN / HERO
+   REGLAS RESPONSIVE (Móviles)
    ========================================= */
+@media screen and (max-width: 39.9375em) {
+    /* Padding reducido en móvil */
+    .module-card {
+        padding: 1.5rem !important;
+    }
 
-.hero {
-    padding: 4rem 0;
-    text-align: center;
+    .hero-title {
+        font-size: 1.6rem !important;
+    }
+
+    /* Botonera se apila en vertical y ocupa 100% */
+    .button-group, .flex-buttons {
+        flex-direction: column !important;
+    }
+
+    .button, a.button {
+        width: 100% !important;
+        margin-right: 0 !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* Tablas con scroll lateral para que no rompan el layout */
+    .custom-table {
+        display: block;
+        overflow-x: auto;
+    }
 }
 
-.hero-title {
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: #2F5D8C;
-}
+/* =========================================
+   UTILIDADES
+   ========================================= */
+.hero-title { font-size: 2.2rem; font-weight: 800; color: var(--azul-primario); }
+.module-text { color: var(--texto-gris); font-size: 0.95rem; }
+.error-text, small { color: var(--rojo-alerta); font-weight: 700; font-size: 0.8rem; display: block; margin-top: 0.4rem; }
 
-.hero-subtitle {
-    margin-top: 1rem;
-    color: #6b7785;
-    font-size: 1.1rem;
-    max-width: 520px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.info-section {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    background: white;
-    border: 1px solid #E5E9F0;
-    border-radius: 10px;
-    padding: 2rem;
-    text-align: center;
-}

@@ -1,24 +1,34 @@
-<div class="erp-header">
+<div class="title-bar erp-header" data-responsive-toggle="responsive-menu-ventas" data-hide-for="medium">
+    <div class="grid-container" style="width: 100%; display: flex; align-items: center; background: transparent;">
+        <button class="menu-icon" type="button" data-toggle="responsive-menu-ventas"></button>
+        <div class="title-bar-title" style="margin-left: 1rem;">
+            <a href="{% url 'ventas_app:Inicio' %}" class="erp-logo">
+                GesRes <span style="font-weight: 300; opacity: 0.7;">Ventas</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="erp-header" id="responsive-menu-ventas" style="width: 100%;">
     <div class="grid-container">
         <div class="grid-x align-middle">
             
-            <div class="cell small-4">
-                <a href="{% url 'ventas_app:Inicio' %}" class="erp-logo" style="margin-left: -100px;">
-                    GesRes Ventas
+            <div class="cell shrink show-for-medium">
+                <a href="{% url 'ventas_app:Inicio' %}" class="erp-logo" style="margin-right: 2rem;">
+                    GesRes <span style="font-weight: 300; opacity: 0.7;">Ventas</span>
                 </a>
             </div>
 
-            <div class="cell small-4 text-center">
-                <nav class="erp-nav menu align-center">
-                    <a href="{% url 'ventas_app:all_platos' %}" style="margin: 0 1.2rem;">Platos / Carta</a>
-                    <a href="{% url 'ventas_app:all_ventas' %}" style="margin: 0 1.2rem;">Ventas</a>
-                    <a href="#" style="margin: 0 1.2rem;">Dashboard</a>
-                </nav>
+            <div class="cell medium-auto small-12">
+                <ul class="vertical medium-horizontal menu erp-nav" data-responsive-menu="accordion medium-dropdown">
+                    <li><a href="{% url 'ventas_app:all_platos' %}">Platos / Carta</a></li>
+                    <li><a href="{% url 'ventas_app:all_ventas' %}">Ventas</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                </ul>
             </div>
 
-            <div class="cell shrink">
-                <a href="#" class="button small hollow primary shadow-sm" 
-                   style="margin-bottom: 0; margin-left: 250px; border-radius: 6px; border-color: #93abbb; color: #93abbb;">
+            <div class="cell medium-shrink small-12">
+                <a href="#" class="button small hollow primary shadow-sm expanded medium-unexpanded" style="margin: 0.8rem 0; border-radius: 6px; border-color: #93abbb; color: #93abbb;">
                     Ir a Finanzas →
                 </a>
             </div>
@@ -26,18 +36,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    /* Ajuste extra para que el nav se comporte como flex y respete el centrado con los estilos de tu CSS */
-    .erp-nav {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        margin: 0;
-    }
-    
-    /* Aseguramos que herede el color de tus estilos generales pero con el hover que ya definiste */
-    .erp-nav a {
-        padding: 0.5rem 0; /* Quitamos el padding lateral de Foundation para controlarlo con el margin */
-    }
-</style>

@@ -1,112 +1,129 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
-  {% include 'includes/header2.html' %}
+{% block title %} GesRes | Registrar Producto {% endblock title %}
 
-  <div class="grid-container">
-    <div class="grid-x grid-margin-x align-center">
-      <div class="cell small-12 medium-8 large-6"> 
+{% block content %}
+{% include 'includes/header2.html' %}
+
+<div class="grid-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-10 large-8">
+      
+      <div class="text-center" style="margin-bottom: 2rem;">
+        <h2 class="hero-title">Registrar Nuevo Producto</h2>
+        <p class="module-text">Ingresa los detalles de la materia prima o producto elaborado</p>
+      </div>
+
+      <div class="module-card static card-shadow" style="background: white; border-radius: 12px;">
         
-        <h2 class="text-center" style="margin: 1.5rem 0;">
-          Registrar Producto
-        </h2>
-        
-        <form method="post" class="callout secondary shadow"> 
+        <form method="post">
           {% csrf_token %}
           
-          <ul class="vertical menu">
-            <li>
-              <label><strong>{{ form.nombre.label }}</strong></label>
+          <div class="grid-x grid-margin-x">
+            
+            <div class="cell small-12 medium-6" style="margin-bottom: 1.5rem;">
+              <label class="form-label-custom">{{ form.nombre.label }}</label>
               {{ form.nombre }}
-              {{ form.nombre.errors }}
-            </li>
+              {% if form.nombre.errors %}<small class="error-text">{{ form.nombre.errors.0 }}</small>{% endif %}
+            </div>
 
-            <li>
-              <label><strong>{{ form.tipo.label }}</strong></label>
+            <div class="cell small-12 medium-6" style="margin-bottom: 1.5rem;">
+              <label class="form-label-custom">{{ form.tipo.label }}</label>
               {{ form.tipo }}
-              {{ form.tipo.errors }}
-            </li>
+              {% if form.tipo.errors %}<small class="error-text">{{ form.tipo.errors.0 }}</small>{% endif %}
+            </div>
 
-            <li id="precio-field">
-              <label><strong>{{ form.precio.label }} (UYU) x kg</strong></label>
+            <div class="cell small-12 medium-6" id="precio-field" style="margin-bottom: 1.5rem; transition: opacity 0.3s ease;">
+              <label class="form-label-custom">{{ form.precio.label }} (UYU) x kg</label>
               {{ form.precio }}
-              {{ form.precio.errors }}
-            </li>
+              {% if form.precio.errors %}<small class="error-text">{{ form.precio.errors.0 }}</small>{% endif %}
+            </div>
 
-            <li id="proveedor-field">
-              <label><strong>{{ form.proveedor.label }}</strong></label>
+            <div class="cell small-12 medium-6" id="proveedor-field" style="margin-bottom: 1.5rem; transition: opacity 0.3s ease;">
+              <label class="form-label-custom">{{ form.proveedor.label }}</label>
               {{ form.proveedor }}
-              {{ form.proveedor.errors }}
-            </li>
+              {% if form.proveedor.errors %}<small class="error-text">{{ form.proveedor.errors.0 }}</small>{% endif %}
+            </div>
 
-            <li>
-              <label><strong>{{ form.clasificacion.label }}</strong></label>
+            <div class="cell small-12 medium-4" style="margin-bottom: 1.5rem;">
+              <label class="form-label-custom">{{ form.clasificacion.label }}</label>
               {{ form.clasificacion }}
-              {{ form.clasificacion.errors }}
-            </li>
+            </div>
 
-            <li>
-              <label><strong>{{ form.stock_actual.label }}</strong></label>
+            <div class="cell small-12 medium-4" style="margin-bottom: 1.5rem;">
+              <label class="form-label-custom">Stock Inicial</label>
               {{ form.stock_actual }}
-              {{ form.stock_actual.errors }}
-            </li>
+            </div>
 
-            <li>
-              <label><strong>{{ form.stock_minimo.label }}</strong></label>
+            <div class="cell small-12 medium-4" style="margin-bottom: 1.5rem;">
+              <label class="form-label-custom">Stock Mínimo</label>
               {{ form.stock_minimo }}
-              {{ form.stock_minimo.errors }}
-            </li>
+            </div>
 
-            <li style="margin-top: 1.5rem;">
-              <label><strong>{{ form.descripcion.label }}</strong></label>
+            <div class="cell small-12" style="margin-bottom: 2rem;">
+              <label class="form-label-custom">{{ form.descripcion.label }}</label>
               {{ form.descripcion }}
-              {{ form.descripcion.errors }}
-            </li>
-          </ul>
+            </div>
 
-          <div class="button-group align-center" style="margin-top: 3rem;">
-            <button type="submit" class="button success">
-              Guardar
-            </button>
+            <div class="cell small-12" style="margin-top: 1rem;">
+              
+              <div class="grid-x grid-margin-x align-center">
+                <div class="cell small-12 medium-5">
+                  <button type="submit" class="button success expanded shadow-sm" style="border-radius: 8px; font-weight: 700; height: 50px;">
+                    Guardar Producto
+                  </button>
+                </div>
+                <div class="cell small-12 medium-4">
+                  <button type="reset" class="button alert hollow expanded" style="border-radius: 8px; font-weight: 700; height: 50px;">
+                    Limpiar
+                  </button>
+                </div>
+              </div>
 
-            <button type="reset" class="button alert">
-              Limpiar
-            </button>
+              <div class="grid-x align-center" style="margin-top: 1.5rem;">
+                <div class="cell small-12 medium-6 text-center">
+                  <a href="{% url 'stock_app:all_productos' %}" class="button secondary clear small" style="font-weight: 600;">
+                    ← Volver al listado
+                  </a>
+                </div>
+              </div>
 
-            <a href="{% url 'stock_app:all_productos' %}" class="button secondary">
-              Volver
-            </a>
+            </div>
+
           </div>
-
         </form>
+
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var tipoField = document.getElementById('id_tipo');
-      var proveedorField = document.getElementById('proveedor-field');
-      var precioField = document.getElementById('precio-field');
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var tipoField = document.getElementById('id_tipo');
+    var proveedorField = document.getElementById('proveedor-field');
+    var precioField = document.getElementById('precio-field');
 
-      function toggleFields() {
-        if (!tipoField) return;
-
-        if (tipoField.value === 'PT') {
-          if (proveedorField) proveedorField.style.display = 'none';
-          if (precioField) precioField.style.display = 'none';
-        } else {
-          if (proveedorField) proveedorField.style.display = '';
-          if (precioField) precioField.style.display = '';
-        }
+    function toggleFields() {
+      if (!tipoField) return;
+      if (tipoField.value === 'PT') {
+        proveedorField.style.opacity = '0.3';
+        proveedorField.style.pointerEvents = 'none';
+        precioField.style.opacity = '0.3';
+        precioField.style.pointerEvents = 'none';
+      } else {
+        proveedorField.style.opacity = '1';
+        proveedorField.style.pointerEvents = 'auto';
+        precioField.style.opacity = '1';
+        precioField.style.pointerEvents = 'auto';
       }
+    }
 
-      if (tipoField) {
-        tipoField.addEventListener('change', toggleFields);
-        toggleFields();
-      }
-    });
-  </script>
-
+    if (tipoField) {
+      tipoField.addEventListener('change', toggleFields);
+      toggleFields();
+    }
+  });
+</script>
 {% endblock content %}
