@@ -6,67 +6,68 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+<div class="grid-container page-layout">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
 
-      <div class="module-card card-shadow card-confirm" style="padding: 2.5rem; background: white; border-radius: 12px;">
+      <div class="gesres-card card-confirm">
         
-        <div class="text-center" style="margin-bottom: 2rem;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">↩️</div>
-            <h3 style="color: var(--rojo-alerta); font-weight: 800; margin-bottom: 0.5rem;">¿Anular esta Compra?</h3>
-            <p style="color: var(--texto-gris); margin: 0;">Se descontará la mercadería ingresada del stock actual.</p>
+        <div class="text-center mb-2">
+            <span class="confirm-icon">↩️</span>
+            <h3 class="text-critical m-0">¿Anular esta Compra?</h3>
+            <p class="module-text mt-1">Se descontará la mercadería ingresada del stock actual.</p>
         </div>
 
-        <div style="background: var(--gris-suave); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--borde-color); margin-bottom: 2rem;">
+        <div class="data-box mb-2">
             <div class="grid-x grid-margin-x">
-                <div class="cell small-12" style="margin-bottom: 1rem;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Producto</label>
-                    <h5 style="font-weight: 700; color: var(--texto-oscuro); margin: 0;">{{ object.producto.nombre }}</h5>
+                <div class="cell small-12 mb-1">
+                    <label class="form-label-custom detail-label">Producto</label>
+                    <h5 class="detail-value">{{ object.producto.nombre }}</h5>
                 </div>
                 
-                <div class="cell small-6" style="margin-bottom: 1rem;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Cantidad a Restar</label>
-                    <p style="font-weight: 700; color: var(--rojo-alerta); margin: 0;">- {{ object.cantidad }} kg</p>
+                <div class="cell small-6">
+                    <label class="form-label-custom detail-label">Cantidad a Restar</label>
+                    <p class="detail-value-highlight m-0" style="color: var(--rojo-alerta) !important;">
+                        - {{ object.cantidad }} <small>kg</small>
+                    </p>
                 </div>
 
                 <div class="cell small-6">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Monto de Operación</label>
-                    <p style="font-weight: 600; color: var(--texto-oscuro); margin: 0;">$ {{ object.total_pagado|floatformat:2 }}</p>
+                    <label class="form-label-custom detail-label">Monto de Operación</label>
+                    <p class="detail-value">$ {{ object.total_pagado|floatformat:2 }}</p>
                 </div>
 
                 <div class="cell small-12">
-                    <hr style="border-top: 1px solid var(--borde-color); margin: 0.5rem 0 1rem 0;">
+                    <div class="divider-detail"></div>
                     <div class="grid-x">
                         <div class="cell small-6">
-                            <label class="form-label-custom" style="font-size: 0.7rem;">ID</label>
-                            <p style="color: var(--texto-gris); margin: 0; font-size: 0.9rem;">#{{ object.id }}</p>
+                            <label class="form-label-custom detail-label">ID Registro</label>
+                            <p class="price-unit m-0">#{{ object.id }}</p>
                         </div>
                         <div class="cell small-6 text-right">
-                            <label class="form-label-custom" style="font-size: 0.7rem;">Fecha</label>
-                            <p style="color: var(--texto-gris); margin: 0; font-size: 0.9rem;">{{ object.fecha|date:"d/m/Y" }}</p>
+                            <label class="form-label-custom detail-label">Fecha Compra</label>
+                            <p class="price-unit m-0">{{ object.fecha|date:"d/m/Y" }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div style="background: #fff5f5; padding: 1rem; border-radius: 8px; border: 1px solid #feb2b2; margin-bottom: 2rem;">
-            <p style="margin: 0; color: #c53030; font-size: 0.85rem; text-align: center; font-weight: 600;">
-                Atención: Esta acción eliminará el registro de compra y disminuirá el stock de {{ object.producto.nombre }}.
-            </p>
+        <div class="alert-box-critical mb-2">
+            <i class="fi-alert"></i> 
+            Atención: Esta acción eliminará el registro de compra y disminuirá el stock de {{ object.producto.nombre }}.
         </div>
 
-        <form method="post">
+        <form method="post" class="m-0">
           {% csrf_token %}
-          <div class="grid-x grid-margin-x align-center">
-            <div class="cell small-12 medium-6" style="margin-bottom: 10px;">
-                <button type="submit" class="button alert expanded shadow-sm" style="border-radius: 8px; font-weight: 700; height: 50px; margin: 0;">
+          <div class="grid-x grid-margin-x">
+            <div class="cell small-12 medium-6">
+                <button type="submit" class="button btn-form btn-delete expanded shadow">
                     Confirmar Anulación
                 </button>
             </div>
-            <div class="cell small-12 medium-6">
-                <a href="{% url 'stock_app:all_compras' %}" class="button secondary expanded hollow" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0;">
+            <div class="cell small-12 medium-6 mt-mobile-form">
+                <a href="{% url 'stock_app:all_compras' %}" class="button btn-form btn-cancel hollow expanded">
                     No, Cancelar
                 </a>
             </div>

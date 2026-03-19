@@ -6,62 +6,64 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+<div class="grid-container page-layout">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-10 large-8">
       
-      <div class="text-center" style="margin-bottom: 2rem;">
-        <h2 class="hero-title">Ficha de Producto</h2>
+      <div class="text-center mb-2">
+        <h2 class="hero-title m-0">Ficha de Producto</h2>
         <p class="module-text">Información técnica y niveles de inventario</p>
       </div>
 
-      <div class="module-card card-shadow" style="padding: 2.5rem; background: white; border-radius: 12px; border-left: 6px solid var(--azul-primario);">
+      <div class="gesres-card detail-card">
         
         <div class="grid-x grid-margin-x">
           
-          <div class="cell small-12 medium-8" style="margin-bottom: 2rem;">
-            <label class="form-label-custom" style="font-size: 0.75rem;">Nombre del Producto</label>
-            <h3 style="color: var(--azul-primario); font-weight: 800; margin: 0;">{{ object.nombre }}</h3>
-            <span class="label secondary" style="background: var(--gris-suave); color: var(--texto-oscuro); border-radius: 4px; margin-top: 0.5rem; font-weight: 700; padding: 0.5rem;">
+          <div class="cell small-12 medium-8 mb-2">
+            <label class="form-label-custom detail-label">Nombre del Producto</label>
+            <h3 class="detail-value-highlight">{{ object.nombre }}</h3>
+            <span class="type-label type-label-mp" style="margin-top: 0.5rem;">
                 {{ object.get_tipo_display }}
             </span>
           </div>
 
-          <div class="cell small-12 medium-4 medium-text-right" style="margin-bottom: 2rem;">
-            <label class="form-label-custom" style="font-size: 0.75rem;">Costo Calculado</label>
-            <h3 style="color: var(--texto-oscuro); font-weight: 700; margin: 0;">$ {{ object.costo_calculado|floatformat:1 }} <small style="font-size: 0.8rem;">UYU</small></h3>
+          <div class="cell small-12 medium-4 medium-text-right mb-2">
+            <label class="form-label-custom detail-label">Costo Calculado</label>
+            <h3 class="item-title" style="font-weight: 800; font-size: 1.5rem;">
+              $ {{ object.costo_calculado|floatformat:1 }} <small class="price-unit">UYU</small>
+            </h3>
           </div>
-
-          <div class="cell small-12">
-            <div style="background: var(--gris-suave); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--borde-color);">
+          
+          <div class="cell small-12" style='margin-top: 1rem;'>
+            <div class="data-box">
                 <div class="grid-x grid-margin-x">
                     
-                    <div class="cell small-6 medium-3" style="margin-bottom: 1.5rem;">
-                        <label class="form-label-custom" style="font-size: 0.7rem; color: #93abbb;">Proveedor</label>
-                        <p style="font-weight: 600; color: var(--texto-oscuro); margin: 0;">{{ object.proveedor|default:"Interno / Elaborado" }}</p>
+                    <div class="cell small-6 medium-3 mb-1">
+                        <label class="form-label-custom detail-label">Proveedor</label>
+                        <p class="detail-value">{{ object.proveedor|default:"Interno / Elaborado" }}</p>
                     </div>
 
-                    <div class="cell small-6 medium-3" style="margin-bottom: 1.5rem;">
-                        <label class="form-label-custom" style="font-size: 0.7rem; color: #93abbb;">Clasificación</label>
-                        <p style="font-weight: 600; color: var(--texto-oscuro); margin: 0;">{{ object.clasificacion }}</p>
+                    <div class="cell small-6 medium-3 mb-1">
+                        <label class="form-label-custom detail-label">Clasificación</label>
+                        <p class="detail-value">{{ object.clasificacion }}</p>
                     </div>
 
-                    <div class="cell small-6 medium-3" style="margin-bottom: 1.5rem;">
-                        <label class="form-label-custom" style="font-size: 0.7rem; color: #93abbb;">Stock Actual</label>
-                        <p style="font-weight: 800; color: {% if object.stock_actual <= object.stock_minimo %}var(--rojo-alerta){% else %}var(--verde-exito){% endif %}; margin: 0;">
+                    <div class="cell small-6 medium-3 mb-1">
+                        <label class="form-label-custom detail-label">Stock Actual</label>
+                        <p class="{% if object.stock_actual <= object.stock_minimo %}stock-alert{% else %}stock-ok{% endif %} m-0">
                             {{ object.stock_actual }} kg
                         </p>
                     </div>
 
-                    <div class="cell small-6 medium-3" style="margin-bottom: 1.5rem;">
-                        <label class="form-label-custom" style="font-size: 0.7rem; color: #93abbb;">Stock Mínimo</label>
-                        <p style="font-weight: 600; color: var(--texto-oscuro); margin: 0;">{{ object.stock_minimo }} kg</p>
+                    <div class="cell small-6 medium-3 mb-1">
+                        <label class="form-label-custom detail-label">Stock Mínimo</label>
+                        <p class="detail-value">{{ object.stock_minimo }} kg</p>
                     </div>
 
                     <div class="cell small-12">
-                        <hr style="border-top: 1px solid var(--borde-color); margin: 0.5rem 0 1rem 0;">
-                        <label class="form-label-custom" style="font-size: 0.7rem; color: #93abbb;">Descripción</label>
-                        <p style="color: var(--texto-gris); margin: 0; font-style: italic; line-height: 1.4;">
+                        <hr class="divider-detail">
+                        <label class="form-label-custom detail-label">Descripción</label>
+                        <p class="module-text m-0" style="font-style: italic;">
                             {{ object.descripcion|default:"Sin descripción registrada." }}
                         </p>
                     </div>
@@ -72,18 +74,18 @@
 
           <div class="cell small-12" style="margin-top: 2.5rem;">
             <div class="grid-x grid-margin-x">
-              <div class="cell small-12 medium-4" style="margin-bottom: 1rem;">
-                <a href="{% url 'stock_app:all_productos' %}" class="button secondary hollow expanded" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center;">
+              <div class="cell small-12 medium-4">
+                <a href="{% url 'stock_app:all_productos' %}" class="button btn-form btn-cancel hollow expanded">
                   ← Volver
                 </a>
               </div>
-              <div class="cell small-12 medium-4" style="margin-bottom: 1rem;">
-                <a href="{% url 'stock_app:update_producto' object.id %}" class="button success expanded shadow-sm" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center;">
+              <div class="cell small-12 medium-4 mt-mobile-form">
+                <a href="{% url 'stock_app:update_producto' object.id %}" class="button btn-form btn-save expanded shadow">
                   Editar Registro
                 </a>
               </div>
-              <div class="cell small-12 medium-4">
-                <a href="{% url 'stock_app:delete_producto' object.id %}" class="button alert hollow expanded" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center;">
+              <div class="cell small-12 medium-4 mt-mobile-form">
+                <a href="{% url 'stock_app:delete_producto' object.id %}" class="button btn-form btn-clear hollow expanded">
                   Eliminar
                 </a>
               </div>

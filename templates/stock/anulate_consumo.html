@@ -6,59 +6,60 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+<div class="grid-container page-layout">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
 
-      <div class="module-card card-shadow card-confirm" style="background: white; border-radius: 12px; padding: 2.5rem;">
+      <div class="gesres-card card-confirm">
         
-        <div class="text-center" style="margin-bottom: 2rem;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">↩️</div>
-            <h3 style="color: var(--rojo-alerta); font-weight: 800; margin-bottom: 0.5rem;">¿Anular este consumo?</h3>
-            <p style="color: var(--texto-gris); margin: 0;">Se reintegrará la mercadería al inventario.</p>
+        <div class="text-center mb-2">
+            <span class="confirm-icon">↩️</span>
+            <h3 class="text-critical m-0">¿Anular este consumo?</h3>
+            <p class="module-text mt-1">Se reintegrará la mercadería al inventario.</p>
         </div>
 
-        <div style="background: var(--gris-suave); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--borde-color); margin-bottom: 2rem;">
+        <div class="data-box mb-2">
             <div class="grid-x grid-margin-x">
-                <div class="cell small-12" style="margin-bottom: 1rem;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Producto</label>
-                    <h5 style="font-weight: 700; color: var(--texto-oscuro); margin: 0;">{{ object.producto.nombre }}</h5>
+                <div class="cell small-12 mb-1">
+                    <label class="form-label-custom detail-label">Producto</label>
+                    <h5 class="detail-value">{{ object.producto.nombre }}</h5>
                 </div>
                 
-                <div class="cell small-6" style="margin-bottom: 1rem;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Cantidad a Devolver</label>
-                    <p style="font-weight: 700; color: var(--verde-exito); margin: 0;">+ {{ object.cantidad }} kg</p>
+                <div class="cell small-6">
+                    <label class="form-label-custom detail-label">Cantidad a Devolver</label>
+                    <p class="detail-value-highlight m-0" style="color: var(--verde-exito) !important;">
+                        + {{ object.cantidad }} <small>kg</small>
+                    </p>
                 </div>
 
                 <div class="cell small-6">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">ID Operación</label>
-                    <p style="font-weight: 600; color: var(--texto-oscuro); margin: 0;">#{{ object.id }}</p>
+                    <label class="form-label-custom detail-label">ID Operación</label>
+                    <p class="detail-value">#{{ object.id }}</p>
                 </div>
 
                 <div class="cell small-12">
-                    <hr style="border-top: 1px solid var(--borde-color); margin: 0.5rem 0 1rem 0;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Motivo Original</label>
-                    <p style="color: var(--texto-gris); margin: 0; font-size: 0.9rem; font-style: italic;">"{{ object.motivo }}"</p>
+                    <div class="divider-detail"></div>
+                    <label class="form-label-custom detail-label">Motivo Original</label>
+                    <p class="module-text m-0" style="font-style: italic;">"{{ object.motivo }}"</p>
                 </div>
             </div>
         </div>
 
-        <div style="background: #fff5f5; padding: 1rem; border-radius: 8px; border: 1px solid #feb2b2; margin-bottom: 2rem;">
-            <p style="margin: 0; color: #c53030; font-size: 0.85rem; text-align: center; font-weight: 600;">
-                Atención: Esta acción es irreversible y afectará el stock actual.
-            </p>
+        <div class="alert-box-critical mb-2">
+            <i class="fi-alert"></i> 
+            Atención: Esta acción es irreversible y afectará el stock actual.
         </div>
 
-        <form method="post">
+        <form method="post" class="m-0">
           {% csrf_token %}
-          <div class="grid-x grid-margin-x align-center">
-            <div class="cell small-12 medium-6" style="margin-bottom: 12px;">
-                <button type="submit" class="button alert expanded shadow-sm" style="border-radius: 8px; font-weight: 700; height: 50px; margin: 0;">
+          <div class="grid-x grid-margin-x">
+            <div class="cell small-12 medium-6">
+                <button type="submit" class="button btn-form btn-delete expanded shadow">
                     Confirmar Anulación
                 </button>
             </div>
-            <div class="cell small-12 medium-6">
-                <a href="{% url 'stock_app:all_consumos' %}" class="button secondary expanded hollow" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0;">
+            <div class="cell small-12 medium-6 mt-mobile-form">
+                <a href="{% url 'stock_app:all_consumos' %}" class="button btn-form btn-cancel hollow expanded">
                     No, Cancelar
                 </a>
             </div>

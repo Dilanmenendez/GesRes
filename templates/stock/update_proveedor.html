@@ -6,107 +6,91 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top:3rem; padding-bottom:5rem;">
+<div class="grid-container form-container-wrapper">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-10 large-8">
 
-      <!-- HEADER -->
-      <div class="text-center" style="margin-bottom:2rem;">
-        <h2 class="hero-title">Actualizar Proveedor</h2>
+      <div class="text-center" style="margin-bottom: 2rem;">
+        <h2 class="hero-title m-0">Actualizar Proveedor</h2>
         <p class="module-text">
-          Editando información de:
-          <strong style="color:var(--naranja-edicion);">
-            {{ object.nombre }}
-          </strong>
+          Editando información de: 
+          <strong class="text-action-warning">{{ object.nombre }}</strong>
         </p>
       </div>
 
-      <!-- CARD -->
-      <div class="module-card">
-
+      <div class="form-card shadow">
         <form method="post">
-        {% csrf_token %}
+          {% csrf_token %}
 
-        <div class="grid-x grid-margin-x">
+          <div class="grid-x grid-margin-x">
 
-          <!-- NOMBRE -->
-          <div class="cell small-12 medium-8">
-            <label class="form-label-custom">{{ form.nombre.label }}</label>
-            {{ form.nombre }}
+            <div class="cell small-12 medium-8 form-cell">
+              <label class="form-label-custom">{{ form.nombre.label }}</label>
+              {{ form.nombre }}
+              {% if form.nombre.errors %}
+                <small class="form-error">{{ form.nombre.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-            {% if form.nombre.errors %}
-              <small class="error-text">{{ form.nombre.errors.0 }}</small>
-            {% endif %}
-          </div>
+            <div class="cell small-12 medium-4 form-cell">
+              <label class="form-label-custom">Estado de Cuenta</label>
+              <div style="padding-top: 0.5rem;"> <label class="module-text" style="display: flex; align-items: center; cursor: pointer;">
+                  {{ form.activo }}
+                  <span style="margin-left: 10px; font-weight: 600;">Activo</span>
+                </label>
+              </div>
+            </div>
 
-          <!-- ACTIVO -->
-          <div class="cell small-12 medium-4">
+            <div class="cell small-12 medium-6 form-cell">
+              <label class="form-label-custom">{{ form.num_contacto.label }}</label>
+              {{ form.num_contacto }}
+              {% if form.num_contacto.errors %}
+                <small class="form-error">{{ form.num_contacto.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-            <label class="form-label-custom">Estado de Cuenta</label>
+            <div class="cell small-12 medium-6 form-cell">
+              <label class="form-label-custom">{{ form.email.label }}</label>
+              {{ form.email }}
+              {% if form.email.errors %}
+                <small class="form-error">{{ form.email.errors.0 }}</small>
+              {% endif %}
+            </div>
 
-            <div class="checkbox-container">
-              <label class="checkbox-label">
-                {{ form.activo }}
-                <span>Activo</span>
-              </label>
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">{{ form.direccion.label }}</label>
+              {{ form.direccion }}
+            </div>
+
+            <div class="cell small-12" style="margin-top: 1rem;">
+              <div class="grid-x grid-margin-x">
+                
+                <div class="cell small-12 medium-4">
+                  <button type="submit" class="button btn-form btn-save expanded shadow-sm">
+                    Guardar Cambios
+                  </button>
+                </div>
+
+                <div class="cell small-12 medium-4 mt-mobile-form">
+                  <button type="reset" class="button btn-form btn-clear hollow expanded">
+                    Revertir
+                  </button>
+                </div>
+
+                <div class="cell small-12 medium-4 mt-mobile-form">
+                  <a href="{% url 'stock_app:all_proveedores' %}" class="button btn-form btn-cancel hollow expanded">
+                    Cancelar
+                  </a>
+                </div>
+
+              </div>
             </div>
 
           </div>
-
-          <!-- TELEFONO -->
-          <div class="cell small-12 medium-6">
-            <label class="form-label-custom">{{ form.num_contacto.label }}</label>
-            {{ form.num_contacto }}
-          </div>
-
-          <!-- EMAIL -->
-          <div class="cell small-12 medium-6">
-            <label class="form-label-custom">{{ form.email.label }}</label>
-            {{ form.email }}
-          </div>
-
-          <!-- DIRECCION -->
-          <div class="cell small-12">
-            <label class="form-label-custom">{{ form.direccion.label }}</label>
-            {{ form.direccion }}
-          </div>
-
-          <!-- BOTONES -->
-          <div class="cell small-12" style="margin-top:2rem;">
-
-            <div class="grid-x grid-margin-x">
-
-              <div class="cell small-12 medium-4">
-                <button type="submit" class="button success expanded" style="border-radius: 8px; font-weight: 700; padding: 0.85rem 1rem; margin: 0;">
-                  Guardar Cambios
-                </button>
-              </div>
-
-              <div class="cell small-12 medium-4">
-                <button type="reset" class="button alert hollow expanded" style="border-radius: 8px; font-weight: 700; padding: 0.85rem 1rem; margin: 0;">
-                  Revertir
-                </button>
-              </div>
-
-              <div class="cell small-12 medium-4">
-                <a href="{% url 'stock_app:all_proveedores' %}"
-                   class="button secondary hollow expanded" style="border-radius: 8px; font-weight: 700; padding: 0.85rem 1rem; margin: 0;">
-                   Volver al listado
-                </a>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
         </form>
-
       </div>
 
     </div>
   </div>
 </div>
-
 {% endblock content %}

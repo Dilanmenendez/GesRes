@@ -6,88 +6,86 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 2rem;">
+<div class="grid-container page-layout">
   
-  <div class="grid-x grid-margin-x align-middle" style="margin-bottom: 2rem;">
+  <div class="grid-x grid-margin-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left"> 
-      <h2 style="color: var(--azul-primario); font-weight: 700; margin: 0;">Historial de Compras</h2>
-      <p style="color: var(--texto-gris); margin: 0;">Registro de entradas de mercadería y gastos asociados</p>
+      <h2 class="hero-title m-0">Historial de Compras</h2>
+      <p class="module-text m-0">Registro de entradas de mercadería y gastos asociados</p>
     </div>
   </div>
 
-  <div class="module-card card-shadow" style="padding: 1.5rem; margin-bottom: 2rem; border: none; background: white; border-radius: 12px;">
+  <div class="gesres-card filter-card">
     <form method="get">
       <div class="grid-x grid-margin-x align-bottom">
-        <div class="cell small-12 medium-5" style="margin-bottom: 1rem; medium-margin-bottom: 0;">
-          <label style="color: var(--texto-gris); font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">Materia Prima</label>
-          <input type="text" name="kword" placeholder="Buscar por producto..." style="border-radius: 6px; margin-bottom: 0;">
+        <div class="cell small-12 medium-5">
+          <label class="form-label-custom">MATERIA PRIMA</label>
+          <input type="text" name="kword" placeholder="Buscar por producto..." value="{{ request.GET.kword }}">
         </div>
-        <div class="cell small-12 medium-4" style="margin-bottom: 1rem; medium-margin-bottom: 0;">
-          <label style="color: var(--texto-gris); font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">Fecha de Compra</label>
-          <input type="date" name="fecha" style="border-radius: 6px; margin-bottom: 0;">
+        <div class="cell small-12 medium-4">
+          <label class="form-label-custom">FECHA DE COMPRA</label>
+          <input type="date" name="fecha" value="{{ request.GET.fecha }}">
         </div>
         <div class="cell small-12 medium-3">
-          <button type="submit" class="button secondary expanded" style="border-radius: 6px; font-weight: 600; height: 39px; margin-bottom: 0;">
-            Filtrar Registros
-          </button>
+          <button type="submit" class="button btn-buscar expanded">Filtrar Registros</button>
         </div>
       </div>
     </form>
   </div>
 
-  <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none; background: white; border-radius: 12px; margin-bottom: 2rem;">
-    <div style="overflow-x: auto;">
-      <table class="hover unstriped" style="margin-bottom: 0; min-width: 850px;">
-        <thead style="background: #f8fafc; border-bottom: 2px solid var(--gris-suave);">
+  <div class="table-card"> 
+    <div class="table-wrapper">
+      <table class="gesres-table unstriped">
+        <thead>
           <tr>
-            <th width="70" class="text-center" style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">ID</th>
-            <th style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">PRODUCTO</th>
-            <th class="text-center" style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">CANTIDAD</th>
-            <th style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">TOTAL PAGADO</th>
-            <th style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">FECHA</th>
-            <th width="200" class="text-center" style="padding: 1rem; color: var(--texto-gris); font-size: 0.8rem;">ACCIONES</th>
+            <th width="70" class="text-center">ID</th>
+            <th>PRODUCTO</th>
+            <th class="text-center">CANTIDAD</th>
+            <th class="text-center">TOTAL PAGADO</th>
+            <th class="text-center">FECHA</th>
+            <th width="200" class="text-center">ACCIONES</th>
           </tr>
         </thead>
         <tbody>
           {% for compra in object_list %}
-          <tr style="border-bottom: 1px solid #f1f5f9;">
-            <td class="text-center" style="padding: 1rem;">
-              <span style="background: var(--gris-suave); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-weight: 600; color: var(--azul-primario);">
-                #{{ compra.id }}
+          <tr>
+            <td class="text-center">
+              <span class="id-badge">#{{ compra.id }}</span>
+            </td>
+
+            <td>
+              <strong class="item-title">{{ compra.producto.nombre }}</strong><br>
+              <small class="module-text" style="font-size: 0.75rem;">Proveedor: {{ compra.producto.proveedor|default:"---" }}</small>
+            </td>
+
+            <td class="text-center">
+              <strong class="stock-val">{{ compra.cantidad }}</strong>
+              <span class="stock-unit">KG</span>
+            </td>
+
+            <td class="text-center">
+              <span class="price-val" style="color: var(--verde-exito, #2F855A);">
+                ${{ compra.total_pagado|floatformat:2 }}
               </span>
+              <span class="price-unit">UYU</span>
             </td>
 
-            <td style="padding: 1rem;">
-              <strong style="color: var(--texto-oscuro); display: block;">{{ compra.producto.nombre }}</strong>
-              <small style="color: var(--texto-gris);">Proveedor: {{ compra.producto.proveedor }}</small>
+            <td class="text-center">
+              <span class="module-text">{{ compra.fecha|date:"d/m/Y" }}</span>
             </td>
 
-            <td class="text-center" style="padding: 1rem;">
-              <span style="font-weight: 700; color: var(--texto-oscuro);">{{ compra.cantidad }}</span>
-              <small style="color: var(--texto-gris);">kg</small>
-            </td>
-
-            <td style="padding: 1rem;">
-              <span style="color: var(--verde-exito, #2F855A); font-weight: 800;">${{ compra.total_pagado|floatformat:2 }}</span>
-              <small style="color: var(--texto-gris); font-size: 0.7rem;">UYU</small>
-            </td>
-
-            <td style="padding: 1rem; font-size: 0.9rem; color: var(--texto-gris);">
-              {{ compra.fecha|date:"d/m/Y" }}
-            </td>
-
-            <td style="padding: 1rem;">
-              <div style="display: flex; gap: 8px; justify-content: center;">
-                <a href="{% url 'stock_app:detail_compra' compra.id %}" class="button tiny clear" style="margin: 0; font-weight: 700; color: #b7950b;">DETALLES</a>
-                <a href="{% url 'stock_app:anulate_compra' compra.id %}" class="button tiny clear alert" style="margin: 0; font-weight: 700;">ANULAR</a>
+            <td>
+              <div class="actions-grid">
+                <a href="{% url 'stock_app:detail_compra' compra.id %}" class="text-action-primary">DETALLES</a>
+                <a href="{% url 'stock_app:anulate_compra' compra.id %}" class="text-action-alert">ANULAR</a>
               </div>
             </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="6" class="text-center" style="padding: 4rem; color: var(--texto-gris);">
+            <td colspan="6" class="text-center" style="padding: 4rem;">
               <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">🧾</div>
-              No se han registrado compras aún.
+              <p class="module-text">No se han registrado compras aún.</p>
             </td>
           </tr>
           {% endfor %}
@@ -96,33 +94,43 @@
     </div>
   </div>
 
-  <div class="grid-x grid-margin-x align-middle" style="margin-bottom: 4rem;">
-    <div class="cell small-12 medium-auto text-center medium-text-left" style="margin-bottom: 1.5rem; medium-margin-bottom: 0;">
-      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary small" style="border-radius: 6px; margin: 0;">
+  <div class="grid-x grid-margin-x align-middle footer-container" style="margin-top: 2rem; margin-bottom: 4rem;">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary btn-volver">
         ← Volver al Inicio
       </a>
     </div>
-    <div class="cell small-12 medium-shrink text-center">
+    
+    <div class="cell small-12 medium-shrink">
       {% if is_paginated %}
-        <nav aria-label="Pagination">
-          <ul class="pagination text-center" style="margin-bottom: 0; display: inline-flex;">
-            {% if page_obj.has_previous %}
-              <li class="pagination-previous"><a href="?page={{ page_obj.previous_page_number }}">Atrás</a></li>
-            {% endif %}
-            {% for pagina in paginator.page_range %}
-              <li class="{% if page_obj.number == pagina %}current{% endif %}">
-                <a href="?page={{ pagina }}">{{ pagina }}</a>
+      <nav aria-label="Paginación" class="pagination-container">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li class="pagination-previous">
+              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">Anterior</a>
+            </li>
+          {% endif %}
+          
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="current">{{ num }}</li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li>
+                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">{{ num }}</a>
               </li>
-            {% endfor %}
-            {% if page_obj.has_next %}
-              <li class="pagination-next"><a href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
             {% endif %}
-          </ul>
-        </nav>
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li class="pagination-next">
+              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">Siguiente</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
       {% endif %}
     </div>
   </div>
 
 </div>
-
 {% endblock content %}

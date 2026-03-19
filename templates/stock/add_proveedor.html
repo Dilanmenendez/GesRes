@@ -6,65 +6,69 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 3rem; padding-bottom: 8rem;">
+<div class="grid-container page-layout">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-10 large-8"> 
       
-      <div class="text-center" style="margin-bottom: 2rem;">
+      <div class="text-center mb-2">
         <h2 class="hero-title">Registrar Proveedor</h2>
         <p class="module-text">Gestión de contactos para el abastecimiento</p>
       </div>
       
-      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; background: white; border-radius: 12px; text-align: left;">
-        <form method="post" enctype="multipart/form-data"> 
+      <div class="gesres-card form-card">
+        <form method="post" enctype="multipart/form-data" class="m-0"> 
           {% csrf_token %}
           
           <div class="grid-x grid-margin-x">
             
-            <div class="cell small-12 medium-8" style="margin-bottom: 1.5rem;">
+            <div class="cell small-12 medium-8 form-cell">
               <label class="form-label-custom">{{ form.nombre.label }}</label>
               {{ form.nombre }}
               {% if form.nombre.errors %}
-                <small class="error-text">{{ form.nombre.errors.0 }}</small>
+                <small class="form-error">{{ form.nombre.errors.0 }}</small>
               {% endif %}
             </div>
 
-            <div class="cell small-12 medium-4" style="margin-bottom: 1.5rem;">
+            <div class="cell small-12 medium-4 form-cell">
                 <label class="form-label-custom">Estado</label>
-                <div style="background: #f8fafc; border: 1px solid #E5E9F0; border-radius: 6px; height: 39px; display: flex; align-items: center; padding: 0 1rem;">
-                    <label style="margin: 0; cursor: pointer; display: flex; align-items: center; width: 100%; color: #4a5568; font-size: 0.9rem; font-weight: 600;">
+                <div class="data-box" style="height: 42px;"> <label class="m-0 pointer-cursor display-flex-middle w-100 detail-value" style="font-size: 0.9rem; padding: 0 1rem; height: 100%;">
                         {{ form.activo }}
-                        <span style="margin-left: 8px;">{{ form.activo.label }}</span>
+                        <span class="ml-1">{{ form.activo.label }}</span>
                     </label>
                 </div>
             </div>
 
-            <div class="cell small-12 medium-6" style="margin-bottom: 1.5rem;">
+            <div class="cell small-12 medium-6 form-cell">
               <label class="form-label-custom">{{ form.num_contacto.label }}</label>
               {{ form.num_contacto }}
             </div>
 
-            <div class="cell small-12 medium-6" style="margin-bottom: 1.5rem;">
+            <div class="cell small-12 medium-6 form-cell">
               <label class="form-label-custom">{{ form.email.label }}</label>
               {{ form.email }}
             </div>
 
-            <div class="cell small-12" style="margin-bottom: 2.5rem;">
+            <div class="cell small-12 form-cell mb-2">
               <label class="form-label-custom">{{ form.direccion.label }}</label>
               {{ form.direccion }}
             </div>
 
             <div class="cell small-12">
-              <div class="button-group align-center">
-                <button type="submit" class="button success shadow-sm" style="border-radius: 6px; font-weight: 700; padding: 0.85rem 2.5rem; margin-right: 12px;">
-                  Guardar Proveedor
-                </button>
-                <button type="reset" class="button alert hollow" style="border-radius: 6px; font-weight: 700;">
-                  Limpiar
-                </button>
+              <div class="grid-x grid-margin-x">
+                <div class="cell small-12 medium-6">
+                  <button type="submit" class="button btn-form btn-save expanded shadow">
+                    Guardar Proveedor
+                  </button>
+                </div>
+                <div class="cell small-12 medium-6 mt-mobile-form">
+                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
+                    Limpiar Campos
+                  </button>
+                </div>
               </div>
-              <div class="text-center" style="margin-top: 1.5rem;">
-                <a href="{% url 'stock_app:all_proveedores' %}" class="button secondary clear" style="font-weight: 600;">
+
+              <div class="text-center mt-2" style="margin-top: 1rem;">
+                <a href="{% url 'stock_app:all_proveedores' %}" class="detail-label" style="text-decoration: none; font-weight: 700;">
                   ← Volver al Listado
                 </a>
               </div>
@@ -76,7 +80,4 @@
     </div>
   </div>
 </div>
-
-
-
 {% endblock content %}

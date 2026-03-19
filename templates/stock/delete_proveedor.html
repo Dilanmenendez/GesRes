@@ -6,64 +6,58 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+<div class="grid-container page-layout">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
 
-      <div class="module-card card-shadow card-confirm" style="padding: 2.5rem; background: white; border-radius: 12px;">
+      <div class="gesres-card card-confirm">
         
-        <div class="text-center" style="margin-bottom: 2rem;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🗑️</div>
-            <h3 style="color: var(--rojo-alerta); font-weight: 800; margin-bottom: 0.5rem;">¿Eliminar Proveedor?</h3>
-            <p style="color: var(--texto-gris); margin: 0;">Esta acción borrará permanentemente el contacto.</p>
+        <div class="text-center mb-2">
+            <span class="confirm-icon">🗑️</span>
+            <h3 class="text-critical m-0">¿Eliminar Proveedor?</h3>
+            <p class="module-text mt-1">Esta acción borrará permanentemente el contacto.</p>
         </div>
 
-        <div style="background: var(--gris-suave); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--borde-color); margin-bottom: 2rem;">
+        <div class="data-box mb-2">
             <div class="grid-x grid-margin-x">
-                <div class="cell small-12" style="margin-bottom: 1rem; border-bottom: 1px solid var(--borde-color); padding-bottom: 0.5rem;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Razón Social / Nombre</label>
-                    <h5 style="font-weight: 700; color: var(--texto-oscuro); margin: 0;">{{ object.nombre }}</h5>
+                <div class="cell small-12 mb-1">
+                    <label class="form-label-custom detail-label">Razón Social / Nombre</label>
+                    <h5 class="detail-value">{{ object.nombre }}</h5>
                 </div>
                 
-                <div class="cell small-6" style="margin-bottom: 1rem;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Contacto</label>
-                    <p style="font-weight: 600; color: var(--texto-oscuro); margin: 0;">{{ object.num_contacto }}</p>
+                <div class="cell small-6">
+                    <label class="form-label-custom detail-label">Contacto</label>
+                    <p class="detail-value">{{ object.num_contacto }}</p>
                 </div>
 
-                <div class="cell small-6" style="margin-bottom: 1rem;">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Estado</label>
-                    <p style="margin: 0;">
+                <div class="cell small-6">
+                    <label class="form-label-custom detail-label">Estado</label>
+                    <p class="m-0">
                         {% if object.activo %}
-                            <span style="color: var(--verde-exito); font-weight: 700;">● Activo</span>
+                            <span class="stock-ok" style="font-size: 0.9rem;">● Activo</span>
                         {% else %}
-                            <span style="color: var(--texto-gris); font-weight: 700;">○ Inactivo</span>
+                            <span class="module-text" style="font-size: 0.9rem;">○ Inactivo</span>
                         {% endif %}
                     </p>
                 </div>
-
-                <div class="cell small-12">
-                    <label class="form-label-custom" style="font-size: 0.7rem;">Email</label>
-                    <p style="color: var(--texto-oscuro); margin: 0; font-size: 0.9rem;">{{ object.email }}</p>
-                </div>
             </div>
         </div>
 
-        <div style="background: #fff5f5; padding: 1rem; border-radius: 8px; border: 1px solid #feb2b2; margin-bottom: 2rem;">
-            <p style="margin: 0; color: #c53030; font-size: 0.85rem; text-align: center; font-weight: 600;">
-                Atención: Si eliminas este proveedor, los registros históricos de compras asociados podrían verse afectados.
-            </p>
+        <div class="alert-box-critical mb-2"">
+            <i class="fi-alert"></i> 
+            Atención: Si eliminas este proveedor, los registros históricos de compras asociados podrían verse afectados.
         </div>
 
-        <form method="post">
+        <form method="post" class="m-0">
           {% csrf_token %}
-          <div class="grid-x grid-margin-x align-center">
-            <div class="cell small-12 medium-6" style="margin-bottom: 12px;">
-                <button type="submit" class="button alert expanded shadow-sm" style="border-radius: 8px; font-weight: 700; height: 50px; margin: 0;">
+          <div class="grid-x grid-margin-x">
+            <div class="cell small-12 medium-6">
+                <button type="submit" class="button btn-form btn-delete expanded shadow">
                     Confirmar
                 </button>
             </div>
-            <div class="cell small-12 medium-6">
-                <a href="{% url 'stock_app:all_proveedores' %}" class="button secondary expanded hollow" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0;">
+            <div class="cell small-12 medium-6 mt-mobile-form">
+                <a href="{% url 'stock_app:all_proveedores' %}" class="button btn-form btn-cancel hollow expanded">
                     Cancelar
                 </a>
             </div>

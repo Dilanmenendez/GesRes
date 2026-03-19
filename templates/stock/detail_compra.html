@@ -6,66 +6,77 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+<div class="grid-container page-layout">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-10 large-8">
       
-      <div class="text-center" style="margin-bottom: 2rem;">
-        <h2 class="hero-title">Registro de Compra</h2>
+      <div class="text-center mb-2">
+        <h2 class="hero-title m-0">Registro de Compra</h2>
         <p class="module-text">ID de Operación: <strong>#{{ object.id }}</strong></p>
       </div>
 
-      <div class="module-card card-shadow" style="padding: 2.5rem; background: white; border-radius: 12px; position: relative; overflow: hidden; border-left: 6px solid var(--verde-exito);">
+      <div class="gesres-card detail-card" style="border-left-color: var(--verde-exito) !important;">
         
         <div class="grid-x grid-margin-x">
           
-          <div class="cell small-12 medium-7" style="margin-bottom: 2rem;">
-            <label class="form-label-custom" style="font-size: 0.75rem;">Materia Prima</label>
-            <h3 style="color: var(--azul-primario); font-weight: 800; margin: 0;">{{ object.producto.nombre }}</h3>
+          <div class="cell small-12 medium-7 mb-2">
+            <label class="form-label-custom detail-label">Materia Prima</label>
+            <h3 class="detail-value-highlight">{{ object.producto.nombre }}</h3>
             
             <div style="margin-top: 0.8rem;">
-                <span class="label secondary" style="background: var(--gris-suave); color: var(--texto-oscuro); border-radius: 4px; font-weight: 700; padding: 0.5rem;">
+                <span class="type-label type-label-pt">
                     {{ object.producto.get_tipo_display|default:object.producto.clasificacion }}
                 </span>
-                <p style="color: var(--texto-gris); font-size: 0.9rem; margin-top: 1rem;">
+                <p class="module-text" style="margin-top: 1rem; font-size: 0.9rem;">
                     <strong>Proveedor:</strong> {{ object.producto.proveedor|default:"No especificado" }}
                 </p>
             </div>
           </div>
 
-          <div class="cell small-12 medium-5 medium-text-right" style="margin-bottom: 2rem;">
-            <label class="form-label-custom" style="font-size: 0.75rem;">Fecha de Compra</label>
-            <p style="font-weight: 700; color: var(--texto-oscuro); margin: 0; font-size: 1.1rem;">{{ object.fecha|date:"d/m/Y" }}</p>
-            <p style="color: var(--texto-gris); margin: 0;">{{ object.fecha|date:"H:i" }} hs</p>
+          <div class="cell small-12 medium-5 medium-text-right mb-2">
+            <label class="form-label-custom detail-label">Fecha de Compra</label>
+            <p class="detail-value" style="font-size: 1.1rem;">{{ object.fecha|date:"d/m/Y" }}</p>
+            <p class="module-text m-0">{{ object.fecha|date:"H:i" }} hs</p>
           </div>
 
-          <div class="cell small-12">
-            <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 8px; border: 1px solid #dcfce7; margin-bottom: 2.5rem;">
+          <div class="cell small-12 mb-2">
+            <div class="data-box" style="background: #f0fdf4; border-color: #dcfce7;">
                 <div class="grid-x grid-margin-x align-middle">
+                    
                     <div class="cell small-6 text-center" style="border-right: 1px solid #dcfce7;">
-                        <label style="color: #166534; font-weight: 700; font-size: 0.7rem; text-transform: uppercase;">Cantidad</label>
-                        <h3 style="color: #15803d; font-weight: 900; margin: 0;">+ {{ object.cantidad }} <small style="font-size: 0.9rem;">kg</small></h3>
+                        <label class="form-label-custom detail-label" style="color: #166534 !important;">Cantidad Recibida</label>
+                        <h3 class="stock-ok" style="font-size: 2rem; margin: 0;">
+                            + {{ object.cantidad }} <small style="font-size: 0.9rem;">kg</small>
+                        </h3>
                     </div>
+
                     <div class="cell small-6 text-center">
-                        <label style="color: #166534; font-weight: 700; font-size: 0.7rem; text-transform: uppercase;">Inversión</label>
-                        <h3 style="color: var(--texto-oscuro); font-weight: 900; margin: 0;">$ {{ object.total_pagado|floatformat:2 }}</h3>
+                        <label class="form-label-custom detail-label" style="color: #166534 !important;">Inversión Total</label>
+                        <h3 class="detail-value" style="font-size: 2rem; margin: 0;">
+                            $ {{ object.total_pagado|floatformat:2 }}
+                        </h3>
                     </div>
+
                 </div>
             </div>
           </div>
 
           <div class="cell small-12">
-            <div class="grid-x grid-margin-x">
-              <div class="cell small-12 medium-6" style="margin-bottom: 1rem;">
-                <a href="{% url 'stock_app:all_compras' %}" class="button secondary hollow expanded" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <hr class="divider-detail">
+            <div class="grid-x grid-margin-x" style="margin-top: 1.5rem;">
+              
+              <div class="cell small-12 medium-6">
+                <a href="{% url 'stock_app:all_compras' %}" class="button btn-form btn-cancel hollow expanded">
                   ← Volver al Historial
                 </a>
               </div>
-              <div class="cell small-12 medium-6">
-                <a href="{% url 'stock_app:anulate_compra' object.id %}" class="button alert expanded shadow-sm" style="border-radius: 8px; font-weight: 700; height: 50px; display: flex; align-items: center; justify-content: center;">
+
+              <div class="cell small-12 medium-6 mt-mobile-form">
+                <a href="{% url 'stock_app:anulate_compra' object.id %}" class="button btn-form btn-delete expanded shadow">
                   Anular Compra
                 </a>
               </div>
+
             </div>
           </div>
 

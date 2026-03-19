@@ -6,52 +6,54 @@
 {% block content %}
 {% include 'includes/header2.html' %}
 
-<div class="grid-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+<div class="grid-container page-layout">
   <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6"> 
       
-      <div class="text-center" style="margin-bottom: 2rem;">
+      <div class="text-center mb-2">
         <h2 class="hero-title">Registrar Compra</h2>
         <p class="module-text">Ingreso de mercadería al inventario</p>
       </div>
       
-      <div class="module-card static card-shadow" style="background: white; border-radius: 12px;">
-        
-        <form method="post" enctype="multipart/form-data"> 
+      <div class="gesres-card form-card">
+        <form method="post" enctype="multipart/form-data" class="m-0"> 
           {% csrf_token %}
           
           <div class="grid-x grid-margin-x">
             
-            <div class="cell small-12" style="margin-bottom: 2rem;">
-                <div style="background: #f8fafc; padding: 1.25rem; border-radius: 10px; border: 1px solid #E5E9F0; border-left: 4px solid #3adb76;">
-                    <label style="color: #6b7785; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.2rem; display: block;">Materia Prima / Insumo</label>
-                    <h5 style="font-weight: 700; color: #2D3748; margin: 0;">{{ producto_nombre }}</h5>
+            <div class="cell small-12 form-cell mb-2">
+                <div class="data-box" style="border-left: 4px solid var(--verde-exito); padding: 1.25rem;">
+                    <label class="form-label-custom detail-label">Materia Prima / Insumo</label>
+                    <h5 class="detail-value-highlight m-0">{{ producto_nombre }}</h5>
                 </div>
             </div>
 
-            <div class="cell small-12" style="margin-bottom: 2.5rem;">
+            <div class="cell small-12 form-cell mb-2">
               <label class="form-label-custom">
                 {{ form.cantidad.label }} Comprada (KG)
               </label>
               {{ form.cantidad }}
               {% if form.cantidad.errors %}
-                <small class="error-text">{{ form.cantidad.errors.0 }}</small>
+                <small class="form-error">{{ form.cantidad.errors.0 }}</small>
               {% endif %}
             </div>
 
             <div class="cell small-12">
-              <div class="flex-buttons">
-                <button type="submit" class="button success shadow-sm" style="border-radius: 8px; font-weight: 700; padding: 0.85rem 2.5rem; margin: 0;">
-                  Guardar Compra
-                </button>
-                
-                <button type="reset" class="button alert hollow" style="border-radius: 8px; font-weight: 700; padding: 0.85rem 1.5rem; margin: 0; height: 53px;">
-                  Limpiar
-                </button>
+              <div class="grid-x grid-margin-x">
+                <div class="cell small-12 medium-8">
+                  <button type="submit" class="button btn-form btn-save expanded shadow">
+                    Guardar Compra
+                  </button>
+                </div>
+                <div class="cell small-12 medium-4 mt-mobile-form">
+                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
+                    Limpiar
+                  </button>
+                </div>
               </div>
 
-              <div class="text-center" style="margin-top: 1.5rem;">
-                <a href="{% url 'stock_app:all_productos' %}" class="button secondary clear small" style="font-weight: 600;">
+              <div class="text-center mt-2" style="margin-top: 1rem;">
+                <a href="{% url 'stock_app:all_productos' %}" class="detail-label" style="text-decoration: none; font-weight: 700;">
                   ← Volver al Stock
                 </a>
               </div>
@@ -63,32 +65,4 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* "Blindaje" para bordes redonditos */
-  .form-label-custom {
-    color: #6b7785; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem; display: block;
-  }
-  
-  input[type="text"], input[type="number"], input[type="email"], textarea, select {
-    margin-bottom: 0 !important; 
-    border-radius: 8px !important; 
-    border: 1px solid #E5E9F0 !important;
-    background-color: #fcfcfc !important; 
-    height: 42px !important; 
-    transition: all 0.2s ease !important;
-  }
-
-  input:focus, textarea:focus, select:focus {
-    border-color: #2F5D8C !important; 
-    box-shadow: 0 0 0 3px rgba(47, 93, 140, 0.1) !important;
-    background-color: #fff !important; 
-    outline: none !important;
-  }
-
-  .error-text {
-    color: #cc4b37; font-weight: 700; font-size: 0.85rem; margin-top: 0.4rem; display: block;
-  }
-  
-</style>
 {% endblock content %}
