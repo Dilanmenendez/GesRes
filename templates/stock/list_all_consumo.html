@@ -8,6 +8,7 @@
 
 <div class="grid-container page-layout">
   
+  <!-- HEADER -->
   <div class="grid-x grid-margin-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
       <h2 class="hero-title m-0">Historial de Consumos</h2>
@@ -15,24 +16,32 @@
     </div>
   </div>
 
-  <div class="gesres-card filter-card">
+  <!-- FILTROS -->
+  <div class="gesres-card">
     <form method="get">
       <div class="grid-x grid-margin-x align-bottom">
+        
         <div class="cell small-12 medium-5">
           <label class="form-label-custom">PRODUCTO / INSUMO</label>
           <input type="text" name="kword" placeholder="Buscar por nombre..." value="{{ request.GET.kword }}">
         </div>
+
         <div class="cell small-12 medium-4">
           <label class="form-label-custom">FECHA DEL CONSUMO</label>
           <input type="date" name="fecha" value="{{ request.GET.fecha }}">
         </div>
+
         <div class="cell small-12 medium-3">
-          <button type="submit" class="button btn-buscar expanded">Filtrar Consumos</button>
+          <button type="submit" class="button btn-buscar expanded">
+            Filtrar
+          </button>
         </div>
+
       </div>
     </form>
   </div>
 
+  <!-- TABLA -->
   <div class="table-card"> 
     <div class="table-wrapper">
       <table class="gesres-table unstriped">
@@ -40,54 +49,78 @@
           <tr>
             <th width="70" class="text-center">ID</th>
             <th>PRODUCTO</th>
-            <th class="text-center">CANTIDAD SALIDA</th>
-            <th class="text-center">FECHA Y HORA</th>
+            <th class="text-center">CANTIDAD</th>
+            <th class="text-center">FECHA</th>
             <th width="200" class="text-center">ACCIONES</th>
           </tr>
         </thead>
+
         <tbody>
           {% for consumo in object_list %}
           <tr>
+
+            <!-- ID -->
             <td class="text-center">
               <span class="id-badge">#{{ consumo.id }}</span>
             </td>
 
+            <!-- PRODUCTO -->
             <td>
-              <strong class="item-title">{{ consumo.producto.nombre }}</strong>
+              <span class="item-title">{{ consumo.producto.nombre }}</span>
             </td>
 
+            <!-- CANTIDAD -->
             <td class="text-center">
-              <span class="stock-val" style="color: var(--rojo-alerta, #C53030);"> - {{ consumo.cantidad }}</span>
-              <span class="stock-unit">KG</span>
+              <span class="stock-val text-critical">-{{ consumo.cantidad }}</span>
+              <span class="stock-unit">kg</span>
             </td>
 
+            <!-- FECHA -->
             <td class="text-center">
-              <span class="module-text">{{ consumo.fecha|date:"d/m/Y H:i" }}</span>
+              <span class="detail-value">
+                {{ consumo.fecha|date:"d/m/Y" }}
+              </span><br>
+              <small class="detail-label">
+                {{ consumo.fecha|date:"H:i" }} hs
+              </small>
             </td>
 
+            <!-- ACCIONES -->
             <td>
               <div class="actions-grid">
-                <a href="{% url 'stock_app:detail_consumo' consumo.id %}" class="text-action-primary">DETALLES</a>
-                <a href="{% url 'stock_app:anulate_consumo' consumo.id %}" class="text-action-alert">ANULAR</a>
+                <a href="{% url 'stock_app:detail_consumo' consumo.id %}" 
+                   class="text-action-primary">
+                  DETALLES
+                </a>
+
+                <a href="{% url 'stock_app:anulate_consumo' consumo.id %}" 
+                   class="text-action-alert">
+                  ANULAR
+                </a>
               </div>
             </td>
+
           </tr>
           {% empty %}
           <tr>
             <td colspan="5" class="text-center" style="padding: 4rem;">
-              <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">📉</div>
-              <p class="module-text">No se han registrado salidas de stock.</p>
+              <div class="empty-icon">📉</div>
+              <p class="module-text">No hay consumos registrados.</p>
             </td>
           </tr>
           {% endfor %}
         </tbody>
+
       </table>
     </div>
   </div>
 
+  <!-- FOOTER -->
   <div class="grid-x grid-margin-x align-middle footer-container" style="margin-top: 2rem; margin-bottom: 4rem;">
+    
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary btn-volver">
+      <a href="{% url 'stock_app:Inicio' %}" 
+         class="button hollow secondary btn-volver">
         ← Volver al Inicio
       </a>
     </div>
@@ -96,9 +129,12 @@
       {% if is_paginated %}
       <nav aria-label="Paginación" class="pagination-container">
         <ul class="pagination">
+
           {% if page_obj.has_previous %}
             <li class="pagination-previous">
-              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">Anterior</a>
+              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">
+                Anterior
+              </a>
             </li>
           {% endif %}
           
@@ -107,20 +143,26 @@
               <li class="current">{{ num }}</li>
             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
               <li>
-                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">{{ num }}</a>
+                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">
+                  {{ num }}
+                </a>
               </li>
             {% endif %}
           {% endfor %}
 
           {% if page_obj.has_next %}
             <li class="pagination-next">
-              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">Siguiente</a>
+              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">
+                Siguiente
+              </a>
             </li>
           {% endif %}
+
         </ul>
       </nav>
       {% endif %}
     </div>
+
   </div>
 
 </div>

@@ -6,84 +6,90 @@
 {% block content %}
 {% include 'includes/header3.html' %}
 
-<div class="grid-container" style="padding-top: 3rem;">
+<div class="grid-container page-layout form-container-wrapper">
+
   <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
 
-      <div class="text-center" style="margin-bottom: 2rem;">
-        <h2 class="hero-title">Agregar Ingrediente</h2>
-        <p class="module-text">Incorpora una nueva materia prima a la composición de la receta</p>
+      <!-- HEADER -->
+      <div class="text-center header-module">
+        <h2 class="hero-title m-0">
+          Agregar Ingrediente
+        </h2>
+        <p class="module-desc">
+          Incorpora una nueva materia prima a la composición de la receta
+        </p>
       </div>
 
-      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; text-align: left;">
+      <!-- FORM -->
+      <div class="form-card card-shadow">
         
         <form method="post">
           {% csrf_token %}
 
           <div class="grid-x grid-margin-x">
             
-            <div class="cell small-12" style="margin-bottom: 1.5rem;">
-              <label style="color: #6b7785; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+            <!-- PRODUCTO -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">
                 {{ form.producto.label }}
               </label>
               {{ form.producto }}
               {% if form.producto.errors %}
-                <small style="color: #cc4b37; font-weight: 700;">{{ form.producto.errors.0 }}</small>
+                <span class="form-error">
+                  {{ form.producto.errors.0 }}
+                </span>
               {% endif %}
             </div>
 
-            <div class="cell small-12" style="margin-bottom: 2rem;">
-              <label style="color: #6b7785; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+            <!-- CANTIDAD -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">
                 {{ form.cantidad.label }} (KG)
               </label>
               {{ form.cantidad }}
               {% if form.cantidad.errors %}
-                <small style="color: #cc4b37; font-weight: 700;">{{ form.cantidad.errors.0 }}</small>
+                <span class="form-error">
+                  {{ form.cantidad.errors.0 }}
+                </span>
               {% endif %}
             </div>
 
-            <div class="cell small-12">
-              <button type="submit" class="button success expanded shadow-sm" style="border-radius: 6px; font-weight: 700; height: 45px; margin-bottom: 1rem;">
-                Guardar Ingrediente
-              </button>
-              
-              <a href="{% url 'produccion_app:detail_receta' view.kwargs.pk %}" class="button secondary clear expanded" style="font-weight: 600;">
-                ← Cancelar y Volver a la Receta
-              </a>
+            <!-- ACTIONS -->
+            <div class="cell small-12 mt-mobile-form">
+
+              <div class="grid-x grid-margin-x">
+                
+                <div class="cell small-12 medium-6">
+                  <button type="submit" class="button btn-form btn-save expanded">
+                    Guardar Ingrediente
+                  </button>
+                </div>
+
+                <div class="cell small-12 medium-6">
+                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
+                    Limpiar
+                  </button>
+                </div>
+
+              </div>
+
+              <div class="text-center mt-2" style="margin-top: 1rem;">
+                <a href="{% url 'produccion_app:detail_receta' view.kwargs.pk %}" 
+                   class="detail-label">
+                  ← Volver a la Receta
+                </a>
+              </div>
+
             </div>
 
           </div>
         </form>
 
       </div>
+
     </div>
   </div>
 </div>
-
-<style>
-  /* Estilos de inputs para mantener la coherencia en GesRes */
-  input[type="text"], input[type="number"], select {
-    margin-bottom: 0 !important;
-    border-radius: 6px !important;
-    border: 1px solid #E5E9F0 !important;
-    background-color: #fcfcfc;
-    height: 42px !important;
-    transition: all 0.2s ease;
-    width: 100%;
-  }
-  
-  input:focus, select:focus {
-    border-color: #2F5D8C !important;
-    background: #ffffff !important;
-    box-shadow: 0 0 0 2px rgba(47, 93, 140, 0.1) !important;
-    outline: none !important;
-  }
-
-  /* Desactivamos la transformación en el hover para formularios */
-  .module-card:hover {
-    transform: none !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-  }
-</style>
 
 {% endblock content %}

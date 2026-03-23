@@ -6,132 +6,181 @@
 {% block content %}
 {% include 'includes/header3.html' %}
 
-<div class="grid-container" style="padding-top: 2rem;">
+<div class="grid-container page-layout">
   
+  <!-- HEADER -->
   <div class="grid-x align-middle" style="margin-bottom: 2rem;">
+    
     <div class="cell auto">
-      <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Recetas</h2>
-      <p style="color: var(--color-text-soft); margin: 0;">Administración de fórmulas y proporciones</p>
+      <h2 class="m-0" style="color: var(--azul-primario); font-weight: 700;">
+        Recetas
+      </h2>
+      <p class="m-0" style="color: var(--texto-gris);">
+        Administración de fórmulas y proporciones
+      </p>
     </div>
+
     <div class="cell shrink">
-      <a href="{% url 'produccion_app:create_receta' %}" class="button primary shadow" style="border-radius: 8px; font-weight: 600;">
+      <a href="{% url 'produccion_app:create_receta' %}" 
+         class="button btn-register">
         + Registrar Receta
       </a>
     </div>
+
   </div>
 
-  <div class="module-card" style="padding: 1.2rem; margin-bottom: 1.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+  <!-- FILTROS -->
+  <div class="gesres-card card-shadow">
+    
     <form method="get" class="grid-x grid-margin-x align-bottom">
+
       <div class="cell medium-6 large-7">
-        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-right: 470px">NOMBRE DE LA RECETA</label>
-        <input type="text" name="kword" placeholder="Ej: Masa de Sorrentinos..." 
-               style="border-radius: 6px; border: 1px solid var(--color-border); box-shadow: none; margin-bottom: 0;">
+        <label class="form-label-custom">
+          Nombre de la receta
+        </label>
+        <input type="text" name="kword" placeholder="Ej: Masa de Sorrentinos...">
       </div>
+
       <div class="cell medium-3 large-3">
-        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.8rem; margin-right: 170px">ID RECETA</label>
-        <input type="number" name="id" placeholder="000" 
-               style="border-radius: 6px; border: 1px solid var(--color-border); box-shadow: none; margin-bottom: 0;">
+        <label class="form-label-custom">
+          ID receta
+        </label>
+        <input type="number" name="id" placeholder="000">
       </div>
+
       <div class="cell medium-3 large-2">
-        <button type="submit" class="button secondary expanded" style="margin-bottom: 0; height: 39px; border-radius: 6px; font-weight: 600;">
+        <button type="submit" class="button btn-buscar expanded">
           Filtrar
         </button>
       </div>
+
     </form>
+
   </div>
 
-  <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none; background: white;">
-    <table class="hover unstriped" style="margin-bottom: 0;">
-      <thead style="background: #f8fafc; border-bottom: 2px solid var(--color-background);">
-        <tr>
-          <th width="80" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.85rem;">ID</th>
-          <th style="padding-left: 13rem; color: var(--color-text-soft); font-size: 0.85rem;">RECETA</th>
-          <th class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.85rem;">CANTIDAD x RECETA (kg)</th>
-          <th width="250" class="text-center-force" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.85rem;">ACCIONES</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for receta in object_list %}
-        <tr style="border-bottom: 1px solid #f1f5f9;">
-          <td class="td-numeric" style="padding: 1.2rem 1rem;">
-            <span style="background: var(--color-background); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-weight: 600; color: var(--color-primary);">
-              #{{ receta.id }}
-            </span>
-          </td>
-          <td style="padding: 1.2rem 1rem; font-weight: 600; color: var(--color-text);">
-            {{ receta.producto_final }}
-          </td>
-          <td class="td-numeric" style="padding: 1.2rem 1rem;">
-            <strong style="color: var(--color-text); font-size: 1.1rem;">{{ receta.cantidad_por_receta|floatformat:-1 }}</strong> <small>kg</small>
-          </td>
-          <td style="padding: 1.2rem 1rem;">
-            <div style="display: flex; gap: 4px; justify-content: center;">
-              <a href="{% url 'produccion_app:detail_receta' receta.id %}" 
-                 class="button tiny clear primary" style="margin-bottom: 0; font-weight: 700; font-size: 0.7rem;">
-                DETALLES
-              </a>
-              <a href="{% url 'produccion_app:update_receta' receta.id %}" 
-                 class="button tiny clear" style="margin-bottom: 0; font-weight: 700; font-size: 0.7rem; color: #b7950b;">
-                EDITAR
-              </a>
-              <a href="{% url 'produccion_app:delete_receta' receta.id %}" 
-                 class="button tiny clear alert" style="margin-bottom: 0; font-weight: 700; font-size: 0.7rem;">
-                ELIMINAR
-              </a>
-            </div>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="4" class="text-center" style="padding: 4rem; color: var(--color-text-soft);">
-            <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">📝</div>
-            No hay recetas registradas.
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- TABLA -->
+  <div class="table-card card-shadow">
+    
+    <div class="table-wrapper">
+      <table class="gesres-table">
+
+        <thead>
+          <tr>
+            <th width="80" class="text-center-force">ID</th>
+            <th>Receta</th>
+            <th class="text-center-force">Cantidad x Receta (kg)</th>
+            <th class="text-center-force">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for receta in object_list %}
+          <tr>
+
+            <td class="text-center-force">
+              <span class="id-badge">
+                #{{ receta.id }}
+              </span>
+            </td>
+
+            <td>
+              <span class="item-title">
+                {{ receta.producto_final }}
+              </span>
+            </td>
+
+            <td class="text-center-force">
+              <span class="stock-val">
+                {{ receta.cantidad_por_receta|floatformat:-1 }}
+              </span>
+              <span class="stock-unit">kg</span>
+            </td>
+
+            <td class="text-center-force">
+              <div class="actions-grid">
+
+                <a href="{% url 'produccion_app:detail_receta' receta.id %}" 
+                   class="text-action-primary">
+                  Detalles
+                </a>
+
+                <a href="{% url 'produccion_app:update_receta' receta.id %}" 
+                   class="text-action-warning">
+                  Editar
+                </a>
+
+                <a href="{% url 'produccion_app:delete_receta' receta.id %}" 
+                class="text-action-alert">
+                Eliminar
+                </a>
+
+              </div>
+            </td>
+
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4">
+              <div class="empty-state">
+                <span class="empty-icon">📝</span>
+                No hay recetas registradas.
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+
   </div>
 
-  <div class="grid-x align-middle" style="margin-top: 2rem; margin-bottom: 3rem;">
-    <div class="cell auto">
-      <a href="{% url 'produccion_app:Inicio' %}" class="button hollow secondary small" style="border-radius: 6px;">
+  <!-- FOOTER -->
+  <div class="grid-x align-middle" style="margin-top: 2rem;">
+    
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <a href="{% url 'produccion_app:Inicio' %}" 
+         class="button clear btn-tx">
         ← Volver al Inicio
       </a>
     </div>
-    
+
     <div class="cell shrink">
       {% if is_paginated %}
-        <nav aria-label="Pagination">
-          <ul class="pagination text-center" style="margin-bottom: 0;">
-            {% if page_obj.has_previous %}
-              <li class="pagination-previous">
-                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
-                  Atrás
-                </a>
-              </li>
-            {% endif %}
+      <div class="pagination-container">
+        <ul class="pagination">
 
-            {% for pagina in paginator.page_range %}
-              <li class="{% if page_obj.number == pagina %}current{% endif %}">
-                <a href="?page={{ pagina }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
-                  {{ pagina }}
-                </a>
-              </li>
-            {% endfor %}
+          {% if page_obj.has_previous %}
+            <li class="pagination-previous">
+              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                Atrás
+              </a>
+            </li>
+          {% endif %}
 
-            {% if page_obj.has_next %}
-              <li class="pagination-next">
-                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
-                  Siguiente
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </nav>
+          {% for pagina in paginator.page_range %}
+            <li class="{% if page_obj.number == pagina %}current{% endif %}">
+              <a href="?page={{ pagina }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                {{ pagina }}
+              </a>
+            </li>
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li class="pagination-next">
+              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                Siguiente
+              </a>
+            </li>
+          {% endif %}
+
+        </ul>
+      </div>
       {% endif %}
     </div>
+
   </div>
+
 </div>
 
 {% endblock content %}

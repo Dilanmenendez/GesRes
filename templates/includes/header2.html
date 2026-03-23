@@ -1,37 +1,32 @@
 <div class="title-bar erp-header" data-responsive-toggle="responsive-menu" data-hide-for="medium">
-    <div class="grid-container" style="width: 100%; display: flex; align-items: center; background: transparent;">
+    <div class="grid-container header-container">
         <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
-        <div class="title-bar-title" style="margin-left: 1rem;">
+        <div class="title-bar-title ml-1">
             <a href="{% url 'stock_app:Inicio' %}" class="erp-logo">
-                GesRes <span style="font-weight: 300; opacity: 0.7;">Stock</span>
+                GesRes <span class="logo">Stock</span>
             </a>
         </div>
     </div>
 </div>
 
-<div class="erp-header" id="responsive-menu" style="width: 100%;">
+<div class="erp-header" id="responsive-menu">
     <div class="grid-container">
         <div class="grid-x align-middle">
             
             <div class="cell shrink show-for-medium">
-                <a href="{% url 'stock_app:Inicio' %}" class="erp-logo" style="margin-right: 2rem;">
-                    GesRes <span style="font-weight: 300; opacity: 0.7;">Stock</span>
+                <a href="{% url 'stock_app:Inicio' %}" class="erp-logo mr-2">
+                    GesRes <span class="logo">Stock</span>
                 </a>
             </div>
 
             <div class="cell medium-auto small-12">
                 <ul class="vertical medium-horizontal menu erp-nav" data-responsive-menu="accordion medium-dropdown">
-                    
                     <li class="has-submenu">
                         <a href="{% url 'stock_app:all_productos' %}">Materia Prima</a>
                         <ul class="submenu menu vertical card-shadow" data-submenu>
                             {% for clasificacion in clasificaciones_menu %}
                                 {% if clasificacion.nombre != "Otros varios" %}
-                                    <li>
-                                        <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
-                                            {{ clasificacion.nombre }}
-                                        </a>
-                                    </li>
+                                    <li><a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">{{ clasificacion.nombre }}</a></li>
                                 {% endif %}
                             {% empty %}
                                 <li class="disabled"><a href="#">No hay clasificaciones</a></li>
@@ -39,11 +34,7 @@
 
                             {% for clasificacion in clasificaciones_menu %}
                                 {% if clasificacion.nombre == "Otros varios" %}
-                                    <li style="border-top: 1px solid rgba(255,255,255,0.1);">
-                                        <a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">
-                                            {{ clasificacion.nombre }}
-                                        </a>
-                                    </li>
+                                    <li class="divider-top"><a href="{% url 'stock_app:productos_por_clasificacion' clasificacion.id %}">{{ clasificacion.nombre }}</a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -59,13 +50,14 @@
                             <li><a href="{% url 'stock_app:all_consumos' %}">Consumos</a></li>
                         </ul>
                     </li>
-
                     <li><a href="{% url 'stock_app:dashboard' %}">Dashboard</a></li>
                 </ul>
             </div>
 
             <div class="cell medium-shrink small-12">
-                <a href="{% url 'produccion_app:Inicio' %}" class="button small hollow primary shadow-sm expanded medium-unexpanded" style="margin: 0.8rem 0; border-radius: 6px; border-color: #93abbb; color: #93abbb;">
+                <a href="{% url 'produccion_app:Inicio' %}" 
+                class="button small hollow btn-nav-switch expanded medium-unexpanded"
+                style="margin-top: 1rem;">
                     Ir a Producción →
                 </a>
             </div>

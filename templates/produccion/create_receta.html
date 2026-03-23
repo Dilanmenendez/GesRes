@@ -6,86 +6,87 @@
 {% block content %}
 {% include 'includes/header3.html' %}
 
-<div class="grid-container" style="padding-top: 3rem;">
+<div class="grid-container page-layout form-container-wrapper">
+
   <div class="grid-x align-center">
     <div class="cell small-12 medium-8 large-6">
       
-      <div class="text-center" style="margin-bottom: 2rem;">
-        <h2 class="hero-title">Registrar Receta</h2>
-        <p class="module-text">Define la base de producción para tus productos elaborados</p>
+      <!-- HEADER -->
+      <div class="text-center header-module">
+        <h2 class="hero-title m-0">
+          Registrar Receta
+        </h2>
+        <p class="module-desc">
+          Define la base de producción para tus productos elaborados
+        </p>
       </div>
 
-      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; text-align: left;">
+      <!-- FORM -->
+      <div class="form-card card-shadow">
         
         <form method="post">
           {% csrf_token %}
           
           <div class="grid-x grid-margin-x">
             
-            <div class="cell small-12" style="margin-bottom: 1.5rem;">
-              <label style="color: #6b7785; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+            <!-- PRODUCTO FINAL -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">
                 Producto Final (Resultado)
               </label>
               {{ form.producto_final }}
               {% if form.producto_final.errors %}
-                <small style="color: #cc4b37; font-weight: 700;">{{ form.producto_final.errors.0 }}</small>
+                <span class="form-error">
+                  {{ form.producto_final.errors.0 }}
+                </span>
               {% endif %}
             </div>
 
-            <div class="cell small-12" style="margin-bottom: 2rem;">
-              <label style="color: #6b7785; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">
+            <!-- CANTIDAD -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">
                 Cantidad por Receta (KG)
               </label>
               {{ form.cantidad_por_receta }}
               {% if form.cantidad_por_receta.errors %}
-                <small style="color: #cc4b37; font-weight: 700;">{{ form.cantidad_por_receta.errors.0 }}</small>
+                <span class="form-error">
+                  {{ form.cantidad_por_receta.errors.0 }}
+                </span>
               {% endif %}
-              <p style="margin-top: 0.5rem; color: #93abbb; font-size: 0.8rem; font-style: italic;">
+
+              <p class="detail-label">
                 * Esta cantidad se utilizará como base para el cálculo de costos e insumos.
               </p>
             </div>
 
+            <!-- ACTIONS -->
             <div class="cell small-12">
-              <button type="submit" class="button success expanded shadow-sm" style="border-radius: 6px; font-weight: 700; height: 45px; margin-bottom: 1rem;">
-                Guardar Receta
-              </button>
-              
-              <a href="{% url 'produccion_app:all_receta' %}" class="button secondary clear expanded" style="font-weight: 600;">
-                ← Cancelar y Volver al Listado
-              </a>
-            </div>
+              <div class="grid-x grid-margin-x">
+                <div class="cell small-12 medium-6">
+                  <button type="submit" class="button btn-form btn-save expanded shadow">
+                    Guardar Receta
+                  </button>
+                </div>
+                <div class="cell small-12 medium-6 mt-mobile-form">
+                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
+                    Limpiar
+                  </button>
+                </div>
+              </div>
 
+              <div class="text-center mt-2" style="margin-top: 1rem;">
+                <a href="{% url 'produccion_app:all_receta' %}" class="detail-label"">
+                  ← Volver al listado
+                </a>
+              </div>
+            </div>
           </div>
         </form>
 
       </div>
+
     </div>
   </div>
 </div>
-
-<style>
-  /* Sincronización con tus estilos generales */
-  input[type="text"], input[type="number"], select {
-    margin-bottom: 0 !important;
-    border-radius: 6px !important;
-    border: 1px solid #E5E9F0 !important;
-    background-color: #fcfcfc;
-    height: 42px !important;
-    transition: all 0.2s ease;
-  }
-  
-  input:focus, select:focus {
-    border-color: #2F5D8C !important;
-    background: #ffffff !important;
-    box-shadow: 0 0 0 2px rgba(47, 93, 140, 0.1) !important;
-    outline: none !important;
-  }
-
-  /* Evitar que la tarjeta se mueva al interactuar con el formulario */
-  .module-card:hover {
-    transform: none !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-  }
-</style>
 
 {% endblock content %}

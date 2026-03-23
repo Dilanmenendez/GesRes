@@ -88,21 +88,21 @@
               {% else %}
                 <a href="{% url 'stock_app:add_compra' materia.id %}" class="text-action-success">COMPRA</a>
               {% endif %}
-
-              <div class="full-width">
-                <a href="{% url 'stock_app:delete_producto' materia.id %}" class="text-action-alert">ELIMINAR</a>
-              </div>
+    
+              <a href="{% url 'stock_app:delete_producto' materia.id %}" class="text-action-alert">ELIMINAR</a>
+              
             </div>
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-    <div/>
+  </div>
   </div>
   
   {% if is_paginated %}
   <nav aria-label="Paginación de inventario" class="pagination-container">
+    
     <ul class="pagination text-center">
       
       {% if page_obj.has_previous %}
@@ -126,7 +126,7 @@
           </li>
         {% endif %}
       {% endfor %}
-
+          
       {% if page_obj.has_next %}
         <li class="pagination-next">
           <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}" aria-label="Siguiente página">
@@ -137,7 +137,9 @@
         <li class="pagination-next disabled">Siguiente</li>
       {% endif %}
 
+      
     </ul>
+    
   </nav>
   {% endif %}
   

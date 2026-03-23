@@ -6,86 +6,108 @@
 {% block content %}
 {% include 'includes/header3.html' %}
 
-<div class="grid-container" style="padding-top: 3rem;">
+<div class="grid-container page-layout form-container-wrapper">
+
   <div class="grid-x align-center">
     <div class="cell small-12 medium-10 large-8">
       
-      <div class="text-center" style="margin-bottom: 2rem;">
-        <h2 class="hero-title">Detalle de Producción</h2>
-        <p class="hero-subtitle" style="margin-top: 0.2rem;">ID de Registro: #{{ object.id }}</p>
+      <!-- HEADER -->
+      <div class="text-center header-module">
+        <h2 class="hero-title m-0">
+          Detalle de Producción
+        </h2>
+        <p class="module-desc">
+          ID de Registro: #{{ object.id }}
+        </p>
       </div>
 
-      <div class="module-card card-shadow" style="padding: 2.5rem; border: none; text-align: left;">
+      <!-- DETAIL CARD -->
+      <div class="gesres-card detail-card card-shadow">
         
         <div class="grid-x grid-margin-x">
-            <div class="cell small-12 medium-6" style="border-right: 1px solid #f1f5f9;">
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="color: #6b7785; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Producto</label>
-                    <h4 class="module-title" style="margin: 0;">{{ object.producto.nombre }}</h4>
-                    <span class="label secondary" style="border-radius: 4px; background: #e2e8f0; color: #4a5568; font-size: 0.7rem;">
-                        {{ object.producto.clasificacion }}
-                    </span>
-                </div>
+          
+          <!-- LEFT -->
+          <div class="cell small-12 medium-6">
 
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="color: #6b7785; font-weight: 600; font-size: 0.75rem; text-transform: uppercase;">Fecha de Registro</label>
-                    <p style="font-weight: 600; color: #2D3748; margin: 0;">{{ object.fecha|date:"d/m/Y" }}</p>
-                    <p style="font-size: 0.85rem; color: #718096;">{{ object.fecha|date:"H:i" }} hs</p>
-                </div>
+            <div class="form-cell">
+              <span class="detail-label">Producto</span>
+              <h4 class="detail-value">
+                {{ object.producto.nombre }}
+              </h4>
+              <span class="classif-name">
+                {{ object.producto.clasificacion }}
+              </span>
             </div>
 
-            <div class="cell small-12 medium-6" style="padding-left: 1.5rem;">
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="color: #6b7785; font-weight: 600; font-size: 0.75rem; text-transform: uppercase;">Cantidad Producida</label>
-                    <p style="font-size: 1.25rem; font-weight: 800; color: #2D3748; margin: 0;">
-                        {{ object.cantidad_producida }} <small style="color: #718096; font-weight: 400;">kg</small>
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="color: #6b7785; font-weight: 600; font-size: 0.75rem; text-transform: uppercase;">Costo Total de Producción</label>
-                    <p style="font-size: 1.25rem; font-weight: 800; color: #2F5D8C; margin: 0;">
-                        $ {{ object.costo_total|floatformat:2 }} <small style="color: #718096; font-weight: 400;">UYU</small>
-                    </p>
-                </div>
+            <div class="form-cell">
+              <span class="detail-label">Fecha de Registro</span>
+              <p class="detail-value">
+                {{ object.fecha|date:"d/m/Y" }}
+              </p>
+              <span class="detail-label">
+                {{ object.fecha|date:"H:i" }} hs
+              </span>
             </div>
+
+          </div>
+
+          <!-- RIGHT -->
+          <div class="cell small-12 medium-6 mt-mobile">
+
+            <div class="form-cell">
+              <span class="detail-label">Cantidad Producida</span>
+              <p class="detail-value">
+                {{ object.cantidad_producida }}
+                <span class="stock-unit">kg</span>
+              </p>
+            </div>
+
+            <div class="form-cell">
+              <span class="detail-label">Costo Total de Producción</span>
+              <p class="detail-value-highlight">
+                $ {{ object.costo_total|floatformat:2 }}
+                <span class="stock-unit">UYU</span>
+              </p>
+            </div>
+
+          </div>
+
         </div>
 
-        <hr style="border-top: 1px solid #f1f5f9; margin: 1.5rem 0;">
+        <div class="divider-detail"></div>
 
-        <div class="grid-x grid-margin-x align-center">
-            <div class="cell small-12 medium-4">
-                <a href="{% url 'produccion_app:all_produccion' %}" class="button secondary expanded hollow" style="border-radius: 6px; font-weight: 700;">
-                    ← Volver
-                </a>
-            </div>
-            {% if not object.anulada %}
-            <div class="cell small-12 medium-4">
-                <a href="{% url 'produccion_app:anulate_produccion' object.id %}" class="button alert expanded shadow-sm" style="border-radius: 6px; font-weight: 700;">
-                    Anular Registro
-                </a>
-            </div>
-            {% endif %}
+        <!-- ACTIONS -->
+        <div class="grid-x grid-margin-x">
+
+          <div class="cell small-12 medium-6">
+            <a href="{% url 'produccion_app:all_produccion' %}" 
+               class="button btn-form btn-cancel hollow expanded">
+              ← Volver
+            </a>
+          </div>
+
+          {% if not object.anulada %}
+          <div class="cell small-12 medium-6">
+            <a href="{% url 'produccion_app:anulate_produccion' object.id %}" 
+               class="button btn-form btn-delete expanded">
+              Anular Registro
+            </a>
+          </div>
+          {% endif %}
+
         </div>
 
       </div>
       
+      <!-- ALERT -->
       {% if object.anulada %}
-      <div class="callout alert text-center" style="border-radius: 8px; margin-top: 1rem; border: none; background: #fff5f5; color: #c53030;">
-          <strong>ESTA PRODUCCIÓN HA SIDO ANULADA</strong>
+      <div class="alert-box-critical text-center mt-mobile">
+        ESTA PRODUCCIÓN HA SIDO ANULADA
       </div>
       {% endif %}
 
     </div>
   </div>
 </div>
-
-<style>
-    /* Aseguramos que el hover de tu CSS no afecte la legibilidad de la ficha técnica */
-    .module-card:hover {
-        transform: none !important; 
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-    }
-</style>
 
 {% endblock content %}

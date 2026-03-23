@@ -4,126 +4,179 @@
 {% block title %}GesRes | Dashboard de Producción{% endblock title %}
 
 {% block content %}
-  {% include 'includes/header3.html' %}
+{% include 'includes/header3.html' %}
 
-  <div class="grid-container">
-    
-    <div class="grid-x align-center" style="padding: 2rem 0 1rem 0;">
-      <div class="cell small-12 text-center">
-        <h2 style="color: var(--color-primary); font-weight: 700; font-size: 1.8rem;">
-            Panel de Control de Producción
-        </h2>
-        <p style="color: var(--color-text-soft);">Monitoreo de actividad, costos y rendimiento mensual</p>
+<div class="grid-container page-layout">
+
+  <!-- HEADER -->
+  <div class="grid-x align-center" style="margin-bottom: 2rem;">
+    <div class="cell small-12 text-center">
+      <h2 style="color: var(--azul-primario); font-weight: 700;">
+        Panel de Control de Producción
+      </h2>
+      <p style="color: var(--texto-gris);">
+        Monitoreo de actividad, costos y rendimiento mensual
+      </p>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="grid-x grid-margin-x">
+
+    <div class="cell small-12 medium-4">
+      <div class="stat-card primary gesres-card text-center">
+        <span class="detail-label">Producciones / Mes</span>
+        <h3 class="stat-value">
+          {{ cantidad_producciones_mes }}
+        </h3>
+        <span class="detail-label">Actividad registrada</span>
       </div>
     </div>
 
-    <div class="grid-x grid-margin-x">
-      
-      <div class="cell small-12 medium-4">
-        <div class="module-card text-center card-shadow">
-          <span style="display:block; font-size: 0.85rem; text-transform: uppercase; color: var(--color-text-soft); font-weight: 600; letter-spacing: 1px;">
-            Producciones / Mes
-          </span>
-          <h3 style="font-size: 2.5rem; margin: 0.5rem 0; color: var(--color-primary); font-weight: 700;">
-            {{ cantidad_producciones_mes }}
-          </h3>
-          <div style="font-size: 0.8rem; color: #38A169; font-weight: 500;">Actividad registrada</div>
-        </div>
+    <div class="cell small-12 medium-4">
+      <div class="stat-card neutral gesres-card text-center">
+        <span class="detail-label">Inversión del Mes</span>
+        <h3 class="stat-value text-critical">
+          ${{ costo_total_mes|floatformat:0 }}
+        </h3>
+        <span class="detail-label">Costo total operativo</span>
       </div>
-
-      <div class="cell small-12 medium-4">
-        <div class="module-card text-center card-shadow">
-          <span style="display:block; font-size: 0.85rem; text-transform: uppercase; color: var(--color-text-soft); font-weight: 600; letter-spacing: 1px;">
-            Inversión del Mes
-          </span>
-          <h3 style="font-size: 2.5rem; margin: 0.5rem 0; color: #E53E3E; font-weight: 700;">
-            ${{ costo_total_mes }}
-          </h3>
-          <div style="font-size: 0.8rem; color: var(--color-text-soft);">Costo total operativo</div>
-        </div>
-      </div>
-
-      <div class="cell small-12 medium-4">
-        <div class="module-card text-center card-shadow">
-          <span style="display:block; font-size: 0.85rem; text-transform: uppercase; color: var(--color-text-soft); font-weight: 600; letter-spacing: 1px;">
-            Catálogo de Recetas
-          </span>
-          <h3 style="font-size: 2.5rem; margin: 0.5rem 0; color: var(--color-secondary); font-weight: 700;">
-            {{ cantidad_recetas }}
-          </h3>
-          <div style="font-size: 0.8rem; color: var(--color-text-soft);">Fórmulas activas</div>
-        </div>
-      </div>
-
     </div>
 
-    <div class="grid-x grid-margin-x" style="margin-top: 2rem;">
-      
-      <div class="cell small-12 large-4">
-        <div class="module-card card-shadow" style="height: 100%; text-align: left;">
-          <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1.5rem; border-bottom: 2px solid var(--color-background); padding-bottom: 0.5rem;">
-            Volumen por Producto
-          </h5>
-          {% if resumen_por_producto %}
-            <ul style="list-style: none; margin-left: 0;">
-              {% for producto, cantidad in resumen_por_producto.items %}
-                <li style="padding: 0.8rem 0; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-weight: 500; color: var(--color-text);">{{ producto }}</span>
-                  <span class="label primary" style="border-radius: 20px; background: #E2E8F0; color: var(--color-primary); font-weight: 700;">
-                    {{ cantidad }} kg
-                  </span>
-                </li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p style="color: var(--color-text-soft); font-style: italic;">No hay registros este mes.</p>
-          {% endif %}
-        </div>
-      </div>
-
-      <div class="cell small-12 large-8">
-        <div class="module-card card-shadow" style="text-align: left;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 0;">Últimas Operaciones</h5>
-            <a href="{% url 'produccion_app:all_produccion' %}" style="font-size: 0.85rem; font-weight: 600;">Ver todo →</a>
-          </div>
-          
-          <table style="width: 100%; border-collapse: collapse;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--color-background); color: var(--color-text-soft); font-size: 0.85rem;">
-                <th style="padding: 1rem 0.5rem;">Producto</th>
-                <th style="padding: 1rem 0.5rem;">Cantidad</th>
-                <th style="padding: 1rem 0.5rem;">Costo</th>
-                <th style="padding: 1rem 0.5rem; text-align: right;">Fecha</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% if ultimas_producciones %}
-                {% for p in ultimas_producciones %}
-                  <tr style="border-bottom: 1px solid #f8f8f8; font-size: 0.95rem;">
-                    <td style="padding: 1rem 0.5rem; font-weight: 600; color: var(--color-primary);">{{ p.producto.nombre }}</td>
-                    <td style="padding: 1rem 0.5rem;">{{ p.cantidad_producida }} kg</td>
-                    <td style="padding: 1rem 0.5rem; font-weight: 500;">${{ p.costo_total }}</td>
-                    <td style="padding: 1rem 0.5rem; text-align: right; color: var(--color-text-soft);">{{ p.fecha|date:"d/m/y H:i" }}</td>
-                  </tr>
-                {% endfor %}
-              {% else %}
-                <tr><td colspan="4" style="padding: 2rem; text-align: center; color: var(--color-text-soft);">Sin datos disponibles</td></tr>
-              {% endif %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="grid-x" style="margin-top: 3rem; margin-bottom: 4rem;">
-      <div class="cell small-12 text-center">
-        <a href="{% url 'produccion_app:create_produccion' %}" class="button primary large card-shadow" style="border-radius: 50px; padding: 1rem 2.5rem;">
-          + Registrar Nueva Producción
-        </a>
+    <div class="cell small-12 medium-4">
+      <div class="stat-card success gesres-card text-center">
+        <span class="detail-label">Catálogo de Recetas</span>
+        <h3 class="stat-value">
+          {{ cantidad_recetas }}
+        </h3>
+        <span class="detail-label">Fórmulas activas</span>
       </div>
     </div>
 
   </div>
+
+  <!-- CONTENIDO -->
+  <div class="grid-x grid-margin-x" style="margin-top: 2rem;">
+
+    <!-- RESUMEN -->
+    <div class="cell small-12 large-4">
+      <div class="gesres-card card-shadow">
+
+        <h5 class="detail-value" style="margin-bottom: 1rem;">
+          Volumen por Producto
+        </h5>
+
+        {% if resumen_por_producto %}
+          <ul style="list-style: none; margin: 0;">
+            {% for producto, cantidad in resumen_por_producto.items %}
+              <li class="data-box" style="margin-bottom: 0.8rem; display:flex; justify-content: space-between;">
+                <span>{{ producto }}</span>
+                <span class="id-badge">{{ cantidad }} kg</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="empty-state">
+            <span class="empty-icon">📭</span>
+            No hay registros este mes.
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- ÚLTIMAS OPERACIONES -->
+    <div class="cell small-12 large-8">
+      <div class="table-card card-shadow">
+
+        <div class="grid-x align-middle" style="margin-bottom: 1rem;">
+          <div class="cell auto">
+            <h5 class="detail-value m-0">
+              Últimas Operaciones
+            </h5>
+          </div>
+          <div class="cell shrink">
+            <a href="{% url 'produccion_app:all_produccion' %}" 
+               class="button clear btn-tx">
+              Ver todo →
+            </a>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="gesres-table">
+
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Costo</th>
+                <th class="text-right-force">Fecha</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% if ultimas_producciones %}
+                {% for p in ultimas_producciones %}
+                  <tr>
+
+                    <td>
+                      <span class="item-title">
+                        {{ p.producto.nombre }}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span class="stock-val">
+                        {{ p.cantidad_producida }}
+                      </span>
+                      <span class="stock-unit">kg</span>
+                    </td>
+
+                    <td>
+                      <span class="price-val">
+                        ${{ p.costo_total }}
+                      </span>
+                    </td>
+
+                    <td class="text-right-force">
+                      <span class="detail-label">
+                        {{ p.fecha|date:"d/m/y H:i" }}
+                      </span>
+                    </td>
+
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="4">
+                    <div class="empty-state">
+                      <span class="empty-icon">📭</span>
+                      Sin datos disponibles
+                    </div>
+                  </td>
+                </tr>
+              {% endif %}
+            </tbody>
+
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="grid-x" style="margin-top: 2rem;">
+    <div class="cell small-12 text-center">
+      <a href="{% url 'produccion_app:create_produccion' %}" 
+         class="button btn-save">
+        + Registrar Nueva Producción
+      </a>
+    </div>
+  </div>
+
+</div>
+
 {% endblock content %}

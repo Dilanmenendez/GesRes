@@ -1,34 +1,55 @@
-<div class="title-bar erp-header" data-responsive-toggle="responsive-menu-produccion" data-hide-for="medium">
-    <div class="grid-container" style="width: 100%; display: flex; align-items: center; background: transparent;">
-        <button class="menu-icon" type="button" data-toggle="responsive-menu-produccion"></button>
-        <div class="title-bar-title" style="margin-left: 1rem;">
+<div class="title-bar erp-header" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+    <div class="grid-container header-container">
+        <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
+        <div class="title-bar-title ml-1">
             <a href="{% url 'produccion_app:Inicio' %}" class="erp-logo">
-                GesRes <span style="font-weight: 300; opacity: 0.7;">Producción</span>
+                GesRes <span class="logo">Producción</span>
             </a>
         </div>
     </div>
 </div>
 
-<div class="erp-header" id="responsive-menu-produccion" style="width: 100%;">
+<div class="erp-header" id="responsive-menu">
     <div class="grid-container">
         <div class="grid-x align-middle">
             
+            <!-- LOGO DESKTOP -->
             <div class="cell shrink show-for-medium">
-                <a href="{% url 'produccion_app:Inicio' %}" class="erp-logo" style="margin-right: 2rem;">
-                    GesRes <span style="font-weight: 300; opacity: 0.7;">Producción</span>
+                <a href="{% url 'produccion_app:Inicio' %}" class="erp-logo mr-2">
+                    GesRes <span class="logo">Producción</span>
                 </a>
             </div>
 
+            <!-- NAV -->
             <div class="cell medium-auto small-12">
                 <ul class="vertical medium-horizontal menu erp-nav" data-responsive-menu="accordion medium-dropdown">
-                    <li><a href="{% url 'produccion_app:all_produccion' %}">Operaciones</a></li>
-                    <li><a href="{% url 'produccion_app:all_receta' %}">Recetas</a></li>
-                    <li><a href="{% url 'produccion_app:dashboard' %}">Dashboard</a></li>
+
+                    <li>
+                        <a href="{% url 'produccion_app:all_produccion' %}">
+                            Operaciones
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'produccion_app:all_receta' %}">
+                            Recetas
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'produccion_app:dashboard' %}">
+                            Dashboard
+                        </a>
+                    </li>
+
                 </ul>
             </div>
 
+            <!-- BOTÓN CAMBIO -->
             <div class="cell medium-shrink small-12">
-                <a href="{% url 'stock_app:Inicio' %}" class="button small hollow primary shadow-sm expanded medium-unexpanded" style="margin: 0.8rem 0; border-radius: 6px; border-color: #93abbb; color: #93abbb;">
+                <a href="{% url 'stock_app:Inicio' %}" 
+                   class="button small hollow btn-switch expanded medium-unexpanded"
+                   style="margin-top: 1rem;">
                     Ir a Stock →
                 </a>
             </div>

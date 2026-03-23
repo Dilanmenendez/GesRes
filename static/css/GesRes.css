@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GESRES ERP - HOJA DE ESTILOS ORGANIZADA
+   GESRES ERP - HOJA DE ESTILOS ORGANIZADA (INICIO ACTUALIZADO)
    ========================================================================== */
 
 /* 1. VARIABLES DE DISEÑO
@@ -10,6 +10,7 @@
     --rojo-alerta: #cc4b37;
     --verde-exito: #3adb76;
     --naranja-edicion: #ffae00;
+    --morado-secundario: #764ba2;
     --gris-fondo: #cad0d7;
     --gris-suave: #f8fafc;
     --borde-color: #E5E9F0;
@@ -24,9 +25,10 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+    overflow-x: hidden; /* FIX RESPONSIVE: Evita el scroll horizontal en toda la página */
 }
 
-.page-layout { padding-top: 2rem; padding-bottom: 4rem; }
+.page-layout { padding-top: 2rem; padding-bottom: 4rem; max-width: 100vw; }
 .header-module { margin-bottom: 2rem; }
 .m-0 { margin: 0 !important; }
 
@@ -50,10 +52,85 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* FIX RESPONSIVE: Permite que los elementos bajen si no hay espacio */
+    gap: 10px;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    color: var(--azul-primario);
+    font-weight: 700;
+}
+
+.page-subtitle {
+    color: var(--texto-gris);
+}
+
+/* Complementos para el Header (reutilizando lo existente) */
+
+/* El span "Stock" al lado del logo */
+.logo {
+    font-weight: 300;
+    opacity: 0.7;
+    margin-left: 0.3rem;
+}
+
+/* Color de los links para que resalten sobre el fondo oscuro que ya tenés */
+.erp-nav li a {
+    color: #93abbb !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.erp-nav li a:hover {
+    color: white !important;
+}
+
+.btn-switch,
+.btn-nav-switch {
+    border: 2px solid #93abbb !important;
+    color: #93abbb !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 0.6rem 1.2rem !important;
+    background: transparent !important;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-switch:hover,
+.btn-nav-switch:hover {
+    border-color: white !important;
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Divisor para "Otros varios" en el submenú */
+.divider-top {
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Sombra y color de submenús (Dropdowns) */
+.submenu.card-shadow {
+    background: rgb(69, 67, 62) !important; /* Mismo color que tu erp-header */
+    border: 1px solid var(--borde-color) !important;
+}
+
+/* Fix responsive para asegurar que el contenedor móvil use el 100% */
+@media screen and (max-width: 39.9375em) {
+    .erp-header .grid-container {
+        max-width: 100%;
+    }
 }
 
 /* 3. TARJETAS Y CONTENEDORES (CONTAINERS)
    ========================================================================== */
+.card-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important; }
+
 .gesres-card {
     background: white;
     border-radius: 12px;
@@ -61,6 +138,8 @@ body {
     margin-bottom: 2rem;
     padding: 1.5rem;
     border: none;
+    box-sizing: border-box; /* FIX RESPONSIVE: El padding no rompe el ancho */
+    max-width: 100%;
 }
 
 .form-card {
@@ -69,6 +148,8 @@ body {
     padding: 2.5rem;
     border: none;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    box-sizing: border-box; /* FIX RESPONSIVE */
+    max-width: 100%;
 }
 
 .table-card {
@@ -77,11 +158,15 @@ body {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
     margin-bottom: 2rem;
+    box-sizing: border-box; /* FIX RESPONSIVE */
+    max-width: 100%;
 }
 
 .detail-card {
     border-left: 6px solid var(--azul-primario) !important;
     padding: 2.5rem !important;
+    box-sizing: border-box; /* FIX RESPONSIVE */
+    max-width: 100%;
 }
 
 .card-confirm { 
@@ -109,6 +194,9 @@ body .grid-container form textarea {
     height: 42px !important;
     margin-bottom: 0 !important;
     background-color: #fcfcfc !important;
+    width: 100% !important; /* FIX RESPONSIVE: Usa todo el contenedor */
+    max-width: 100% !important; 
+    box-sizing: border-box !important;
 }
 
 body .grid-container form input:focus {
@@ -122,7 +210,12 @@ body .grid-container form input:focus {
 .error-text { color: #cc4b37; font-weight: 700; font-size: 0.85rem; margin-top: 0.4rem; display: block; }
 
 /* Checkboxes */
-.display-flex-middle { display: flex !important; align-items: center !important; gap: 10px; }
+.display-flex-middle { 
+    display: flex !important; 
+    align-items: center !important; 
+    gap: 12px !important; 
+}
+.display-flex-middle label { margin: 0 !important; line-height: 1 !important; }
 .display-flex-middle input[type="checkbox"] { margin: 0 !important; width: 18px; height: 18px; cursor: pointer; }
 
 /* Estados condicionales */
@@ -134,6 +227,7 @@ body .grid-container form input:focus {
 .table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    width: 100%; /* FIX RESPONSIVE: Fuerza a que el wrapper no exceda su padre */
 }
 
 .gesres-table {
@@ -187,17 +281,37 @@ body .grid-container form input:focus {
 }
 .btn-form:active { transform: scale(0.98); }
 
-.btn-save { background-color: var(--verde-exito) !important; color: #063d1a !important; }
-.btn-cancel { border: 2px solid var(--azul-primario) !important; color: var(--azul-primario) !important; }
-.btn-clear { border: 2px solid var(--rojo-alerta) !important; color: var(--rojo-alerta) !important; }
-.btn-delete { background-color: var(--rojo-alerta) !important; color: white !important; border: none !important; }
-.btn-delete:hover { background-color: #b0301a !important; }
-.btn-buscar { background-color: #717171 !important; color: white !important; font-weight: 700 !important; border-radius: 8px !important; height: 42px !important; }
-.btn-register { border-radius: 8px !important; font-weight: 600 !important; }
-
+.btn-save { 
+    background-color: var(--verde-exito) !important; 
+    color: #063d1a !important; }
+.btn-cancel { 
+    border: 2px solid var(--azul-primario) !important; 
+    color: var(--azul-primario) !important; }
+.btn-clear { 
+    border: 2px solid var(--rojo-alerta) !important; 
+    color: var(--rojo-alerta) !important; }
+.btn-delete { 
+    background-color: var(--rojo-alerta) !important; 
+    color: white !important; border: none !important; }
+.btn-delete:hover { 
+    background-color: #b0301a !important; }
+.btn-buscar { 
+    background-color: #717171 !important; 
+    color: white !important; font-weight: 700 !important; 
+    border-radius: 8px !important; 
+    height: 42px !important; }
+.btn-register { 
+    border-radius: 8px !important; 
+    font-weight: 600 !important; }
+.btn-tx {
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    color: var(--azul-primario);
+}
 /* Grid de Acciones en Tabla */
 .actions-grid {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     max-width: 220px;
@@ -211,7 +325,7 @@ body .grid-container form input:focus {
 /* 7. COMPONENTES DE UI (BADGES, STATS, ALERTAS)
    ========================================================================== */
 .id-badge { background: #f0f4f8; color: var(--azul-primario); padding: 5px 10px; border-radius: 6px; font-family: monospace; font-weight: 800; }
-.data-box { background: var(--gris-suave); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--borde-color); }
+.data-box { background: var(--gris-suave); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--borde-color); box-sizing: border-box; max-width: 100%; }
 
 .type-label { display: inline-block; padding: 4px 12px; font-size: 0.65rem; font-weight: 800; border-radius: 4px; text-transform: uppercase; }
 .type-label-pt { background: var(--verde-exito); color: #063d1a; }
@@ -226,7 +340,7 @@ body .grid-container form input:focus {
 
 /* Dashboard & Stats */
 .status-pill { background: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; color: var(--verde-exito); font-weight: 700; border: 1px solid var(--borde-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-.stat-card { padding: 1.5rem !important; margin-bottom: 1.5rem; }
+.stat-card { padding: 1.5rem !important; margin-bottom: 1.5rem; box-sizing: border-box; max-width: 100%; }
 .stat-card.primary { border-top: 4px solid var(--azul-primario); }
 .stat-card.success { border-top: 4px solid var(--verde-exito); }
 .stat-card.neutral { border-top: 4px solid var(--texto-gris); }
@@ -238,7 +352,7 @@ body .grid-container form input:focus {
 .alert-banner.success { background-color: #f0fff4; }
 .alert-title-danger { color: var(--rojo-alerta); font-weight: 700; margin: 0; }
 .alert-title-success { color: var(--verde-exito); font-weight: 700; margin: 0; }
-.alert-box-critical { background: #fff5f5; padding: 1.25rem; border-radius: 8px; border: 1px solid #feb2b2; color: #c53030; font-weight: 600; font-size: 0.85rem; text-align: center; line-height: 1.4; margin-top: 1rem; margin-bottom: 1rem; }
+.alert-box-critical { background: #fff5f5; padding: 1.25rem; border-radius: 8px; border: 1px solid #feb2b2; color: #c53030; font-weight: 600; font-size: 0.85rem; text-align: center; line-height: 1.4; margin-top: 1rem; margin-bottom: 1rem; box-sizing: border-box; width: 100%; }
 .confirm-icon { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
 .suggested-badge { background: #EBF8FF; color: #2B6CB0; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; display: inline-block; }
 
@@ -249,9 +363,9 @@ body .grid-container form input:focus {
 /* 8. PAGINACIÓN
    ========================================================================== */
 .pagination-container { margin-top: 1.5rem; padding: 1rem 0; }
-.pagination { display: inline-flex; justify-content: center; width: 100%; }
+.pagination { display: inline-flex; justify-content: center; width: 100%; flex-wrap: wrap; gap: 5px; } /* FIX RESPONSIVE */
 .pagination li a { border-radius: 6px; transition: background 0.2s ease; color: var(--azul-primario); font-weight: 600; }
-.pagination li.current { background: var(--azul-primario); color: white; border-radius: 6px; padding: 0.1875rem 0.625rem; }
+.pagination li.current { background: var(--azul-hover); color: white; border-radius: 6px; padding: 0.1875rem 0.625rem; }
 .pagination li.disabled { color: var(--texto-gris); opacity: 0.6; }
 
 /* 9. UTILIDADES Y VARIOS
@@ -277,7 +391,7 @@ body .grid-container form input:focus {
 .text-action-alert { color: var(--rojo-alerta) !important; }
 .text-action-success { color: #2c7a7b !important; }
 
-/* 10. REGLAS RESPONSIVE
+/* 10. REGLAS RESPONSIVE (EXISTENTES)
    ========================================================================== */
 @media screen and (min-width: 40em) {
     .btn-dashboard { width: auto !important; min-width: 200px; }
@@ -296,16 +410,79 @@ body .grid-container form input:focus {
         width: 100% !important;
         margin-right: 0 !important;
         margin-bottom: 10px !important;
+        box-sizing: border-box; /* FIX RESPONSIVE */
     }
 
     /* Header móvil */
     .header-container {
         flex-direction: column;
         text-align: center;
+        width: 100%; /* FIX RESPONSIVE */
+    }
+    
+    .erp-nav {
+        width: 100%; /* FIX RESPONSIVE */
     }
 
     /* Paginación móvil */
     .pagination li:not(.pagination-next):not(.pagination-previous):not(.current) {
         display: none; 
     }
+}
+
+/* 11. ESTILOS EXCLUSIVOS PARA INICIO (NUEVOS)
+   ========================================================================== */
+.hero-card {
+    background: white !important;
+    border-radius: 12px !important;
+    padding: 3rem 2.5rem !important;
+    margin-bottom: 2rem !important;
+    box-sizing: border-box; /* FIX RESPONSIVE */
+    max-width: 100%;
+}
+
+.hero-title-main { color: var(--azul-primario); font-weight: 800; font-size: 2.5rem; margin-bottom: 0.5rem; }
+.hero-desc { color: var(--texto-gris); font-size: 1.1rem; max-width: 600px; margin-bottom: 2rem; }
+.hero-icon { font-size: 7rem; opacity: 0.8; }
+
+.nav-module-card {
+    background: white !important;
+    border-radius: 12px !important;
+    padding: 2.5rem 1.5rem !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box; /* FIX RESPONSIVE */
+    max-width: 100%;
+}
+
+.border-top-primary { border-top: 5px solid var(--azul-primario) !important; }
+.border-top-success { border-top: 5px solid var(--verde-exito) !important; }
+.border-top-secondary { border-top: 5px solid var(--morado-secundario) !important; }
+
+.module-icon { font-size: 2.8rem; margin-bottom: 1rem; }
+.module-title { font-weight: 700; margin-bottom: 0.75rem; font-size: 1.2rem; }
+.module-desc { color: var(--texto-gris); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+.btn-hero { border-radius: 8px !important; font-weight: 600 !important; }
+.btn-tx { border-radius: 6px !important; font-weight: 700 !important; font-size: 0.75rem !important; padding: 0.8rem 0 !important; }
+
+.suggestion-banner {
+    background: white !important;
+    border-radius: 8px !important;
+    padding: 1.5rem 2rem !important;
+    box-sizing: border-box; /* FIX RESPONSIVE */
+    max-width: 100%;
+}
+.border-alert { border-left: 5px solid var(--rojo-alerta) !important; }
+.border-neutral { border-left: 5px solid #CBD5E0 !important; }
+
+.suggestion-title { margin: 0; font-weight: 700; color: var(--texto-oscuro); }
+.suggestion-desc { margin: 0; font-size: 0.9rem; color: var(--texto-gris); }
+
+@media screen and (max-width: 39.9375em) {
+    .mb-mobile-module { margin-bottom: 1.5rem; }
+    .hero-card { padding: 2rem 1.5rem !important; }
+    .hero-title-main { font-size: 2rem; }
 }
