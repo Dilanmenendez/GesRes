@@ -33,24 +33,14 @@
             </div>
 
             <div class="cell small-12">
-              <div class="grid-x grid-margin-x">
-                <div class="cell small-12 medium-7">
-                  <button type="submit" class="button btn-form btn-save expanded shadow">
-                    Guardar Categoría
-                  </button>
-                </div>
-                <div class="cell small-12 medium-5 mt-mobile-form">
-                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
-                    Limpiar
-                  </button>
-                </div>
-              </div>
-              
-              <div class="text-center mt-2" style='margin-top: 1rem;'>
-                <a href="{% url 'stock_app:all_clasificaciones' %}" class="detail-label" style="text-decoration: none; font-weight: 700;">
+              <button type="submit" class="button btn-form btn-save expanded shadow mb-1">
+                Guardar Clasificación
+              </button>
+            </div>
+            <div class="cell small-12 text-center">
+                <a href="{% url 'stock_app:all_clasificaciones' %}" class="detail-label">
                   ← Volver a Clasificaciones
                 </a>
-              </div>
             </div>
           </div>
 

@@ -56,33 +56,18 @@
             </div>
 
             <!-- ACTIONS -->
-            <div class="cell small-12 mt-mobile-form">
+            <div class="cell small-12">
+              <button type="submit" class="button btn-form btn-save expanded shadow mb-1">
+                Agregar Ingrediente
+              </button>
+            </div>
 
-              <div class="grid-x grid-margin-x">
-                
-                <div class="cell small-12 medium-6">
-                  <button type="submit" class="button btn-form btn-save expanded">
-                    Guardar Ingrediente
-                  </button>
-                </div>
-
-                <div class="cell small-12 medium-6">
-                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
-                    Limpiar
-                  </button>
-                </div>
-
-              </div>
-
-              <div class="text-center mt-2" style="margin-top: 1rem;">
+            <div class="cell small-12 text-center">
                 <a href="{% url 'produccion_app:detail_receta' view.kwargs.pk %}" 
                    class="detail-label">
                   ← Volver a la Receta
                 </a>
-              </div>
-
             </div>
-
           </div>
         </form>
 

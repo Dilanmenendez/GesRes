@@ -6,95 +6,130 @@
 {% block content %}
 {% include 'includes/header4.html' %}
 
-<div class="grid-container" style="padding-top: 2rem;">
+<div class="grid-container page-layout">
 
-  <div class="grid-x align-middle" style="margin-bottom: 2rem;">
-    <div class="cell auto">
-      <h2 style="color: var(--color-primary); font-weight: 700; margin: 0;">Venta #{{ object.id }}</h2>
-      <p style="color: var(--color-text-soft); margin: 0;">Comprobante de transacción detallado</p>
+  <!-- HEADER -->
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">Venta #{{ object.id }}</h2>
+      <p class="page-subtitle m-0">Comprobante de transacción detallado</p>
     </div>
-    <div class="cell shrink">
-        {% if object.anulada %}
-            <span class="label alert" style="border-radius: 4px; padding: 0.5rem 1rem; font-weight: 700;">VENTA ANULADA</span>
-        {% else %}
-            <span class="label success" style="border-radius: 4px; padding: 0.5rem 1rem; font-weight: 700;">VENTA EFECTUADA</span>
-        {% endif %}
+
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      {% if object.anulada %}
+        <span class="type-label type-label-mp">VENTA ANULADA</span>
+      {% else %}
+        <span class="type-label type-label-pt">VENTA EFECTUADA</span>
+      {% endif %}
     </div>
   </div>
 
   <div class="grid-x grid-margin-x">
-    
+
+    <!-- RESUMEN -->
     <div class="cell small-12 medium-4 large-3">
-      <div class="module-card card-shadow" style="padding: 1.5rem; border: none; background: white; border-radius: 12px; margin-bottom: 2rem; {% if object.anulada %} border-left: 4px solid #cc4b37; {% endif %}">
-        <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.75rem; text-transform: uppercase;">Total Cobrado</label>
-        <h3 style="color: #2D3748; font-weight: 800; margin-bottom: 1.5rem;">$ {{ object.total|floatformat:2 }}</h3>
+      <div class="gesres-card {% if object.anulada %}field-disabled{% endif %}">
         
-        <hr style="border-top: 1px solid #f1f5f9;">
-        
-        <div style="margin-bottom: 1rem;">
-            <label style="color: var(--color-text-soft); font-weight: 600; font-size: 0.75rem; text-transform: uppercase;">Fecha y Hora</label>
-            <p style="font-weight: 700; color: #4a5568; margin: 0;">{{ object.fecha|date:"d/m/Y" }}</p>
-            <p style="font-size: 0.85rem; color: #718096;">{{ object.fecha|date:"H:i" }} hs</p>
+        <div class="form-cell">
+          <span class="detail-label">Total Cobrado</span>
+          <div class="price-val">$ {{ object.total|floatformat:2 }}</div>
         </div>
 
-        <div style="margin-top: 2rem;">
-            <a href="{% url 'ventas_app:all_ventas' %}" class="button secondary clear expanded small" style="font-weight: 700;">← Volver al Historial</a>
-            {% if not object.anulada %}
-                <a href="{% url 'ventas_app:anular_venta' object.id %}" class="button alert hollow expanded small" style="border-radius: 6px; font-weight: 700; margin-top: 0.5rem;">Anular esta Venta</a>
-            {% endif %}
+        <hr>
+
+        <div class="form-cell">
+          <span class="detail-label">Fecha</span>
+          <div class="detail-value">{{ object.fecha|date:"d/m/Y" }}</div>
+          <small class="detail-label">{{ object.fecha|date:"H:i" }} hs</small>
         </div>
+
+        <div class="button-group-vertical mt-mobile">
+          <a href="{% url 'ventas_app:all_ventas' %}" class="button hollow secondary">
+            Volver al Historial
+          </a>
+
+          {% if not object.anulada %}
+          <a href="{% url 'ventas_app:anular_venta' object.id %}" 
+             class="button alert">
+            Anular esta Venta
+          </a>
+          {% endif %}
+        </div>
+
       </div>
     </div>
 
+    <!-- DETALLE -->
     <div class="cell small-12 medium-8 large-9">
-      <div class="module-card card-shadow" style="padding: 0; overflow: hidden; border: none; background: white; border-radius: 12px; margin-bottom: 2rem;">
-        <div style="padding: 1rem 1.5rem; background: #fff; border-bottom: 1px solid #f1f5f9;">
-            <h5 style="margin: 0; font-weight: 700; color: var(--color-primary); font-size: 1rem;">Artículos Consumidos</h5>
+      
+      <div class="table-card">
+
+        <div class="table-header">
+          <h5>Artículos Consumidos</h5>
         </div>
 
-        <table class="hover unstriped" style="margin-bottom: 0;">
-          <thead style="background: #f8fafc; border-bottom: 2px solid #f1f5f9;">
-            <tr>
-              <th style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">PLATO / PRODUCTO</th>
-              <th class="text-center" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">CANTIDAD</th>
-              <th class="text-right" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">UNITARIO</th>
-              <th class="text-right" style="padding: 1rem; color: var(--color-text-soft); font-size: 0.8rem;">SUBTOTAL</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for detalle in object.detalles.all %}
-            <tr style="border-bottom: 1px solid #f1f5f9;">
-              <td style="padding: 1rem; font-weight: 600; color: #2d3748;">
-                {{ detalle.plato.nombre }}
-              </td>
-              <td class="text-center" style="padding: 1rem;">
-                <span style="background: #edf2f7; padding: 2px 10px; border-radius: 4px; font-weight: 700; color: var(--color-primary);">{{ detalle.cantidad }}</span>
-              </td>
-              <td class="text-right" style="padding: 1rem; color: #718096;">
-                $ {{ detalle.precio|floatformat:2 }}
-              </td>
-              <td class="text-right" style="padding: 1rem; font-weight: 700; color: #2d3748;">
-                $ {{ detalle.subtotal|floatformat:2 }}
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="4" class="text-center" style="padding: 3rem; color: var(--color-text-soft);">
-                No hay platos registrados en esta venta.
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-          <tfoot style="background: #fdfdfd; border-top: 2px solid #f1f5f9;">
+        <div class="table-wrapper">
+          <table class="gesres-table">
+            
+            <thead>
               <tr>
-                  <td colspan="3" class="text-right" style="padding: 1rem; font-weight: 700; color: var(--color-text-soft); text-transform: uppercase; font-size: 0.75rem;">Total Final (UYU)</td>
-                  <td class="text-right" style="padding: 1rem; font-weight: 800; color: var(--color-primary); font-size: 1.1rem;">$ {{ object.total|floatformat:2 }}</td>
+                <th>PLATO / PRODUCTO</th>
+                <th class="text-center">CANTIDAD</th>
+                <th class="text-right">UNITARIO</th>
+                <th class="text-right">SUBTOTAL</th>
               </tr>
-          </tfoot>
-        </table>
+            </thead>
+
+            <tbody>
+              {% for detalle in object.detalles.all %}
+              <tr>
+                <td>
+                  <span class="item-title">{{ detalle.plato.nombre }}</span>
+                </td>
+
+                <td class="text-center">
+                  <span class="id-badge">{{ detalle.cantidad }}</span>
+                </td>
+
+                <td class="text-right">
+                  <span class="price-unit">$ {{ detalle.precio|floatformat:2 }}</span>
+                </td>
+
+                <td class="text-right">
+                  <span class="price-val">$ {{ detalle.subtotal|floatformat:2 }}</span>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="4">
+                  <div class="empty-state">
+                    <span class="empty-icon">📉</span>
+                    <p>No hay platos registrados en esta venta.</p>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+
+            <tfoot>
+              <tr>
+                <td colspan="3" class="text-right">
+                  <strong>Total Final (UYU)</strong>
+                </td>
+                <td class="text-right">
+                  <span class="price-val">$ {{ object.total|floatformat:2 }}</span>
+                </td>
+              </tr>
+            </tfoot>
+
+          </table>
+        </div>
+
       </div>
+
     </div>
 
   </div>
+
 </div>
 {% endblock content %}

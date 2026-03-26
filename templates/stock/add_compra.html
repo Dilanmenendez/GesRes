@@ -39,22 +39,13 @@
             </div>
 
             <div class="cell small-12">
-              <div class="grid-x grid-margin-x">
-                <div class="cell small-12 medium-8">
-                  <button type="submit" class="button btn-form btn-save expanded shadow">
-                    Guardar Compra
-                  </button>
-                </div>
-                <div class="cell small-12 medium-4 mt-mobile-form">
-                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
-                    Limpiar
-                  </button>
-                </div>
-              </div>
-
-              <div class="text-center mt-2" style="margin-top: 1rem;">
-                <a href="{% url 'stock_app:all_productos' %}" class="detail-label" style="text-decoration: none; font-weight: 700;">
-                  ← Volver al Stock
+              <button type="submit" class="button btn-form btn-save expanded shadow mb-1">
+                Confirmar Compra
+              </button>
+              
+              <div class="text-center">
+                <a href="{% url 'stock_app:all_productos' %}" class="detail-label" >
+                  ← Volver al Listado
                 </a>
               </div>
             </div>

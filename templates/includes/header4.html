@@ -1,24 +1,26 @@
 <div class="title-bar erp-header" data-responsive-toggle="responsive-menu-ventas" data-hide-for="medium">
-    <div class="grid-container" style="width: 100%; display: flex; align-items: center; background: transparent;">
+    <div class="grid-container header-container">
         <button class="menu-icon" type="button" data-toggle="responsive-menu-ventas"></button>
-        <div class="title-bar-title" style="margin-left: 1rem;">
+        <div class="title-bar-title ml-1">
             <a href="{% url 'ventas_app:Inicio' %}" class="erp-logo">
-                GesRes <span style="font-weight: 300; opacity: 0.7;">Ventas</span>
+                GesRes <span class="logo">Ventas</span>
             </a>
         </div>
     </div>
 </div>
 
-<div class="erp-header" id="responsive-menu-ventas" style="width: 100%;">
+<div class="erp-header" id="responsive-menu-ventas">
     <div class="grid-container">
         <div class="grid-x align-middle">
             
+            <!-- LOGO DESKTOP -->
             <div class="cell shrink show-for-medium">
-                <a href="{% url 'ventas_app:Inicio' %}" class="erp-logo" style="margin-right: 2rem;">
-                    GesRes <span style="font-weight: 300; opacity: 0.7;">Ventas</span>
+                <a href="{% url 'ventas_app:Inicio' %}" class="erp-logo mr-2">
+                    GesRes <span class="logo">Ventas</span>
                 </a>
             </div>
 
+            <!-- NAV -->
             <div class="cell medium-auto small-12">
                 <ul class="vertical medium-horizontal menu erp-nav" data-responsive-menu="accordion medium-dropdown">
                     <li><a href="{% url 'ventas_app:all_platos' %}">Platos / Carta</a></li>
@@ -27,8 +29,10 @@
                 </ul>
             </div>
 
+            <!-- SWITCH MODULE -->
             <div class="cell medium-shrink small-12">
-                <a href="#" class="button small hollow primary shadow-sm expanded medium-unexpanded" style="margin: 0.8rem 0; border-radius: 6px; border-color: #93abbb; color: #93abbb;">
+                <a href="#" class="button small hollow btn-nav-switch expanded medium-unexpanded mt-mobile"
+                style="margin-top: 1rem;">
                     Ir a Finanzas →
                 </a>
             </div>

@@ -61,24 +61,16 @@
 
             <!-- ACTIONS -->
             <div class="cell small-12">
-              <div class="grid-x grid-margin-x">
-                <div class="cell small-12 medium-6">
-                  <button type="submit" class="button btn-form btn-save expanded shadow">
-                    Guardar Receta
-                  </button>
-                </div>
-                <div class="cell small-12 medium-6 mt-mobile-form">
-                  <button type="reset" class="button btn-form btn-cancel hollow expanded">
-                    Limpiar
-                  </button>
-                </div>
-              </div>
+              <button type="submit" class="button btn-form btn-save expanded shadow mb-1">
+                Guardar Receta
+              </button>
+            </div>
 
-              <div class="text-center mt-2" style="margin-top: 1rem;">
+            </div>
+            <div class="cell small-12 text-center" >
                 <a href="{% url 'produccion_app:all_receta' %}" class="detail-label"">
                   ← Volver al listado
                 </a>
-              </div>
             </div>
           </div>
         </form>

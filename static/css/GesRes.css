@@ -8,7 +8,7 @@
     --azul-primario: #2F5D8C;
     --azul-hover: #8db0d3;
     --rojo-alerta: #cc4b37;
-    --verde-exito: #3adb76;
+    --verde-exito: #309e58;
     --naranja-edicion: #ffae00;
     --morado-secundario: #764ba2;
     --gris-fondo: #cad0d7;
@@ -16,6 +16,7 @@
     --borde-color: #E5E9F0;
     --texto-oscuro: #2D3748;
     --texto-gris: #6b7785;
+    --marron-header: #5e5a4f;
 }
 
 /* 2. BASE & ESTRUCTURA GLOBAL
@@ -34,7 +35,7 @@ body {
 
 /* Header */
 .erp-header {
-    background: rgb(69, 67, 62) !important;
+    background: #45433e !important;
     border-bottom: 1px solid var(--borde-color);
     padding: 0.8rem 0;
     width: 100%;
@@ -283,32 +284,47 @@ body .grid-container form input:focus {
 
 .btn-save { 
     background-color: var(--verde-exito) !important; 
-    color: #063d1a !important; }
+    color: var(--gris-suave) !important; 
+    border-color: var(--verde-exito) !important;
+    border: 2px solid var(--verde-exito) !important;}
+    
 .btn-cancel { 
     border: 2px solid var(--azul-primario) !important; 
-    color: var(--azul-primario) !important; }
+    color: var(--azul-primario) !important; 
+    background-color: white !important;
+    }
 .btn-clear { 
     border: 2px solid var(--rojo-alerta) !important; 
     color: var(--rojo-alerta) !important; }
+
 .btn-delete { 
     background-color: var(--rojo-alerta) !important; 
     color: white !important; border: none !important; }
+
 .btn-delete:hover { 
     background-color: #b0301a !important; }
+
 .btn-buscar { 
     background-color: #717171 !important; 
     color: white !important; font-weight: 700 !important; 
     border-radius: 8px !important; 
     height: 42px !important; }
+
 .btn-register { 
     border-radius: 8px !important; 
     font-weight: 600 !important; }
+
 .btn-tx {
     border-radius: 6px !important;
     font-weight: 700 !important;
     font-size: 0.75rem !important;
     color: var(--azul-primario);
 }
+
+.mb-1 {
+  margin-bottom: 0.75rem !important;
+}
+
 /* Grid de Acciones en Tabla */
 .actions-grid {
     display: flex;
@@ -318,6 +334,7 @@ body .grid-container form input:focus {
     margin: 0 auto; 
     justify-items: center;
     align-items: center;
+    justify-content: center;
 }
 .actions-grid a { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; text-decoration: none; text-align: center; }
 .actions-grid .full-width { grid-column: 1 / span 3; text-align: center; margin-top: 5px; }
@@ -328,8 +345,8 @@ body .grid-container form input:focus {
 .data-box { background: var(--gris-suave); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--borde-color); box-sizing: border-box; max-width: 100%; }
 
 .type-label { display: inline-block; padding: 4px 12px; font-size: 0.65rem; font-weight: 800; border-radius: 4px; text-transform: uppercase; }
-.type-label-pt { background: var(--verde-exito); color: #063d1a; }
-.type-label-mp { background: #767676; color: white; }
+.type-label-pt { background: var(--verde-exito); color: var(--texto-oscuro); }
+.type-label-mp { background: #767676; color: var(--gris-suave); }
 
 /* Tipografía de Detalle */
 .detail-label { font-size: 0.7rem !important; color: #93abbb !important; margin-bottom: 0.2rem !important; }
@@ -466,7 +483,7 @@ body .grid-container form input:focus {
 .module-desc { color: var(--texto-gris); font-size: 0.9rem; margin-bottom: 1.5rem; }
 
 .btn-hero { border-radius: 8px !important; font-weight: 600 !important; }
-.btn-tx { border-radius: 6px !important; font-weight: 700 !important; font-size: 0.75rem !important; padding: 0.8rem 0 !important; }
+.btn-tx { border-radius: 6px !important; font-weight: 700 !important; font-size: 0.75rem !important; padding: 0.8rem !important; }
 
 .suggestion-banner {
     background: white !important;
@@ -486,3 +503,4 @@ body .grid-container form input:focus {
     .hero-card { padding: 2rem 1.5rem !important; }
     .hero-title-main { font-size: 2rem; }
 }
+

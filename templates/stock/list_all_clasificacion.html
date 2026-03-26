@@ -8,19 +8,21 @@
 
 <div class="grid-container page-layout">
   
+  <!-- HEADER -->
   <div class="grid-x grid-margin-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <h2 class="hero-title m-0">Clasificaciones</h2>
-      <p class="module-text m-0">Organiza tus materiales y productos por categorías</p>
+      <h2 class="page-title m-0">Clasificaciones</h2>
+      <p class="page-subtitle m-0">Organiza tus materiales y productos por categorías</p>
     </div>
     <div class="cell small-12 medium-shrink text-center mt-mobile">
-      <a href="{% url 'stock_app:add_clasificacion' %}" class="button primary shadow btn-register">
+      <a href="{% url 'stock_app:add_clasificacion' %}" class="button primary btn-register">
         + Nueva Clasificación
       </a>
     </div>
   </div>
 
-  <div class="gesres-card filter-card">
+  <!-- FILTROS -->
+  <div class="gesres-card">
     <form method="get">
       <div class="grid-x grid-margin-x align-bottom">
         <div class="cell small-12 medium-6">
@@ -38,9 +40,10 @@
     </form>
   </div>
 
+  <!-- TABLA -->
   <div class="table-card"> 
     <div class="table-wrapper">
-      <table class="gesres-table unstriped">
+      <table class="gesres-table">
         <thead>
           <tr>
             <th width="100" class="text-center">ID</th>
@@ -56,22 +59,26 @@
             </td>
 
             <td>
-              <strong class="item-title">{{ clasificacion.nombre }}</strong>
+              <span class="item-title">{{ clasificacion.nombre }}</span>
             </td>
 
             <td>
               <div class="actions-grid">
-                <a  href="{% url 'stock_app:update_clasificacion' clasificacion.id %}" 
+                <a href="{% url 'stock_app:update_clasificacion' clasificacion.id %}" 
                    class="text-action-warning">EDITAR</a>
                 <a href="{% url 'stock_app:delete_clasificacion' clasificacion.id %}" 
                    class="text-action-alert">ELIMINAR</a>
               </div>
             </td>
           </tr>
+
           {% empty %}
           <tr>
-            <td colspan="3" class="text-center" style="padding: 3rem; color: var(--texto-gris);">
-              No se encontraron clasificaciones registradas.
+            <td colspan="3">
+              <div class="empty-state">
+                <span class="empty-icon">🏷️</span>
+                <p>No se encontraron clasificaciones registradas.</p>
+              </div>
             </td>
           </tr>
           {% endfor %}
@@ -80,40 +87,57 @@
     </div>
   </div>
 
-  <div class="grid-x grid-margin-x align-middle footer-container">
+  <!-- FOOTER / PAGINACIÓN -->
+  <div class="grid-x align-middle" style="margin-top: 2rem;">
+    
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary btn-volver">
+      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary">
         ← Volver al Inicio
       </a>
     </div>
     
-    <div class="cell small-12 medium-shrink">
+    <div class="cell small-12 medium-shrink mt-mobile">
       {% if is_paginated %}
       <nav aria-label="Paginación" class="pagination-container">
         <ul class="pagination">
+          
           {% if page_obj.has_previous %}
             <li class="pagination-previous">
-              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">Atrás</a>
+              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                Atrás
+              </a>
             </li>
+          {% else %}
+            <li class="pagination-previous disabled">Atrás</li>
           {% endif %}
           
           {% for num in page_obj.paginator.page_range %}
             {% if page_obj.number == num %}
               <li class="current">{{ num }}</li>
             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-              <li><a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">{{ num }}</a></li>
+              <li>
+                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                  {{ num }}
+                </a>
+              </li>
             {% endif %}
           {% endfor %}
 
           {% if page_obj.has_next %}
             <li class="pagination-next">
-              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">Siguiente</a>
+              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                Siguiente
+              </a>
             </li>
+          {% else %}
+            <li class="pagination-next disabled">Siguiente</li>
           {% endif %}
+          
         </ul>
       </nav>
       {% endif %}
     </div>
+
   </div>
 
 </div>

@@ -8,19 +8,21 @@
 
 <div class="grid-container page-layout">
   
+  <!-- HEADER -->
   <div class="grid-x grid-margin-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <h2 class="hero-title m-0">Directorio de Proveedores</h2>
-      <p class="module-text m-0">Gestiona tus contactos comerciales y fuentes de suministro</p>
+      <h2 class="page-title m-0">Directorio de Proveedores</h2>
+      <p class="page-subtitle m-0">Gestiona tus contactos comerciales y fuentes de suministro</p>
     </div>
     <div class="cell small-12 medium-shrink text-center mt-mobile">
-      <a href="{% url 'stock_app:add_proveedor' %}" class="button primary shadow btn-register">
+      <a href="{% url 'stock_app:add_proveedor' %}" class="button primary btn-register">
         + Registrar Proveedor
       </a>
     </div>
   </div>
 
-  <div class="gesres-card filter-card">
+  <!-- FILTROS -->
+  <div class="gesres-card">
     <form method="get">
       <div class="grid-x grid-margin-x align-bottom">
         <div class="cell small-12 medium-6">
@@ -38,9 +40,10 @@
     </form>
   </div>
 
+  <!-- TABLA -->
   <div class="table-card"> 
     <div class="table-wrapper">
-      <table class="gesres-table unstriped">
+      <table class="gesres-table">
         <thead>
           <tr>
             <th width="70" class="text-center">ID</th>
@@ -58,23 +61,18 @@
             </td>
 
             <td class="text-center">
-              <strong class="item-title">{{ proveedor.nombre }}</strong>
-              <small class="hide-for-medium module-text" style="display: block; margin-top: 4px;">
-                📞 {{ proveedor.num_contacto }}
-              </small>
+              <span class="item-title">{{ proveedor.nombre }}</span>
             </td>
 
             <td class="text-center">
-              <span class="provider-name" style="font-size: 1rem;">
-                {{ proveedor.num_contacto }}
-              </span>
+              <span class="provider-name">{{ proveedor.num_contacto }}</span>
             </td>
 
             <td class="text-center">
               {% if proveedor.activo %}
-                <span class="type-label type-label-pt" style="background-color: #d1fae5; color: #065f46;">ACTIVO</span>
+                <span class="type-label type-label-pt">ACTIVO</span>
               {% else %}
-                <span class="type-label type-label-mp" style="background-color: #fee2e2; color: #991b1b;">INACTIVO</span>
+                <span class="type-label type-label-mp">INACTIVO</span>
               {% endif %}
             </td>
 
@@ -86,11 +84,14 @@
               </div>
             </td>
           </tr>
+
           {% empty %}
           <tr>
-            <td colspan="5" class="text-center" style="padding: 4rem;">
-              <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">🤝</div>
-              <p class="module-text">No hay proveedores registrados en el sistema.</p>
+            <td colspan="5">
+              <div class="empty-state">
+                <span class="empty-icon">🤝</span>
+                <p>No hay proveedores registrados en el sistema.</p>
+              </div>
             </td>
           </tr>
           {% endfor %}
@@ -99,21 +100,28 @@
     </div>
   </div>
 
-  <div class="grid-x grid-margin-x align-middle footer-container" style="margin-top: 2rem; margin-bottom: 4rem;">
+  <!-- FOOTER -->
+  <div class="grid-x align-middle" style="margin-top: 2rem;">
+    
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary btn-volver">
+      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary">
         ← Volver al Inicio
       </a>
     </div>
     
-    <div class="cell small-12 medium-shrink">
+    <div class="cell small-12 medium-shrink mt-mobile">
       {% if is_paginated %}
       <nav aria-label="Paginación" class="pagination-container">
         <ul class="pagination">
+
           {% if page_obj.has_previous %}
             <li class="pagination-previous">
-              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">Atrás</a>
+              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                Atrás
+              </a>
             </li>
+          {% else %}
+            <li class="pagination-previous disabled">Atrás</li>
           {% endif %}
           
           {% for num in page_obj.paginator.page_range %}
@@ -121,20 +129,28 @@
               <li class="current">{{ num }}</li>
             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
               <li>
-                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">{{ num }}</a>
+                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                  {{ num }}
+                </a>
               </li>
             {% endif %}
           {% endfor %}
 
           {% if page_obj.has_next %}
             <li class="pagination-next">
-              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">Sig.</a>
+              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.id %}&id={{ request.GET.id }}{% endif %}">
+                Siguiente
+              </a>
             </li>
+          {% else %}
+            <li class="pagination-next disabled">Siguiente</li>
           {% endif %}
+
         </ul>
       </nav>
       {% endif %}
     </div>
+
   </div>
 
 </div>

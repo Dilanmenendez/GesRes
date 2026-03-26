@@ -8,14 +8,16 @@
 
 <div class="grid-container page-layout">
   
+  <!-- HEADER -->
   <div class="grid-x grid-margin-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left"> 
-      <h2 class="hero-title m-0">Historial de Compras</h2>
-      <p class="module-text m-0">Registro de entradas de mercadería y gastos asociados</p>
+      <h2 class="page-title m-0">Historial de Compras</h2>
+      <p class="page-subtitle m-0">Registro de entradas de mercadería y gastos asociados</p>
     </div>
   </div>
 
-  <div class="gesres-card filter-card">
+  <!-- FILTROS -->
+  <div class="gesres-card">
     <form method="get">
       <div class="grid-x grid-margin-x align-bottom">
         <div class="cell small-12 medium-5">
@@ -33,9 +35,10 @@
     </form>
   </div>
 
+  <!-- TABLA -->
   <div class="table-card"> 
     <div class="table-wrapper">
-      <table class="gesres-table unstriped">
+      <table class="gesres-table">
         <thead>
           <tr>
             <th width="70" class="text-center">ID</th>
@@ -54,24 +57,24 @@
             </td>
 
             <td>
-              <strong class="item-title">{{ compra.producto.nombre }}</strong><br>
-              <small class="module-text" style="font-size: 0.75rem;">Proveedor: {{ compra.producto.proveedor|default:"---" }}</small>
+              <span class="item-title">{{ compra.producto.nombre }}</span><br>
+              <span class="price-unit">Proveedor: {{ compra.producto.proveedor|default:"---" }}</span>
             </td>
 
             <td class="text-center">
-              <strong class="stock-val">{{ compra.cantidad }}</strong>
+              <span class="stock-val">{{ compra.cantidad }}</span>
               <span class="stock-unit">KG</span>
             </td>
 
             <td class="text-center">
-              <span class="price-val" style="color: var(--verde-exito, #2F855A);">
+              <span class="price-val text-action-success">
                 ${{ compra.total_pagado|floatformat:2 }}
-              </span>
+              </span><br>
               <span class="price-unit">UYU</span>
             </td>
 
             <td class="text-center">
-              <span class="module-text">{{ compra.fecha|date:"d/m/Y" }}</span>
+              <span class="price-unit">{{ compra.fecha|date:"d/m/Y" }}</span>
             </td>
 
             <td>
@@ -81,11 +84,14 @@
               </div>
             </td>
           </tr>
+
           {% empty %}
           <tr>
-            <td colspan="6" class="text-center" style="padding: 4rem;">
-              <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 1rem;">🧾</div>
-              <p class="module-text">No se han registrado compras aún.</p>
+            <td colspan="6">
+              <div class="empty-state">
+                <span class="empty-icon">🧾</span>
+                <p>No se han registrado compras aún.</p>
+              </div>
             </td>
           </tr>
           {% endfor %}
@@ -94,21 +100,28 @@
     </div>
   </div>
 
-  <div class="grid-x grid-margin-x align-middle footer-container" style="margin-top: 2rem; margin-bottom: 4rem;">
+  <!-- FOOTER -->
+  <div class="grid-x align-middle" style="margin-top: 2rem;">
+    
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary btn-volver">
+      <a href="{% url 'stock_app:Inicio' %}" class="button hollow secondary">
         ← Volver al Inicio
       </a>
     </div>
     
-    <div class="cell small-12 medium-shrink">
+    <div class="cell small-12 medium-shrink mt-mobile">
       {% if is_paginated %}
       <nav aria-label="Paginación" class="pagination-container">
         <ul class="pagination">
+          
           {% if page_obj.has_previous %}
             <li class="pagination-previous">
-              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">Anterior</a>
+              <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">
+                Anterior
+              </a>
             </li>
+          {% else %}
+            <li class="pagination-previous disabled">Anterior</li>
           {% endif %}
           
           {% for num in page_obj.paginator.page_range %}
@@ -116,20 +129,28 @@
               <li class="current">{{ num }}</li>
             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
               <li>
-                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">{{ num }}</a>
+                <a href="?page={{ num }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">
+                  {{ num }}
+                </a>
               </li>
             {% endif %}
           {% endfor %}
 
           {% if page_obj.has_next %}
             <li class="pagination-next">
-              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">Siguiente</a>
+              <a href="?page={{ page_obj.next_page_number }}{% if request.GET.kword %}&kword={{ request.GET.kword }}{% endif %}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}">
+                Siguiente
+              </a>
             </li>
+          {% else %}
+            <li class="pagination-next disabled">Siguiente</li>
           {% endif %}
+          
         </ul>
       </nav>
       {% endif %}
     </div>
+
   </div>
 
 </div>
