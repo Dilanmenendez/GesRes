@@ -2,61 +2,134 @@
 {% load static %}
 
 {% block content %}
-  {% include 'includes/header.html' %}
+{% include 'includes/header.html' %}
 
-  <div class="grid-container">
-    <div class="grid-x grid-margin-x align-center">
-      <div class="cell small-12 medium-8 large-6">
+<div class="grid-container page-layout">
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
 
-        <h2 class="text-center" style="margin: 1.5rem 0;">Actualizar Empleado</h2>
+      <div class="form-card">
 
-        <form method="post" enctype="multipart/form-data" class="callout secondary shadow">
+        <!-- HEADER -->
+        <div class="text-center header-module">
+          <h2 class="page-title m-0">Actualizar Empleado</h2>
+          <p class="page-subtitle m-0">
+            Modifica la información del empleado
+          </p>
+        </div>
+
+        <!-- FORM -->
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          
-          <ul class="vertical menu" style="margin-bottom: 1rem;">
-            {% for field in form %}
-                <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-                <label style="font-weight: bold;">{{ field.label }}</label>
-                
-                
-                {% if field.name == 'habilidades' %}
-                <p class="help-text" style="margin-top: 0.5rem;">
+
+          <div class="grid-x grid-margin-x">
+
+            <!-- NOMBRE -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">Nombre</label>
+              {{ form.first_name }}
+              {% if form.first_name.errors %}
+                <span class="form-error">{{ form.first_name.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- APELLIDO -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">Apellido</label>
+              {{ form.last_name }}
+              {% if form.last_name.errors %}
+                <span class="form-error">{{ form.last_name.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- PUESTO -->
+            <div class="cell small-12 medium-6 form-cell">
+              <label class="form-label-custom">Puesto</label>
+              {{ form.job }}
+              {% if form.job.errors %}
+                <span class="form-error">{{ form.job.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- DEPARTAMENTO -->
+            <div class="cell small-12 medium-6 form-cell">
+              <label class="form-label-custom">Departamento</label>
+              {{ form.departamento }}
+              {% if form.departamento.errors %}
+                <span class="form-error">{{ form.departamento.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- HABILIDADES -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">Habilidades</label>
+
+              <div class="checkbox-group">
+                {{ form.habilidades }}
+              </div>
+
+              <p class="help-text">
                 Podés seleccionar varias habilidades
-                </p>
-                <a href="{% url 'persona_app:crear-habilidad' %}?next={{ request.path }}"
+              </p>
+
+              <a href="{% url 'persona_app:crear-habilidad' %}?next={{ request.path }}"
                  class="button tiny hollow primary">
                 + Agregar nueva habilidad
-                </a>
-                
-                {% endif %}
-                
-                {% if field.name == 'hoja_vida' %}
-                    <div class="editor-container">
-                    {{ field }}
-                    </div>
-                {% else %}
-                    {{ field }}
-                {% endif %}
+              </a>
 
-                {% if field.errors %}
-                    <span class="help-text" style="color: #cc4b37;">{{ field.errors|striptags }}</span>
-                {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+              {% if form.habilidades.errors %}
+                <span class="form-error">{{ form.habilidades.errors.0 }}</span>
+              {% endif %}
+            </div>
 
-          <div class="button-group align-center" style="margin-top: 1.5rem;">
-            <button type="submit" class="button success" style="margin-right: 10px;">
-              Guardar
-            </button>
-            <a href="{% url 'persona_app:empleados_all' %}" class="button secondary">
-              Volver
-            </a>
+            <!-- HOJA DE VIDA -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">Hoja de vida</label>
+              {{ form.hoja_vida }}
+              {% if form.hoja_vida.errors %}
+                <span class="form-error">{{ form.hoja_vida.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- CV -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">CV</label>
+              {{ form.cv }}
+              {% if form.cv.errors %}
+                <span class="form-error">{{ form.cv.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- ERRORES GENERALES -->
+            {% if form.non_field_errors %}
+              <div class="cell small-12">
+                <div class="alert-box-critical">
+                  {{ form.non_field_errors }}
+                </div>
+              </div>
+            {% endif %}
+
+            <!-- BOTONES -->
+            <div class="cell small-12 mt-mobile-form">
+
+              <button type="submit" class="button btn-form btn-save expanded mb-1">
+                Guardar cambios
+              </button>
+
+              <a href="{% url 'persona_app:empleados_all' %}" 
+                 class="button btn-form btn-cancel expanded">
+                ← Volver
+              </a>
+
+            </div>
+
           </div>
-          
         </form>
-        
+
       </div>
+
     </div>
   </div>
+</div>
+
 {% endblock content %}

@@ -2,34 +2,49 @@
 {% load static %}
 
 {% block content %}
-  {% include 'includes/header.html' %}
+{% include 'includes/header.html' %}
 
-  <div class="grid-container">
-    <div class="grid-x align-center">
-      <div class="cell small-12 medium-8 large-6">
+<div class="grid-container page-layout">
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
 
-        <div class="callout success text-center" style="margin-top: 2rem;">
-          <h4>✅ Proceso completado correctamente</h4>
-          <p>La operación se realizó sin errores.</p>
-        </div>
+      <div class="form-card text-center">
 
+        <!-- ICONO -->
+        <span class="confirm-icon">✅</span>
+
+        <!-- TITULO -->
+        <h3 class="alert-title-success">
+          Proceso completado correctamente
+        </h3>
+
+        <p class="page-subtitle">
+          La operación se realizó sin errores.
+        </p>
+
+        <!-- MENSAJES -->
         {% if messages %}
-          <div class="callout primary">
-            <ul style="margin-bottom: 0;">
+          <div class="data-box mb-1 text-left">
+            <ul class="vertical menu">
               {% for message in messages %}
-                <li>{{ message }}</li>
+                <li class="detail-value">{{ message }}</li>
               {% endfor %}
             </ul>
           </div>
         {% endif %}
 
-        <div class="text-center" style="margin-top: 2rem;">
-          <a href="{% url 'persona_app:Inicio' %}" class="button hollow primary">
-            Volver al inicio
+        <!-- BOTON -->
+        <div class="mt-mobile">
+          <a href="{% url 'persona_app:Inicio' %}" 
+             class="button btn-form btn-cancel expanded">
+            ← Volver al inicio
           </a>
         </div>
 
       </div>
+
     </div>
   </div>
+</div>
+
 {% endblock content %}

@@ -126,7 +126,7 @@ class TrabajoUpdateView(UpdateView):
 
 #------------------ OTRAS VIEWS -------------------#
 class InicioView(TemplateView):
-    template_name = "inicio.html"
+    template_name = "persona/inicio.html"
 
 class EmpleadoDashboardView(TemplateView):
     template_name = "persona/dashboard.html"

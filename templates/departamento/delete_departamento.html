@@ -2,53 +2,82 @@
 {% load static %}
 
 {% block content %}
-  {% include 'includes/header.html' %}
+{% include 'includes/header.html' %}
 
-  <div class="grid-container">
-    <div class="grid-x grid-margin-x align-center">
-      <div class="cell small-12 medium-8 large-6">
+<div class="grid-container page-layout">
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
 
-        <h2 class="text-center" style="margin: 1.5rem 0; color: #cc4b37;">
-          ¿Desea eliminar este departamento?
-        </h2>
-        
-        <form method="post" class="callout secondary shadow">{% csrf_token %}
-          
-          <ul class="vertical menu" style="text-align: center; margin-bottom: 1.5rem;">
-            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Nombre:</strong> {{ object.name }}</p>
-            </li>
-            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Nombre Corto:</strong> {{ object.short_name }}</p>
-            </li>
-            <li style="padding: 0.5rem 0;">
-              <p><strong>Estado (Anulado):</strong> 
-                {% if object.anulate %}
-                  <span>Sí</span>
-                {% else %}
-                  <span>No</span>
-                {% endif %}
-              </p>
-            </li>
-          </ul>
+      <div class="form-card card-confirm">
 
-          <div class="callout warning tiny text-center" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 0;"><small>Atención: Eliminar un departamento tambien eliminara
-                 a los empleados asociados.</small></p>
+        <!-- HEADER -->
+        <div class="text-center mb-1">
+          <span class="confirm-icon">⚠️</span>
+          <h3 class="alert-title-danger">¿Eliminar departamento?</h3>
+          <p class="page-subtitle m-0">
+            Esta acción afectará a toda la estructura organizativa.
+          </p>
+        </div>
+
+        <!-- INFO -->
+        <div class="data-box mb-1">
+
+          <div class="form-cell">
+            <span class="detail-label">Nombre</span>
+            <p class="detail-value">{{ object.name }}</p>
           </div>
 
-          <div class="button-group align-center">
-            <button type="submit" class="button alert" style="margin-right: 10px;">
-              Confirmar
-            </button>
-            <a href="{% url 'departamento_app:all_departamentos' %}" class="button secondary">
-              Cancelar
-            </a>
+          <div class="form-cell">
+            <span class="detail-label">Nombre corto</span>
+            <p class="detail-value">{{ object.short_name }}</p>
           </div>
-          
+
+          <div class="form-cell">
+            <span class="detail-label">Estado</span>
+            <p class="detail-value">
+              {% if object.anulate %}
+                Anulado
+              {% else %}
+                Activo
+              {% endif %}
+            </p>
+          </div>
+
+        </div>
+
+        <!-- ALERTA -->
+        <div class="alert-box-critical">
+          Eliminar este departamento también eliminará todos los empleados asociados al mismo.
+        </div>
+
+        <!-- FORM -->
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="grid-x grid-margin-x">
+
+            <div class="cell small-12 medium-6">
+              <a href="{% url 'departamento_app:all_departamentos' %}" 
+                 class="button btn-form btn-cancel expanded">
+                No, Cancelar
+              </a>
+            </div>
+
+            <div class="cell small-12 medium-6">
+              <button type="submit" 
+                      class="button btn-form btn-delete expanded">
+                Confirmar Eliminación
+              </button>
+            </div>
+
+          </div>
+
         </form>
-        
+
       </div>
+
     </div>
   </div>
+</div>
+
 {% endblock content %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} GesRes | Recursos Humanos {% endblock title %}
+
+{% block content %}
+{% include 'includes/header.html' %}
+
+<div class="grid-container page-layout">
+
+  <!-- HERO -->
+  <div class="hero-card card-shadow">
+    <div class="grid-x align-middle">
+      
+      <div class="cell small-12 medium-7 text-center medium-text-left">
+        <h1 class="hero-title-main">Gestión de Recursos Humanos</h1>
+        <p class="hero-desc">
+          Administra empleados, departamentos y puestos de trabajo de forma centralizada y eficiente.
+        </p>
+
+        <div class="grid-x grid-margin-x align-center medium-justify-start">
+          <div class="cell small-12 medium-shrink mb-mobile-only">
+            <a href="{% url 'persona_app:empleados_all' %}" class="button primary shadow btn-hero">
+              Ver Empleados
+            </a>
+          </div>
+          <div class="cell small-12 medium-shrink">
+            <a href="{% url 'persona_app:add_empleado' %}" class="button hollow secondary btn-hero">
+              Registrar Empleado
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell medium-5 hide-for-small-only text-center">
+        <span class="hero-icon">👥</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODULOS -->
+  <div class="grid-x grid-margin-x">
+
+    <!-- DASHBOARD -->
+    <div class="cell small-12 medium-4 mb-mobile-module">
+      <div class="nav-module-card card-shadow border-top-primary">
+        <div class="module-icon">📊</div>
+        <h5 class="module-title text-primary">Dashboard</h5>
+        <p class="module-desc">Visualiza métricas clave y estado general del personal.</p>
+        <div class="module-action">
+          <a href="{% url 'persona_app:mostrar-dashboard' %}" class="button clear primary small module-btn">
+            Ver Dashboard →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPARTAMENTOS -->
+    <div class="cell small-12 medium-4 mb-mobile-module">
+      <div class="nav-module-card card-shadow border-top-success">
+        <div class="module-icon">🏢</div>
+        <h5 class="module-title text-success">Departamentos</h5>
+        <p class="module-desc">Organiza la estructura interna de la empresa.</p>
+        <div class="module-action">
+          <a href="{% url 'departamento_app:all_departamentos' %}" class="button clear success small module-btn">
+            Ver Departamentos →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PUESTOS -->
+    <div class="cell small-12 medium-4 mb-mobile-module">
+      <div class="nav-module-card card-shadow border-top-secondary">
+        <div class="module-icon">🧑‍💼</div>
+        <h5 class="module-title text-secondary">Puestos</h5>
+        <p class="module-desc">Define roles y responsabilidades dentro de la empresa.</p>
+        <div class="module-action">
+          <a href="{% url 'persona_app:mostrar-puestos' %}" class="button clear small module-btn text-secondary">
+            Ver Puestos →
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock content %}

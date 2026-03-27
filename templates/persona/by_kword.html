@@ -2,64 +2,107 @@
 {% load static %}
 
 {% block content %}
-  {% include 'includes/header.html' %}
+{% include 'includes/header.html' %}
 
-  <div class="grid-container">
-    <div class="grid-x grid-margin-x align-center">
-      <div class="cell small-12 medium-8 large-6">
+<div class="grid-container page-layout">
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
 
-        <h2 class="text-center" style="margin: 1.5rem 0;">Datos del Empleado</h2>
-        
-        <div class="callout secondary shadow">
-          <ul class="vertical menu">
-            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Nombre:</strong> {{ empleado.first_name }}</p>
-            </li>
-            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Apellido:</strong> {{ empleado.last_name }}</p>
-            </li>
-            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Departamento:</strong> {{ empleado.departamento }}</p>
-            </li>
-            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p><strong>Puesto:</strong> {{ empleado.job }}</p>
-              <p><strong>Sueldo:</strong> {{ empleado.job.sueldo }}</p>
-            </li>
-            
-            <li style="border-bottom: 1px solid #e6e6e6; padding: 0.5rem 0;">
-              <p style="margin-bottom: 0.2rem;"><strong>Habilidades:</strong></p>
-              <ul class="menu vertical" style="margin-left: 1rem; list-style-type: disc;">
-                {% for h in empleado.habilidades.all %}
-                  <li>{{ h }}</li>
-                {% empty %}
-                  <li class="help-text">Sin habilidades registradas.</li>
-                {% endfor %}
-              </ul>
-            </li>
+      <!-- HEADER -->
+      <div class="text-center header-module">
+        <h2 class="page-title m-0">Datos del Empleado</h2>
+        <p class="page-subtitle m-0">
+          Información detallada del empleado
+        </p>
+      </div>
 
-            <li style="padding: 0.5rem 0;">
-              <p><strong>Hoja de vida:</strong></p>
-              <div class="callout white" style="background: white; padding: 1rem; border-radius: 4px;">
-                {{ empleado.hoja_vida|safe }}
-              </div>
-            </li>
-          </ul>
+      <!-- CARD -->
+      <div class="gesres-card detail-card">
+
+        <!-- INFO PRINCIPAL -->
+        <div class="data-box mb-1">
+
+          <div class="form-cell">
+            <span class="detail-label">Empleado</span>
+            <p class="detail-value-highlight">
+              {{ empleado.first_name }} {{ empleado.last_name }}
+            </p>
+          </div>
+
+          <div class="grid-x">
+            <div class="cell small-6">
+              <span class="detail-label">Departamento</span>
+              <p class="detail-value">{{ empleado.departamento }}</p>
+            </div>
+
+            <div class="cell small-6 text-right">
+              <span class="detail-label">Puesto</span>
+              <p class="detail-value">{{ empleado.job }}</p>
+            </div>
+          </div>
+
+          <div class="form-cell">
+            <span class="detail-label">Sueldo</span>
+            <p class="detail-value">{{ empleado.job.sueldo }} USD</p>
+          </div>
+
         </div>
 
-        <div class="button-group align-center" style="margin-top: 1.5rem;">
-          <a href="{% url 'persona_app:empleados_all' %}" class="button secondary success" style="margin-right: 10px;">
-            Volver a Empleados
+        <!-- HABILIDADES -->
+        <div class="data-box mb-1">
+          <span class="detail-label">Habilidades</span>
+
+          {% if empleado.habilidades.all %}
+            <ul class="no-bullet mt-1">
+              {% for h in empleado.habilidades.all %}
+                <li class="detail-value">{{ h }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="detail-value text-muted">
+              Sin habilidades registradas.
+            </p>
+          {% endif %}
+        </div>
+
+        <!-- HOJA DE VIDA -->
+        <div class="data-box">
+          <span class="detail-label">Hoja de vida</span>
+          <div class="mt-1">
+            {{ empleado.hoja_vida|safe }}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTONES -->
+      <div class="grid-x grid-margin-x mt-mobile">
+
+        <div class="cell small-12">
+          <a href="{% url 'persona_app:empleados_all' %}" 
+             class="button btn-form btn-save expanded mb-1">
+            ← Volver a Empleados
           </a>
-          <a href="{% url 'departamento_app:all_departamentos' %}" class="button secondary warning" 
-          style="margin-right: 10px;">
-            Volver a Departamentos
+        </div>
+
+        <div class="cell small-12 medium-6">
+          <a href="{% url 'departamento_app:all_departamentos' %}" 
+             class="button btn-form btn-cancel expanded">
+            Departamentos
           </a>
-          <a href="{% url 'persona_app:mostrar-puestos' %}" class="button primary">
-            Volver a Puestos
+        </div>
+
+        <div class="cell small-12 medium-6">
+          <a href="{% url 'persona_app:mostrar-puestos' %}" 
+             class="button btn-form btn-cancel expanded">
+            Puestos
           </a>
         </div>
 
       </div>
+
     </div>
   </div>
+</div>
+
 {% endblock content %}
