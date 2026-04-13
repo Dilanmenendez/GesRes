@@ -14,6 +14,10 @@ urlpatterns = [
          views.SuccessView.as_view(),
          name='success'),
 
+     path('dashboard/',
+          views.DashboardVentasView.as_view(),
+          name='dashboard'),
+
     # ----- Venta paths -------- #
 
     path("all_ventas/",

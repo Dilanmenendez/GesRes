@@ -1,4 +1,7 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from datetime import timedelta
+from django.utils import timezone
+from django.shortcuts import get_object_or_404
+from django.db.models import Sum, F
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
@@ -14,6 +17,89 @@ class InicioView(TemplateView):
 class SuccessView(TemplateView):
     template_name = "ventas/success.html"
 
+class DashboardVentasView(TemplateView):
+    template_name = "ventas/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # ---------------------------
+        # 🔹 FILTRO BASE
+        # ---------------------------
+        ventas = Venta.objects.filter(anulada=False)
+
+        # ---------------------------
+        # 🔹 MÉTRICAS
+        # ---------------------------
+        total_ventas = ventas.aggregate(total=Sum("total"))["total"] or 0
+
+        cantidad_ventas = ventas.count()
+
+        platos_vendidos = DetalleVenta.objects.filter(
+            venta__anulada=False
+        ).aggregate(total=Sum("cantidad"))["total"] or 0
+
+        ventas_anuladas = Venta.objects.filter(anulada=True).count()
+
+        ticket_promedio = (
+            total_ventas / cantidad_ventas if cantidad_ventas > 0 else 0
+        )
+
+        # ---------------------------
+        # 🔹 VENTAS ÚLTIMOS 7 DÍAS
+        # ---------------------------
+        ultimas_ventas = Venta.objects.filter(
+            anulada=False
+            ).order_by("-fecha")[:5]
+
+        # ---------------------------
+        # 🔹 TOP PLATOS
+        # ---------------------------
+        top_platos = (
+            DetalleVenta.objects.filter(venta__anulada=False)
+            .values("plato__nombre")
+            .annotate(
+                cantidad_total=Sum("cantidad"),
+                total_generado=Sum("subtotal"),
+            )
+            .order_by("-cantidad_total")[:5]
+        )
+
+        # ---------------------------
+        # 🔹 PLATOS MÁS RENTABLES
+        # ---------------------------
+        # ganancia = subtotal - (costo * cantidad)
+        detalles = DetalleVenta.objects.filter(venta__anulada=False).annotate(
+            costo_unitario=F("plato__ingredientes__producto__precio") * F("plato__ingredientes__cantidad")
+        )
+
+        # Esto simplificado: (mejor hacerlo más fino luego)
+        platos_rentables = (
+            DetalleVenta.objects.filter(venta__anulada=False)
+            .values("plato__nombre")
+            .annotate(
+                total_vendido=Sum("subtotal"),
+                cantidad=Sum("cantidad"),
+            )
+            .order_by("-total_vendido")[:5]
+        )
+
+        # ---------------------------
+        # 🔹 CONTEXTO
+        # ---------------------------
+        context.update({
+            "total_ventas": total_ventas,
+            "cantidad_ventas": cantidad_ventas,
+            "platos_vendidos": platos_vendidos,
+            "ventas_anuladas": ventas_anuladas,
+            "ticket_promedio": ticket_promedio,
+            "ultimas_ventas": ultimas_ventas,
+            "top_platos": top_platos,
+            "platos_rentables": platos_rentables,
+        })
+
+        return context
+    
 # -------- Venta Views --------- # 
 
 class VentaListView(ListView):
