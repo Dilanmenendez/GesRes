@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 
-
 class FinanzasConfig(AppConfig):
-    name = 'applications.finanzas'
-    
+    name = "applications.finanzas"
+
+    def ready(self):
+        import applications.finanzas.signals

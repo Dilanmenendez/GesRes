@@ -1,3 +1,4 @@
+from decimal import Decimal, ROUND_HALF_UP
 from django.db import models
 from django.core.validators import MinValueValidator, ValidationError
 from django.db import transaction
@@ -126,7 +127,7 @@ class Produccion(models.Model):
             producto_pt.stock_actual = F('stock_actual') + self.cantidad_producida
             producto_pt.save(update_fields=['stock_actual'])
 
-            self.costo_total = costo_total
+            self.costo_total = Decimal(costo_total).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
             super().save(*args, **kwargs)
             

@@ -48,6 +48,7 @@ def crear_movimiento_desde_venta(sender, instance, created, **kwargs):
         categoria=categoria,
         descripcion=f"Venta #{instance.pk}",
         documento=str(instance.pk),
+        monto=instance.total,
     )
 
 
@@ -72,8 +73,8 @@ def crear_movimiento_desde_produccion(sender, instance, created, **kwargs):
         categoria=categoria,
         descripcion=f"Producción #{instance.pk}",
         documento=str(instance.pk),
+        monto=instance.costo_total,
     )
-
 
 @receiver(post_save, sender=Compra)
 def crear_movimiento_desde_compra(sender, instance, created, **kwargs):
@@ -99,4 +100,5 @@ def crear_movimiento_desde_compra(sender, instance, created, **kwargs):
         categoria=categoria,
         descripcion=f"Compra de stock: {instance.producto.nombre}",
         documento=f"C{instance.pk}",
+        monto=instance.total_pagado,
     )

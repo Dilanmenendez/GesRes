@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 from django.db import models, transaction
 from django.core.validators import MinValueValidator
@@ -144,7 +144,7 @@ class Compra(models.Model):
 
                 producto = Producto.objects.select_for_update().get(pk=self.producto.pk)
 
-                self.total_pagado = producto.precio * self.cantidad
+                self.total_pagado = (producto.precio * self.cantidad).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
                 producto.stock_actual += self.cantidad
                 producto.save()

@@ -9,6 +9,8 @@ from django.db.models import Case, DecimalField, F, Sum, When
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 
+from .managers import MovimientoFinancieroManager
+
 
 class Cuenta(models.Model):
     TIPO_CHOICES = [
@@ -88,6 +90,8 @@ class GastoRecurrente(models.Model):
 
     @property
     def monto_mensual(self):
+        if self.monto_total is None or self.meses in (None, 0):
+            return Decimal("0.00")
         return (self.monto_total / Decimal(self.meses)).quantize(
             Decimal("0.01"), rounding=ROUND_HALF_UP
         )
@@ -139,6 +143,8 @@ class MovimientoFinanciero(models.Model):
     descripcion = models.CharField(max_length=255, blank=True)
     documento = models.CharField(max_length=100, blank=True)
 
+    objects = MovimientoFinancieroManager()
+
     creado_en = models.DateTimeField(auto_now_add=True)
     creado_por = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL
@@ -185,6 +191,8 @@ class MovimientoFinanciero(models.Model):
     def save(self, *args, **kwargs):
         if self.monto is None and self.origen is not None:
             self.monto = self._importe_origen()
+        if self.monto is not None:
+            self.monto = self.monto.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -217,53 +225,3 @@ class MovimientoFinanciero(models.Model):
         movimiento.save()
         return movimiento
 
-    @staticmethod
-    def _month_start(fecha):
-        return fecha.replace(day=1)
-
-    @staticmethod
-    def _month_delta(fecha, delta):
-        month = fecha.month - 1 + delta
-        year = fecha.year + month // 12
-        month = month % 12 + 1
-        return fecha.replace(year=year, month=month, day=1)
-
-    @classmethod
-    def _periodo_ultimos_meses(cls, meses, referencia=None):
-        referencia = referencia or timezone.localdate()
-        fecha_final = referencia
-        fecha_inicio = cls._month_delta(cls._month_start(referencia), -(meses - 1))
-        return fecha_inicio, fecha_final
-
-    @classmethod
-    def ingresos_ultimos_meses(cls, meses=3, referencia=None):
-        fecha_inicio, fecha_final = cls._periodo_ultimos_meses(meses, referencia)
-        resultado = cls.objects.filter(
-            tipo="I",
-            fecha__date__gte=fecha_inicio,
-            fecha__date__lte=fecha_final,
-        ).aggregate(total=Sum("monto"))
-        return resultado["total"] or Decimal("0.00")
-
-    @classmethod
-    def gastos_ultimos_meses(cls, meses=3, referencia=None):
-        fecha_inicio, fecha_final = cls._periodo_ultimos_meses(meses, referencia)
-        resultado = cls.objects.filter(
-            tipo="E",
-            fecha__date__gte=fecha_inicio,
-            fecha__date__lte=fecha_final,
-        ).aggregate(total=Sum("monto"))
-        return resultado["total"] or Decimal("0.00")
-
-    @classmethod
-    def punto_equilibrio_aproximado(cls, meses=3, referencia=None):
-        gastos = cls.gastos_ultimos_meses(meses, referencia)
-        if meses <= 0:
-            return Decimal("0.00")
-        return (gastos / Decimal(meses)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-
-    @classmethod
-    def balance_ultimos_meses(cls, meses=3, referencia=None):
-        ingresos = cls.ingresos_ultimos_meses(meses, referencia)
-        gastos = cls.gastos_ultimos_meses(meses, referencia)
-        return (ingresos - gastos).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)

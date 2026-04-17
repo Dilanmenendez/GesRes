@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'applications.stock',
     'applications.produccion',
     'applications.ventas',
-    'applications.finanzas',
+    'applications.finanzas.apps.FinanzasConfig',
 ]
 
 MIDDLEWARE = [
