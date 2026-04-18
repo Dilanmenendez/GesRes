@@ -1,0 +1,29 @@
+[
+  {
+    "model": "finanzas.categoriamovimiento",
+    "pk": 1,
+    "fields": {
+      "nombre": "Ventas",
+      "tipo": "I",
+      "descripcion": "Ingresos por ventas de productos"
+    }
+  },
+  {
+    "model": "finanzas.categoriamovimiento",
+    "pk": 2,
+    "fields": {
+      "nombre": "Costo de producción",
+      "tipo": "E",
+      "descripcion": "Egresos por costos de producción"
+    }
+  },
+  {
+    "model": "finanzas.categoriamovimiento",
+    "pk": 3,
+    "fields": {
+      "nombre": "Compra de insumos",
+      "tipo": "E",
+      "descripcion": "Egresos por compra de insumos y stock"
+    }
+  }
+]

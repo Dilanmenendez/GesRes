@@ -12,8 +12,28 @@ def _get_default_cuenta():
     return Cuenta.objects.filter(activo=True).first() or Cuenta.objects.first()
 
 
-def _get_categoria_por_tipo(tipo):
-    return CategoriaMovimiento.objects.filter(tipo=tipo).first()
+ORIGEN_A_CATEGORIA = {
+    Venta: ("Ventas", "I"),
+    Produccion: ("Costo de producción", "E"),
+    Compra: ("Compra de insumos", "E"),
+}
+
+
+def _get_or_create_categoria(nombre, tipo):
+    categoria, created = CategoriaMovimiento.objects.get_or_create(
+        nombre=nombre,
+        tipo=tipo,
+        defaults={'descripcion': f'Categoría automática para {nombre}'}
+    )
+    return categoria
+
+
+def _get_categoria_para_origen(origen):
+    datos = ORIGEN_A_CATEGORIA.get(origen.__class__)
+    if not datos:
+        raise ValueError(f"No hay categoría configurada para el origen {origen.__class__.__name__}")
+    nombre, tipo = datos
+    return _get_or_create_categoria(nombre, tipo)
 
 
 def _movimiento_existente(origen):
@@ -39,7 +59,7 @@ def crear_movimiento_desde_venta(sender, instance, created, **kwargs):
     if not cuenta:
         return
 
-    categoria = _get_categoria_por_tipo("I")
+    categoria = _get_categoria_para_origen(instance)
 
     MovimientoFinanciero.crear_desde_origen(
         origen=instance,
@@ -64,7 +84,7 @@ def crear_movimiento_desde_produccion(sender, instance, created, **kwargs):
     if not cuenta:
         return
 
-    categoria = _get_categoria_por_tipo("E")
+    categoria = _get_categoria_para_origen(instance)
 
     MovimientoFinanciero.crear_desde_origen(
         origen=instance,
@@ -91,7 +111,7 @@ def crear_movimiento_desde_compra(sender, instance, created, **kwargs):
     if not cuenta:
         return
 
-    categoria = _get_categoria_por_tipo("E")
+    categoria = _get_categoria_para_origen(instance)
 
     MovimientoFinanciero.crear_desde_origen(
         origen=instance,
