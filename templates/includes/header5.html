@@ -1,0 +1,35 @@
+{% load static %}
+<div class="title-bar erp-header" data-responsive-toggle="responsive-menu-finanzas" data-hide-for="medium">
+    <div class="grid-container header-container">
+        <button class="menu-icon" type="button" data-toggle="responsive-menu-finanzas"></button>
+        <div class="title-bar-title ml-1">
+            <a href="{% url 'finanzas_app:inicio' %}" class="erp-logo">
+                GesRes <span class="logo">Finanzas</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="erp-header" id="responsive-menu-finanzas">
+    <div class="grid-container">
+        <div class="grid-x align-middle">
+            <div class="cell shrink show-for-medium">
+                <a href="{% url 'finanzas_app:inicio' %}" class="erp-logo mr-2">
+                    GesRes <span class="logo">Finanzas</span>
+                </a>
+            </div>
+            <div class="cell medium-auto small-12">
+                <ul class="vertical medium-horizontal menu erp-nav" data-responsive-menu="accordion medium-dropdown">
+                    <li><a href="{% url 'finanzas_app:inicio' %}">Inicio</a></li>
+                    <li><a href="{% url 'finanzas_app:all_cuentas' %}">Cuentas</a></li>
+                    <li><a href="{% url 'finanzas_app:all_movimientos' %}">Movimientos</a></li>
+                </ul>
+            </div>
+            <div class="cell medium-shrink small-12">
+                <a href="{% url 'ventas_app:Inicio' %}" class="button small hollow btn-nav-switch expanded medium-unexpanded mt-mobile mb-2">
+                    Ir a Ventas →
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

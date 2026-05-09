@@ -4,7 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Case, DecimalField, F, Sum, When
 from django.db.models.functions import Coalesce
 from django.utils import timezone
@@ -142,6 +142,7 @@ class MovimientoFinanciero(models.Model):
     monto = models.DecimalField(max_digits=12, decimal_places=2, null=True)
     descripcion = models.CharField(max_length=255, blank=True)
     documento = models.CharField(max_length=100, blank=True)
+    anulado = models.BooleanField(default=False)
 
     objects = MovimientoFinancieroManager()
 
@@ -195,6 +196,30 @@ class MovimientoFinanciero(models.Model):
             self.monto = self.monto.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
         self.full_clean()
         super().save(*args, **kwargs)
+
+    def anular(self):
+        if self.anulado:
+            return
+
+        with transaction.atomic():
+            # Si existe un origen, anulamos el origen primero
+            # Esto asegura que el stock se devuelva correctamente
+            if self.origen:
+                origen_class_name = self.origen.__class__.__name__
+                
+                # Venta devuelve ingredientes al stock
+                if origen_class_name == 'Venta':
+                    self.origen.anular_venta()
+                # Producción devuelve ingredientes y resta producto terminado
+                elif origen_class_name == 'Produccion':
+                    self.origen.anular()
+                # Compra devuelve el stock de materia prima
+                elif origen_class_name == 'Compra':
+                    self.origen.anular()
+            
+            # Finalmente marcamos el movimiento como anulado
+            self.anulado = True
+            self.save(update_fields=["anulado"])
 
     @classmethod
     def crear_desde_origen(

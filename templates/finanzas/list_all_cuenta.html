@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes Finanzas | Cuentas{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">Cuentas</h2>
+      <p class="page-subtitle m-0">Gestiona las cuentas activas y revisa su saldo actual.</p>
+    </div>
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:create_cuenta' %}" class="button btn-register">
+        + Nueva Cuenta
+      </a>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrapper">
+      <table class="gesres-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Moneda</th>
+            <th class="text-right">Saldo</th>
+            <th class="text-center">Estado</th>
+            <th width="220" class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cuenta in cuentas %}
+          <tr class="{% if not cuenta.activo %}field-disabled{% endif %}">
+            <td>{{ cuenta.nombre }}</td>
+            <td>{{ cuenta.get_tipo_display }}</td>
+            <td>{{ cuenta.moneda }}</td>
+            <td class="text-right">$ {{ cuenta.saldo }}</td>
+            <td class="text-center">
+              {% if cuenta.activo %}
+                <span class="type-label type-label-pt">ACTIVA</span>
+              {% else %}
+                <span class="type-label type-label-mp">INACTIVA</span>
+              {% endif %}
+            </td>
+            <td>
+              <div class="actions-grid">
+                <a href="{% url 'finanzas_app:detail_cuenta' cuenta.id %}" class="text-action-primary">DETALLES</a>
+                <a href="{% url 'finanzas_app:update_cuenta' cuenta.id %}" class="text-action-success">EDITAR</a>
+                <a href="{% url 'finanzas_app:delete_cuenta' cuenta.id %}" class="text-action-alert">ELIMINAR</a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+                <span class="empty-icon">📭</span>
+                <p>No hay cuentas registradas aún.</p>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-x align-middle" style="margin-top: 2rem;">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <a href="{% url 'finanzas_app:inicio' %}" class="button hollow secondary">
+        ← Volver al inicio
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

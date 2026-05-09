@@ -1,4 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Cuenta, CategoriaMovimiento, MovimientoFinanciero
@@ -60,15 +61,16 @@ def crear_movimiento_desde_venta(sender, instance, created, **kwargs):
 
     categoria = _get_categoria_para_origen(instance)
 
-    MovimientoFinanciero.crear_desde_origen(
-        origen=instance,
-        tipo="I",
-        cuenta=cuenta,
-        categoria=categoria,
-        descripcion=f"Venta #{instance.pk}",
-        documento=str(instance.pk),
-        monto=instance.total,
-    )
+    with transaction.atomic():
+        MovimientoFinanciero.crear_desde_origen(
+            origen=instance,
+            tipo="I",
+            cuenta=cuenta,
+            categoria=categoria,
+            descripcion=f"Venta #{instance.pk}",
+            documento=str(instance.pk),
+            monto=instance.total,
+        )
 
 
 @receiver(post_save, sender=Produccion)
@@ -85,15 +87,16 @@ def crear_movimiento_desde_produccion(sender, instance, created, **kwargs):
 
     categoria = _get_categoria_para_origen(instance)
 
-    MovimientoFinanciero.crear_desde_origen(
-        origen=instance,
-        tipo="E",
-        cuenta=cuenta,
-        categoria=categoria,
-        descripcion=f"Producción #{instance.pk}",
-        documento=str(instance.pk),
-        monto=instance.costo_total,
-    )
+    with transaction.atomic():
+        MovimientoFinanciero.crear_desde_origen(
+            origen=instance,
+            tipo="E",
+            cuenta=cuenta,
+            categoria=categoria,
+            descripcion=f"Producción #{instance.pk}",
+            documento=str(instance.pk),
+            monto=instance.costo_total,
+        )
 
 @receiver(post_save, sender=Compra)
 def crear_movimiento_desde_compra(sender, instance, created, **kwargs):
@@ -112,12 +115,13 @@ def crear_movimiento_desde_compra(sender, instance, created, **kwargs):
 
     categoria = _get_categoria_para_origen(instance)
 
-    MovimientoFinanciero.crear_desde_origen(
-        origen=instance,
-        tipo="E",
-        cuenta=cuenta,
-        categoria=categoria,
-        descripcion=f"Compra de stock: {instance.producto.nombre}",
-        documento=f"C{instance.pk}",
-        monto=instance.total_pagado,
-    )
+    with transaction.atomic():
+        MovimientoFinanciero.crear_desde_origen(
+            origen=instance,
+            tipo="E",
+            cuenta=cuenta,
+            categoria=categoria,
+            descripcion=f"Compra de stock: {instance.producto.nombre}",
+            documento=f"C{instance.pk}",
+            monto=instance.total_pagado,
+        )

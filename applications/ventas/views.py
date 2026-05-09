@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 from django.db.models import Sum, F
 from django.urls import reverse, reverse_lazy
 from django.views import View
@@ -143,10 +144,11 @@ class VentaCreateView(CreateView):
         formset = context["formset"]
 
         if formset.is_valid():
-            self.object = form.save()
+            with transaction.atomic():
+                self.object = form.save()
 
-            formset.instance = self.object
-            formset.save()
+                formset.instance = self.object
+                formset.save()
 
             return super().form_valid(form)
 

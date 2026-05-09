@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes Finanzas | Nueva Cuenta{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">Nueva Cuenta</h2>
+      <p class="page-subtitle m-0">Registra una nueva cuenta para tus movimientos financieros.</p>
+    </div>
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:all_cuentas' %}" class="button hollow secondary">
+        ← Volver a cuentas
+      </a>
+    </div>
+  </div>
+
+  <div class="gesres-card card-shadow">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="grid-x grid-margin-x">
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Nombre</label>
+          {{ form.nombre }}
+        </div>
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Tipo</label>
+          {{ form.tipo }}
+        </div>
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Moneda</label>
+          {{ form.moneda }}
+        </div>
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Activo</label>
+          {{ form.activo }}
+        </div>
+        <div class="cell small-12">
+          <label class="form-label-custom">Descripción</label>
+          {{ form.descripcion }}
+        </div>
+      </div>
+      <div class="grid-x align-middle" style="margin-top: 1.5rem;">
+        <div class="cell small-12 medium-auto">
+          <button type="submit" class="button btn-form">
+            Guardar Cuenta
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}

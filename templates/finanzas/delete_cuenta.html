@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes Finanzas | Eliminar Cuenta{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">Eliminar Cuenta</h2>
+      <p class="page-subtitle m-0">Confirma la eliminación de esta cuenta financiera.</p>
+    </div>
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:detail_cuenta' object.id %}" class="button hollow secondary">
+        ← Volver al detalle
+      </a>
+    </div>
+  </div>
+
+  <div class="gesres-card card-shadow text-center">
+    <span class="confirm-icon">⚠️</span>
+    <h3 class="alert-title-warning">¿Estás seguro?</h3>
+    <p class="page-subtitle">Esta acción eliminará la cuenta <strong>{{ object.nombre }}</strong>.</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="grid-x align-middle" style="margin-top: 1.5rem;">
+        <div class="cell small-12 medium-auto">
+          <button type="submit" class="button btn-form btn-alert">
+            Confirmar eliminación
+          </button>
+        </div>
+        <div class="cell small-12 medium-auto mt-mobile">
+          <a href="{% url 'finanzas_app:detail_cuenta' object.id %}" class="button hollow secondary">
+            Cancelar
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}
