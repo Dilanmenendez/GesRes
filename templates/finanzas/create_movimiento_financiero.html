@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Editar Cuenta{% endblock title %}
+{% block title %}GesRes Finanzas | Nuevo Movimiento{% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
@@ -9,16 +9,14 @@
 <div class="grid-container page-layout">
   <div class="grid-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <h2 class="page-title m-0">Editar Cuenta</h2>
-      <p class="page-subtitle m-0">Actualiza los datos de tu cuenta financiera.</p>
+      <h2 class="page-title m-0">Nuevo Movimiento Financiero</h2>
+      <p class="page-subtitle m-0">Registra un nuevo ingreso o egreso en el sistema.</p>
     </div>
-    <div class="grid-x align-middle" style="margin-top: 2rem;">
-    <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'finanzas_app:all_cuentas' %}" class="button hollow secondary">
-        ← Volver a cuentas
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:all_movimientos' %}" class="button btn-form btn-cancel hollow">
+        ← Volver a movimientos
       </a>
     </div>
-  </div>
   </div>
 
   <div class="gesres-card card-shadow">
@@ -26,20 +24,24 @@
       {% csrf_token %}
       <div class="grid-x grid-margin-x">
         <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Nombre</label>
-          {{ form.nombre }}
+          <label class="form-label-custom">Fecha</label>
+          {{ form.fecha }}
         </div>
         <div class="cell small-12 medium-6">
           <label class="form-label-custom">Tipo</label>
           {{ form.tipo }}
         </div>
         <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Moneda</label>
-          {{ form.moneda }}
+          <label class="form-label-custom">Cuenta</label>
+          {{ form.cuenta }}
         </div>
         <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Activo</label>
-          {{ form.activo }}
+          <label class="form-label-custom">Monto</label>
+          {{ form.monto }}
+        </div>
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Categoría</label>
+          {{ form.categoria }}
         </div>
         <div class="cell small-12">
           <label class="form-label-custom">Descripción</label>
@@ -49,13 +51,11 @@
       <div class="grid-x align-middle" style="margin-top: 1.5rem;">
         <div class="cell small-12 medium-auto">
           <button type="submit" class="button btn-form btn-save expanded">
-            Guardar Cambios
+            Guardar Movimiento
           </button>
         </div>
       </div>
     </form>
-    
   </div>
-  
 </div>
 {% endblock content %}

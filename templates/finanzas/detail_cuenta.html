@@ -13,10 +13,10 @@
       <p class="page-subtitle m-0">Detalle y estado de la cuenta seleccionada.</p>
     </div>
     <div class="cell small-12 medium-shrink text-center mt-mobile">
-      <a href="{% url 'finanzas_app:update_cuenta' cuenta.id %}" class="button btn-action">
+      <a href="{% url 'finanzas_app:update_cuenta' object.id %}" class="button btn-form btn-save">
         Editar Cuenta
       </a>
-      <a href="{% url 'finanzas_app:delete_cuenta' cuenta.id %}" class="button hollow secondary">
+      <a href="{% url 'finanzas_app:delete_cuenta' object.id %}" class="button btn-form btn-delete hollow">
         Eliminar
       </a>
     </div>

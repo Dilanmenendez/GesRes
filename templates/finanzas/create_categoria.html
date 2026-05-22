@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Editar Cuenta{% endblock title %}
+{% block title %}GesRes Finanzas | Nueva Categoría{% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
@@ -9,16 +9,14 @@
 <div class="grid-container page-layout">
   <div class="grid-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <h2 class="page-title m-0">Editar Cuenta</h2>
-      <p class="page-subtitle m-0">Actualiza los datos de tu cuenta financiera.</p>
+      <h2 class="page-title m-0">Nueva Categoría</h2>
+      <p class="page-subtitle m-0">Crea una nueva categoría para clasificar movimientos financieros.</p>
     </div>
-    <div class="grid-x align-middle" style="margin-top: 2rem;">
-    <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'finanzas_app:all_cuentas' %}" class="button hollow secondary">
-        ← Volver a cuentas
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:all_categorias' %}" class="button btn-form btn-cancel hollow">
+        ← Volver a categorías
       </a>
     </div>
-  </div>
   </div>
 
   <div class="gesres-card card-shadow">
@@ -33,14 +31,6 @@
           <label class="form-label-custom">Tipo</label>
           {{ form.tipo }}
         </div>
-        <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Moneda</label>
-          {{ form.moneda }}
-        </div>
-        <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Activo</label>
-          {{ form.activo }}
-        </div>
         <div class="cell small-12">
           <label class="form-label-custom">Descripción</label>
           {{ form.descripcion }}
@@ -49,13 +39,11 @@
       <div class="grid-x align-middle" style="margin-top: 1.5rem;">
         <div class="cell small-12 medium-auto">
           <button type="submit" class="button btn-form btn-save expanded">
-            Guardar Cambios
+            Guardar Categoría
           </button>
         </div>
       </div>
     </form>
-    
   </div>
-  
 </div>
 {% endblock content %}

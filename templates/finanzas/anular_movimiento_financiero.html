@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes Finanzas | Anular Movimiento{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">Anular Movimiento</h2>
+      <p class="page-subtitle m-0">Confirma la anulación del movimiento financiero.</p>
+    </div>
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:detail_movimiento' object.pk %}" class="button btn-form btn-cancel hollow">
+        ← Volver al detalle
+      </a>
+    </div>
+  </div>
+
+  <div class="gesres-card card-shadow text-center">
+    <span class="confirm-icon">⚠️</span>
+    <h3 class="alert-title-warning">¿Estás seguro de anular este movimiento?</h3>
+    <div class="mt-mobile">
+      <div class="data-box">
+        <p class="detail-label">Movimiento #{{ object.id }}</p>
+        <p class="detail-value">{{ object.fecha|date:"d/m/Y H:i" }} - {{ object.get_tipo_display }} - $ {{ object.monto }}</p>
+      </div>
+    </div>
+    <p class="page-subtitle">Esta acción anulará el movimiento y revertirá los cambios en el stock si corresponde.</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="grid-x align-middle" style="margin-top: 1.5rem;">
+        <div class="cell small-12 medium-6">
+          <a href="{% url 'finanzas_app:detail_movimiento' object.pk %}" class="button btn-form btn-cancel hollow expanded">
+            No, Cancelar
+          </a>
+        </div>
+        <div class="cell small-12 medium-6">
+          <button type="submit" class="button btn-form btn-delete expanded">
+            Sí, Confirmar Anulación
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}

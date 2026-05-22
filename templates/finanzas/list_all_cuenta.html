@@ -34,7 +34,7 @@
         </thead>
         <tbody>
           {% for cuenta in cuentas %}
-          <tr class="{% if not cuenta.activo %}field-disabled{% endif %}">
+          <tr>
             <td>{{ cuenta.nombre }}</td>
             <td>{{ cuenta.get_tipo_display }}</td>
             <td>{{ cuenta.moneda }}</td>
@@ -71,7 +71,7 @@
 
   <div class="grid-x align-middle" style="margin-top: 2rem;">
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'finanzas_app:inicio' %}" class="button hollow secondary">
+      <a href="{% url 'finanzas_app:inicio' %}" class="button btn-form btn-cancel hollow">
         ← Volver al inicio
       </a>
     </div>

@@ -16,66 +16,62 @@ urlpatterns = [
          name='inicio'),
 
     # --------- Paths Cuenta ----------- #
-
-    path('all_cuentas/',
+    path('cuentas/',
          views.CuentaListView.as_view(),
          name='all_cuentas'),
 
-    path('create_cuenta/',
+    path('cuentas/crear/',
         views.CuentaCreateView.as_view(),
         name='create_cuenta'),
-    
-    path('update_cuenta/<pk>/',
-        views.CuentaUpdateView.as_view(),
-        name='update_cuenta'),
-    
-    path('delete_cuenta/<pk>',
-        views.CuentaDeleteView.as_view(),
-        name='delete_cuenta'),
-    
-    path('detail_cuenta/<pk>/',
+
+    path('cuentas/<int:pk>/',
         views.CuentaDetailView.as_view(),
         name='detail_cuenta'),
 
-    # --------- Paths CategoriaMovimiento ----------- #
+    path('cuentas/<int:pk>/editar/',
+        views.CuentaUpdateView.as_view(),
+        name='update_cuenta'),
 
-    path('all_categorias/',
+    path('cuentas/<int:pk>/eliminar/',
+        views.CuentaDeleteView.as_view(),
+        name='delete_cuenta'),
+
+    # --------- Paths CategoriaMovimiento ----------- #
+    path('categorias/',
         views.CategoriaMovimientoListView.as_view(),
         name='all_categorias'),
 
-    path('create_categoria/',
+    path('categorias/crear/',
         views.CategoriaMovimientoCreateView.as_view(),
         name='create_categoria'),
 
     # --------- Paths GastoRecurrente ----------- #
-
-    path('all_gastos_recurrentes/',
+    path('gastos-recurrentes/',
         views.GastoRecurrenteListView.as_view(),
         name='all_gastos_recurrentes'),
 
-    path('create_gasto_recurrente/',
+    path('gastos-recurrentes/crear/',
         views.GastoRecurrenteCreateView.as_view(),
         name='create_gasto_recurrente'),
 
-    path('update_gasto_recurrente/<pk>/',
+    path('gastos-recurrentes/<int:pk>/editar/',
         views.GastoRecurrenteUpdateView.as_view(),
         name='update_gasto_recurrente'),
 
     # --------- Paths MovimientoFinanciero ----------- #
-
-    path('all_movimientos/',
+    path('movimientos/',
         views.MovimientoFinancieroListView.as_view(),
         name='all_movimientos'),
 
-    path('detail_movimiento/<pk>/',
-        views.MovimientoFinancieroDetailView.as_view(),
-        name='detail_movimiento'),
-
-    path('create_movimiento/',
+    path('movimientos/crear/',
         views.MovimientoFinancieroCreateView.as_view(),
         name='create_movimiento'),
 
-    path('anular_movimiento/<pk>/',
+    path('movimientos/<int:pk>/',
+        views.MovimientoFinancieroDetailView.as_view(),
+        name='detail_movimiento'),
+
+    path('movimientos/<int:pk>/anular/',
         views.MovimientoFinancieroAnularView.as_view(),
         name='anular_movimiento'),
 

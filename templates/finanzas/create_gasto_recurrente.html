@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Editar Cuenta{% endblock title %}
+{% block title %}GesRes Finanzas | Nuevo Gasto Recurrente{% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
@@ -9,16 +9,14 @@
 <div class="grid-container page-layout">
   <div class="grid-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
-      <h2 class="page-title m-0">Editar Cuenta</h2>
-      <p class="page-subtitle m-0">Actualiza los datos de tu cuenta financiera.</p>
+      <h2 class="page-title m-0">Nuevo Gasto Recurrente</h2>
+      <p class="page-subtitle m-0">Registra un gasto que se repite periódicamente.</p>
     </div>
-    <div class="grid-x align-middle" style="margin-top: 2rem;">
-    <div class="cell small-12 medium-auto text-center medium-text-left">
-      <a href="{% url 'finanzas_app:all_cuentas' %}" class="button hollow secondary">
-        ← Volver a cuentas
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:all_gastos_recurrentes' %}" class="button btn-form btn-cancel hollow">
+        ← Volver a gastos recurrentes
       </a>
     </div>
-  </div>
   </div>
 
   <div class="gesres-card card-shadow">
@@ -30,12 +28,24 @@
           {{ form.nombre }}
         </div>
         <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Tipo</label>
-          {{ form.tipo }}
+          <label class="form-label-custom">Cuenta</label>
+          {{ form.cuenta }}
         </div>
         <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Moneda</label>
-          {{ form.moneda }}
+          <label class="form-label-custom">Categoría</label>
+          {{ form.categoria }}
+        </div>
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Monto Total</label>
+          {{ form.monto_total }}
+        </div>
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Cantidad de Meses</label>
+          {{ form.meses }}
+        </div>
+        <div class="cell small-12 medium-6">
+          <label class="form-label-custom">Fecha de Inicio</label>
+          {{ form.fecha_inicio }}
         </div>
         <div class="cell small-12 medium-6">
           <label class="form-label-custom">Activo</label>
@@ -49,13 +59,11 @@
       <div class="grid-x align-middle" style="margin-top: 1.5rem;">
         <div class="cell small-12 medium-auto">
           <button type="submit" class="button btn-form btn-save expanded">
-            Guardar Cambios
+            Guardar Gasto Recurrente
           </button>
         </div>
       </div>
     </form>
-    
   </div>
-  
 </div>
 {% endblock content %}
