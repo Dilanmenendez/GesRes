@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Categorías{% endblock title %}
+{% block title %} GesRes Finanzas | Categorías {% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
 
 <div class="grid-container page-layout">
+  
+  <!-- HEADER -->
   <div class="grid-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
       <h2 class="page-title m-0">Categorías de Movimiento</h2>
-      <p class="page-subtitle m-0">Gestiona las categorías para clasificar tus movimientos financieros.</p>
+      <p class="page-subtitle m-0">Gestiona las categorías para clasificar tus movimientos financieros</p>
     </div>
     <div class="cell small-12 medium-shrink text-center mt-mobile">
       <a href="{% url 'finanzas_app:create_categoria' %}" class="button btn-register">
@@ -19,6 +21,7 @@
     </div>
   </div>
 
+  <!-- TABLA -->
   <div class="table-card">
     <div class="table-wrapper">
       <table class="gesres-table">
@@ -27,19 +30,37 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th class="text-center">Tipo</th>
-            <th width="150" class="text-center">Acciones</th>
+            <th width="200" class="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {% for categoria in categorias %}
           <tr>
-            <td>{{ categoria.nombre }}</td>
-            <td>{{ categoria.descripcion|default:'Sin descripción' }}</td>
-            <td class="text-center">{{ categoria.get_tipo_display }}</td>
+            <td>
+              <span class="item-title">{{ categoria.nombre }}</span>
+            </td>
+            <td>{{ categoria.descripcion|default:'<em>Sin descripción</em>' }}</td>
+            <td class="text-center">
+              {% if categoria.tipo == 'I' %}
+                <span class="type-label type-label-pt">INGRESO</span>
+              {% else %}
+                <span class="type-label type-label-mp">EGRESO</span>
+              {% endif %}
+            </td>
             <td>
               <div class="actions-grid">
-                <a href="#" class="text-action-primary">DETALLES</a>
-                <a href="#" class="text-action-success">EDITAR</a>
+                <a href="{% url 'finanzas_app:detail_categoria' categoria.pk %}" 
+                   class="text-action-primary">
+                  DETALLES
+                </a>
+                <a href="{% url 'finanzas_app:update_categoria' categoria.pk %}" 
+                   class="text-action-warning">
+                  EDITAR
+                </a>
+                <a href="{% url 'finanzas_app:delete_categoria' categoria.pk %}" 
+                   class="text-action-alert">
+                  ELIMINAR
+                </a>
               </div>
             </td>
           </tr>
@@ -58,6 +79,7 @@
     </div>
   </div>
 
+  <!-- FOOTER -->
   <div class="grid-x align-middle" style="margin-top: 2rem;">
     <div class="cell small-12 medium-auto text-center medium-text-left">
       <a href="{% url 'finanzas_app:inicio' %}" class="button btn-form btn-cancel hollow">
@@ -65,5 +87,6 @@
       </a>
     </div>
   </div>
+
 </div>
 {% endblock content %}

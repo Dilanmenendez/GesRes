@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes Finanzas | Categoría {{ categoria.nombre }}{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">{{ categoria.nombre }}</h2>
+      <p class="page-subtitle m-0">Detalle de la categoría de movimiento</p>
+    </div>
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      {% if categoria.tipo == 'I' %}
+        <span class="type-label type-label-pt">INGRESO</span>
+      {% else %}
+        <span class="type-label type-label-mp">EGRESO</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12 medium-7">
+      <div class="gesres-card">
+        <p class="detail-label">Descripción</p>
+        <p class="detail-value">{{ categoria.descripcion|default:'Sin descripción' }}</p>
+      </div>
+    </div>
+    <div class="cell small-12 medium-5">
+      <div class="gesres-card">
+        <div class="button-group-vertical">
+          <a href="{% url 'finanzas_app:all_categorias' %}" class="button hollow secondary">Volver a categorías</a>
+          <a href="{% url 'finanzas_app:update_categoria' categoria.pk %}" class="button btn-form btn-save">Editar categoría</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

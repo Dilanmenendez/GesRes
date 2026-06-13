@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Gastos Recurrentes{% endblock title %}
+{% block title %} GesRes Finanzas | Gastos Recurrentes {% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
 
 <div class="grid-container page-layout">
+  
+  <!-- HEADER -->
   <div class="grid-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
       <h2 class="page-title m-0">Gastos Recurrentes</h2>
-      <p class="page-subtitle m-0">Gestiona los gastos que se repiten periódicamente.</p>
+      <p class="page-subtitle m-0">Gestiona los gastos que se repiten periódicamente</p>
     </div>
     <div class="cell small-12 medium-shrink text-center mt-mobile">
       <a href="{% url 'finanzas_app:create_gasto_recurrente' %}" class="button btn-register">
@@ -19,6 +21,7 @@
     </div>
   </div>
 
+  <!-- TABLA -->
   <div class="table-card">
     <div class="table-wrapper">
       <table class="gesres-table">
@@ -26,21 +29,29 @@
           <tr>
             <th>Nombre</th>
             <th>Cuenta</th>
-            <th class="text-right">Monto Total</th>
             <th class="text-center">Meses</th>
+            <th class="text-right">Total</th>
             <th class="text-right">Mensual</th>
             <th class="text-center">Estado</th>
-            <th width="150" class="text-center">Acciones</th>
+            <th width="200" class="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {% for gasto in gastos %}
           <tr>
-            <td>{{ gasto.nombre }}</td>
+            <td>
+              <span class="item-title">{{ gasto.nombre }}</span>
+            </td>
             <td>{{ gasto.cuenta }}</td>
-            <td class="text-right">$ {{ gasto.monto_total }}</td>
-            <td class="text-center">{{ gasto.meses }}</td>
-            <td class="text-right">$ {{ gasto.monto_mensual }}</td>
+            <td class="text-center">
+              <span class="id-badge">{{ gasto.meses }}</span>
+            </td>
+            <td class="text-right">
+              <span class="price-val">$ {{ gasto.monto_total|floatformat:2 }}</span>
+            </td>
+            <td class="text-right">
+              <span class="price-unit">$ {{ gasto.monto_mensual|floatformat:2 }}</span>
+            </td>
             <td class="text-center">
               {% if gasto.activo %}
                 <span class="type-label type-label-pt">ACTIVO</span>
@@ -50,8 +61,18 @@
             </td>
             <td>
               <div class="actions-grid">
-                <a href="#" class="text-action-primary">DETALLES</a>
-                <a href="{% url 'finanzas_app:update_gasto_recurrente' gasto.pk %}" class="text-action-success">EDITAR</a>
+                <a href="{% url 'finanzas_app:detail_gasto_recurrente' gasto.pk %}" 
+                   class="text-action-primary">
+                  DETALLES
+                </a>
+                <a href="{% url 'finanzas_app:update_gasto_recurrente' gasto.pk %}" 
+                   class="text-action-warning">
+                  EDITAR
+                </a>
+                <a href="{% url 'finanzas_app:delete_gasto_recurrente' gasto.pk %}" 
+                   class="text-action-alert">
+                  ELIMINAR
+                </a>
               </div>
             </td>
           </tr>
@@ -70,6 +91,7 @@
     </div>
   </div>
 
+  <!-- FOOTER -->
   <div class="grid-x align-middle" style="margin-top: 2rem;">
     <div class="cell small-12 medium-auto text-center medium-text-left">
       <a href="{% url 'finanzas_app:inicio' %}" class="button btn-form btn-cancel hollow">
@@ -77,5 +99,6 @@
       </a>
     </div>
   </div>
+
 </div>
 {% endblock content %}

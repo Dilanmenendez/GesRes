@@ -14,8 +14,8 @@
                 <p class="hero-desc">Controla cuentas, movimientos y gastos recurrentes para mantener tus finanzas ordenadas.</p>
                 <div class="grid-x align-left pb-mobile-action">
                     <div class="cell small-12 medium-shrink mb-mobile-only">
-                        <a href="{% url 'finanzas_app:all_cuentas' %}" class="button primary shadow btn-hero" style="margin-right: 1rem;">
-                            Ver Cuentas
+                        <a href="{% url 'finanzas_app:dashboard' %}" class="button primary shadow btn-hero" style="margin-right: 1rem;">
+                            Ver Dashboard
                         </a>
                     </div>
                     <div class="cell small-12 medium-shrink">
@@ -56,14 +56,14 @@
                 </div>
             </div>
         </div>
-        <div class="cell small-12 medium-4 mb-mobile-module">
+        <div class="cell small-12 medium-4 mb-mobile-module mb-1">
             <div class="nav-module-card card-shadow border-top-secondary" data-equalizer-watch>
                 <div class="module-icon">📊</div>
-                <h5 class="module-title text-secondary">Reportes</h5>
-                <p class="module-desc">Próximamente podrás ver métricas financieras y comparativas.</p>
+                <h5 class="module-title text-secondary">Dashboard</h5>
+                <p class="module-desc">Consulta saldos, balance mensual y movimientos recientes en un solo panel.</p>
                 <div class="module-action">
-                    <a href="#" class="button clear secondary small module-btn">
-                        Pronto disponible →
+                    <a href="{% url 'finanzas_app:dashboard' %}" class="button clear secondary small module-btn">
+                        Ver panel →
                     </a>
                 </div>
             </div>

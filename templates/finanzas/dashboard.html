@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes | Dashboard Financiero{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">Panel Financiero</h2>
+      <p class="page-subtitle m-0">Resumen de cuentas, saldos y movimientos del mes</p>
+    </div>
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      <a href="{% url 'finanzas_app:all_movimientos' %}" class="button btn-register">Ver movimientos</a>
+    </div>
+  </div>
+
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12 medium-3">
+      <div class="gesres-card stat-card primary text-center">
+        <span class="detail-label">Cuentas activas</span>
+        <h3 class="stat-value">{{ total_cuentas }}</h3>
+        <span class="detail-label">Disponibles para registrar</span>
+      </div>
+    </div>
+    <div class="cell small-12 medium-3">
+      <div class="gesres-card stat-card success text-center">
+        <span class="detail-label">Saldo total</span>
+        <h3 class="stat-value">$ {{ saldo_total|floatformat:2 }}</h3>
+        <span class="detail-label">Valor acumulado actual</span>
+      </div>
+    </div>
+    <div class="cell small-12 medium-3">
+      <div class="gesres-card stat-card neutral text-center">
+        <span class="detail-label">Ingresos del mes</span>
+        <h3 class="stat-value">$ {{ ingresos_mes|floatformat:2 }}</h3>
+        <span class="detail-label">Movimientos de entrada</span>
+      </div>
+    </div>
+    <div class="cell small-12 medium-3">
+      <div class="gesres-card stat-card primary text-center">
+        <span class="detail-label">Egresos del mes</span>
+        <h3 class="stat-value">$ {{ egresos_mes|floatformat:2 }}</h3>
+        <span class="detail-label">Movimientos de salida</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-x grid-margin-x header-module">
+    <div class="cell small-12 large-7">
+      <div class="gesres-card">
+        <h5 class="detail-value mb-1">Balance mensual</h5>
+        <p class="page-subtitle m-0">Ingresos menos egresos del período actual.</p>
+        <div class="mt-1">
+          <span class="price-val">$ {{ balance_mes|floatformat:2 }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="cell small-12 large-5">
+      <div class="gesres-card">
+        <h5 class="detail-value mb-1">Cuentas</h5>
+        <ul class="no-bullet m-0">
+          {% for cuenta in cuentas %}
+            <li class="data-box mb-1">
+              <strong>{{ cuenta.nombre }}</strong>
+              <span class="text-secondary">Saldo: $ {{ cuenta.saldo|floatformat:2 }}</span>
+            </li>
+          {% empty %}
+            <li>No hay cuentas activas.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="gesres-card">
+    <div class="grid-x align-middle mb-1">
+      <div class="cell auto">
+        <h5 class="detail-value m-0">Movimientos recientes</h5>
+      </div>
+      <div class="cell shrink">
+        <a href="{% url 'finanzas_app:create_movimiento' %}" class="button clear btn-tx">Nuevo movimiento →</a>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table class="gesres-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Cuenta</th>
+            <th>Tipo</th>
+            <th>Monto</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for movimiento in movimientos_recientes %}
+            <tr>
+              <td>{{ movimiento.fecha|date:'d/m/Y H:i' }}</td>
+              <td>{{ movimiento.cuenta }}</td>
+              <td>{{ movimiento.get_tipo_display }}</td>
+              <td>$ {{ movimiento.monto|floatformat:2 }}</td>
+              <td>{% if movimiento.anulado %}Anulado{% else %}Activo{% endif %}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5">No hay movimientos registrados.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}

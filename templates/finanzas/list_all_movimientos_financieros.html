@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Movimientos{% endblock title %}
+{% block title %} GesRes Finanzas | Movimientos {% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
 
 <div class="grid-container page-layout">
+  
+  <!-- HEADER -->
   <div class="grid-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
       <h2 class="page-title m-0">Movimientos Financieros</h2>
-      <p class="page-subtitle m-0">Listado de ingresos y egresos registrados en el sistema.</p>
+      <p class="page-subtitle m-0">Listado de ingresos y egresos registrados en el sistema</p>
     </div>
     <div class="cell small-12 medium-shrink text-center mt-mobile">
       <a href="{% url 'finanzas_app:create_movimiento' %}" class="button btn-register">
@@ -19,28 +21,37 @@
     </div>
   </div>
 
+  <!-- TABLA -->
   <div class="table-card">
     <div class="table-wrapper">
       <table class="gesres-table">
         <thead>
           <tr>
+            <th class="text-center">ID</th>
             <th>Fecha</th>
             <th>Cuenta</th>
             <th>Categoría</th>
             <th>Tipo</th>
             <th class="text-right">Monto</th>
             <th class="text-center">Estado</th>
-            <th class="text-center">Acciones</th>
+            <th width="150" class="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {% for movimiento in movimientos %}
           <tr class="{% if movimiento.anulado %}field-disabled{% endif %}">
-            <td>{{ movimiento.fecha|date:"d/m/Y H:i" }}</td>
+            <td class="text-center">
+              <span class="id-badge">#{{ movimiento.id }}</span>
+            </td>
+            <td>
+              <span class="detail-value">{{ movimiento.fecha|date:"d/m/Y H:i" }}</span>
+            </td>
             <td>{{ movimiento.cuenta }}</td>
-            <td>{% if movimiento.categoria %}{{ movimiento.categoria.nombre }}{% else %}Sin categoría{% endif %}</td>
+            <td>{% if movimiento.categoria %}{{ movimiento.categoria.nombre }}{% else %}<em>Sin categoría</em>{% endif %}</td>
             <td>{{ movimiento.get_tipo_display }}</td>
-            <td class="text-right">$ {{ movimiento.monto }}</td>
+            <td class="text-right">
+              <span class="price-val">$ {{ movimiento.monto|floatformat:2 }}</span>
+            </td>
             <td class="text-center">
               {% if movimiento.anulado %}
                 <span class="type-label type-label-mp">ANULADO</span>
@@ -48,17 +59,25 @@
                 <span class="type-label type-label-pt">ACTIVO</span>
               {% endif %}
             </td>
-            <td class="text-center">
-              {% if not movimiento.anulado %}
-                <a href="{% url 'finanzas_app:anular_movimiento' movimiento.pk %}" class="text-action-alert" onclick="return confirm('¿Estás seguro de anular este movimiento?')">
+            <td>
+              <div class="actions-grid">
+                <a href="{% url 'finanzas_app:detail_movimiento' movimiento.pk %}" 
+                   class="text-action-primary">
+                  DETALLES
+                </a>
+
+                {% if not movimiento.anulado %}
+                <a href="{% url 'finanzas_app:anular_movimiento' movimiento.pk %}" 
+                   class="text-action-alert">
                   ANULAR
                 </a>
-              {% endif %}
+                {% endif %}
+              </div>
             </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="7">
+            <td colspan="8">
               <div class="empty-state">
                 <span class="empty-icon">🧾</span>
                 <p>No existen movimientos registrados.</p>
@@ -69,10 +88,16 @@
         </tbody>
       </table>
     </div>
-    
   </div>
-  <a href="{% url 'finanzas_app:inicio' %}" class="button btn-form btn-cancel hollow ">
+
+  <!-- FOOTER -->
+  <div class="grid-x align-middle" style="margin-top: 2rem;">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <a href="{% url 'finanzas_app:inicio' %}" class="button btn-form btn-cancel hollow">
         ← Volver al inicio
-    </a>
+      </a>
+    </div>
+  </div>
+
 </div>
 {% endblock content %}

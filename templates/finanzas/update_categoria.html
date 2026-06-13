@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes Finanzas | Editar Categoría{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">Editar Categoría</h2>
+      <p class="page-subtitle m-0">Actualiza los datos de la categoría seleccionada</p>
+    </div>
+  </div>
+
+  <div class="gesres-card">
+    <form method="post" class="form-grid">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="grid-x grid-margin-x align-middle mt-1">
+        <div class="cell small-12 medium-shrink">
+          <button type="submit" class="button btn-form btn-save">Guardar cambios</button>
+        </div>
+        <div class="cell small-12 medium-shrink">
+          <a href="{% url 'finanzas_app:all_categorias' %}" class="button btn-form btn-cancel hollow">Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}

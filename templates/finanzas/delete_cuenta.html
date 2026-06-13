@@ -1,43 +1,77 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Eliminar Cuenta{% endblock title %}
+{% block title %} GesRes Finanzas | Eliminar Cuenta {% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
 
 <div class="grid-container page-layout">
-  <div class="grid-x align-middle header-module">
-    <div class="cell small-12 medium-auto text-center medium-text-left">
-      <h2 class="page-title m-0">Eliminar Cuenta</h2>
-      <p class="page-subtitle m-0">Confirma la eliminación de esta cuenta financiera.</p>
-    </div>
-    <div class="cell small-12 medium-shrink text-center mt-mobile">
-      <a href="{% url 'finanzas_app:detail_cuenta' object.id %}" class="button hollow secondary">
-        ← Volver al detalle
-      </a>
-    </div>
-  </div>
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
 
-  <div class="gesres-card card-shadow text-center">
-    <span class="confirm-icon">⚠️</span>
-    <h3 class="alert-title-warning">¿Estás seguro?</h3>
-    <p class="page-subtitle">Esta acción eliminará la cuenta <strong>{{ object.nombre }}</strong>.</p>
-    <form method="post">
-      {% csrf_token %}
-      <div class="grid-x align-middle" style="margin-top: 1.5rem;">
-        <div class="cell small-12 medium-6">
-          <a href="{% url 'finanzas_app:detail_cuenta' object.id %}" class="button btn-form btn-cancel hollow expanded">
-            No, Cancelar
-          </a>
+      <div class="form-card card-confirm">
+
+        <!-- HEADER -->
+        <div class="text-center mb-1">
+          <span class="confirm-icon">⚠️</span>
+          <h3 class="alert-title-danger">¿Eliminar esta cuenta?</h3>
+          <p class="page-subtitle m-0">
+            Esta acción no se puede deshacer.
+          </p>
         </div>
-        <div class="cell small-12 medium-6">
-          <button type="submit" class="button btn-form btn-delete expanded">
-            Sí, Confirmar Eliminación
-          </button>
+
+        <!-- INFO -->
+        <div class="data-box mb-1">
+          <div class="grid-x">
+            
+            <div class="cell small-12">
+              <span class="detail-label">{{ object.nombre }}</span>
+              <p class="detail-value">{{ object.get_tipo_display }} - {{ object.moneda }}</p>
+            </div>
+
+            <div class="cell small-12 mt-1">
+              <span class="detail-label">Saldo Actual</span>
+              <p class="detail-value-highlight text-critical">
+                $ {{ object.saldo|floatformat:2 }}
+              </p>
+            </div>
+
+          </div>
         </div>
+
+        <!-- ALERTA -->
+        <div class="alert-box-critical mb-1">
+          Se eliminarán todos los registros asociados a esta cuenta de forma permanente.
+        </div>
+        
+        <!-- FORM -->
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="grid-x grid-margin-x">
+
+            <div class="cell small-12 medium-6">
+              <a href="{% url 'finanzas_app:all_cuentas' %}" 
+                 class="button btn-form btn-cancel expanded">
+                No, Cancelar
+              </a>
+            </div>
+
+            <div class="cell small-12 medium-6">
+              <button type="submit" 
+                      class="button btn-form btn-delete expanded">
+                Sí, Confirmar Eliminación
+              </button>
+            </div>
+
+          </div>
+
+        </form>
+
       </div>
-    </form>
+
+    </div>
   </div>
 </div>
 {% endblock content %}

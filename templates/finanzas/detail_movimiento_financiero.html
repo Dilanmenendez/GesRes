@@ -1,88 +1,128 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Movimiento {{ movimiento.id }}{% endblock title %}
+{% block title %} GesRes Finanzas | Movimiento #{{ movimiento.id }} {% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
 
 <div class="grid-container page-layout">
+
+  <!-- HEADER -->
   <div class="grid-x align-middle header-module">
     <div class="cell small-12 medium-auto text-center medium-text-left">
       <h2 class="page-title m-0">Movimiento #{{ movimiento.id }}</h2>
-      <p class="page-subtitle m-0">Detalle del movimiento financiero seleccionado.</p>
+      <p class="page-subtitle m-0">Detalle del movimiento financiero</p>
     </div>
+
     <div class="cell small-12 medium-shrink text-center mt-mobile">
       {% if not movimiento.anulado %}
-        <a href="{% url 'finanzas_app:anular_movimiento' movimiento.pk %}" class="button btn-form btn-delete">
-          Anular Movimiento
-        </a>
+        <span class="type-label type-label-pt">ACTIVO</span>
+      {% else %}
+        <span class="type-label type-label-mp">ANULADO</span>
       {% endif %}
-      <a href="{% url 'finanzas_app:all_movimientos' %}" class="button btn-form btn-cancel hollow">
-        ← Volver a movimientos
-      </a>
     </div>
   </div>
 
-  <div class="gesres-card card-shadow">
-    <div class="grid-x grid-margin-x">
-      <div class="cell small-12 medium-6">
-        <div class="data-box">
-          <p class="detail-label">Fecha</p>
-          <p class="detail-value">{{ movimiento.fecha|date:"d/m/Y H:i" }}</p>
+  <div class="grid-x grid-margin-x">
+
+    <!-- RESUMEN -->
+    <div class="cell small-12 medium-4 large-3">
+      <div class="gesres-card {% if movimiento.anulado %}field-disabled{% endif %}">
+        
+        <div class="form-cell">
+          <span class="detail-label">Monto</span>
+          <div class="price-val">$ {{ movimiento.monto|floatformat:2 }}</div>
         </div>
-      </div>
-      <div class="cell small-12 medium-6">
-        <div class="data-box">
-          <p class="detail-label">Tipo</p>
-          <p class="detail-value">{{ movimiento.get_tipo_display }}</p>
+
+        <hr>
+
+        <div class="form-cell">
+          <span class="detail-label">Fecha</span>
+          <div class="detail-value">{{ movimiento.fecha|date:"d/m/Y" }}</div>
+          <small class="detail-label">{{ movimiento.fecha|date:"H:i" }} hs</small>
         </div>
-      </div>
-      <div class="cell small-12 medium-6">
-        <div class="data-box">
-          <p class="detail-label">Cuenta</p>
-          <p class="detail-value">{{ movimiento.cuenta }}</p>
+
+        <div class="button-group-vertical mt-mobile">
+          <a href="{% url 'finanzas_app:all_movimientos' %}" class="button hollow secondary">
+            Volver al Historial
+          </a>
+
+          {% if not movimiento.anulado %}
+          <a href="{% url 'finanzas_app:anular_movimiento' movimiento.pk %}" 
+             class="button alert">
+            Anular este Movimiento
+          </a>
+          {% endif %}
         </div>
-      </div>
-      <div class="cell small-12 medium-6">
-        <div class="data-box">
-          <p class="detail-label">Monto</p>
-          <p class="detail-value">$ {{ movimiento.monto }}</p>
-        </div>
-      </div>
-      <div class="cell small-12 medium-6">
-        <div class="data-box">
-          <p class="detail-label">Categoría</p>
-          <p class="detail-value">{% if movimiento.categoria %}{{ movimiento.categoria.nombre }}{% else %}Sin categoría{% endif %}</p>
-        </div>
-      </div>
-      <div class="cell small-12 medium-6">
-        <div class="data-box">
-          <p class="detail-label">Estado</p>
-          <p class="detail-value">
-            {% if movimiento.anulado %}
-              <span class="type-label type-label-mp">ANULADO</span>
-            {% else %}
-              <span class="type-label type-label-pt">ACTIVO</span>
-            {% endif %}
-          </p>
-        </div>
-      </div>
-      {% if movimiento.origen %}
-      <div class="cell small-12">
-        <div class="data-box">
-          <p class="detail-label">Origen</p>
-          <p class="detail-value">{{ movimiento.origen|truncatechars:100 }}</p>
-        </div>
-      </div>
-      {% endif %}
-      <div class="cell small-12">
-        <div class="data-box">
-          <p class="detail-label">Descripción</p>
-          <p class="detail-value">{{ movimiento.descripcion|default:'Sin descripción' }}</p>
-        </div>
+
       </div>
     </div>
+
+    <!-- DETALLE -->
+    <div class="cell small-12 medium-8 large-9">
+      
+      <div class="gesres-card">
+
+        <div class="grid-x grid-margin-x">
+
+          <div class="cell small-12 medium-6">
+            <div class="data-box mb-1">
+              <p class="detail-label">Tipo de Movimiento</p>
+              <p class="detail-value">{{ movimiento.get_tipo_display }}</p>
+            </div>
+          </div>
+
+          <div class="cell small-12 medium-6">
+            <div class="data-box mb-1">
+              <p class="detail-label">Cuenta</p>
+              <p class="detail-value">{{ movimiento.cuenta }}</p>
+            </div>
+          </div>
+
+          <div class="cell small-12 medium-6">
+            <div class="data-box mb-1">
+              <p class="detail-label">Categoría</p>
+              <p class="detail-value">{% if movimiento.categoria %}{{ movimiento.categoria.nombre }}{% else %}<em>Sin categoría</em>{% endif %}</p>
+            </div>
+          </div>
+
+          <div class="cell small-12 medium-6">
+            <div class="data-box mb-1">
+              <p class="detail-label">Estado</p>
+              <p class="detail-value">
+                {% if movimiento.anulado %}
+                  <span class="type-label type-label-mp">ANULADO</span>
+                {% else %}
+                  <span class="type-label type-label-pt">ACTIVO</span>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+
+          {% if movimiento.origen %}
+          <div class="cell small-12">
+            <div class="data-box mb-1">
+              <p class="detail-label">Origen</p>
+              <p class="detail-value">{{ movimiento.origen|truncatechars:100 }}</p>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="cell small-12">
+            <div class="data-box mb-1">
+              <p class="detail-label">Descripción</p>
+              <p class="detail-value">{{ movimiento.descripcion|default:'<em>Sin descripción</em>' }}</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
+
 </div>
 {% endblock content %}

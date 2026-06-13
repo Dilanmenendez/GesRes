@@ -2,11 +2,85 @@ from decimal import Decimal
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from django.urls import reverse
 
 from applications.produccion.models import IngredientesReceta, Produccion, Receta
 from applications.stock.models import Compra, Producto
 from applications.ventas.models import Venta
 from applications.finanzas.models import CategoriaMovimiento, Cuenta, GastoRecurrente, MovimientoFinanciero
+
+
+class FinanzasViewsTest(TestCase):
+    def setUp(self):
+        self.cuenta = Cuenta.objects.create(nombre="Caja principal", tipo="caja")
+        self.categoria_ingreso = CategoriaMovimiento.objects.create(nombre="Ventas", tipo="I")
+        self.categoria_egreso = CategoriaMovimiento.objects.create(nombre="Servicios", tipo="E")
+
+    def test_dashboard_finanzas_muestra_resumen(self):
+        MovimientoFinanciero.objects.create(
+            cuenta=self.cuenta,
+            categoria=self.categoria_ingreso,
+            tipo="I",
+            monto=Decimal("100.00"),
+            descripcion="Venta de prueba",
+        )
+        MovimientoFinanciero.objects.create(
+            cuenta=self.cuenta,
+            categoria=self.categoria_egreso,
+            tipo="E",
+            monto=Decimal("40.00"),
+            descripcion="Servicio",
+        )
+
+        response = self.client.get(reverse('finanzas_app:dashboard'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['total_cuentas'], 1)
+        self.assertEqual(response.context['saldo_total'], Decimal('60.00'))
+        self.assertEqual(response.context['ingresos_mes'], Decimal('100.00'))
+        self.assertEqual(response.context['egresos_mes'], Decimal('40.00'))
+
+
+class FinanzasFlowTest(TestCase):
+    def setUp(self):
+        self.cuenta = Cuenta.objects.create(nombre="Caja principal", tipo="caja")
+        self.categoria = CategoriaMovimiento.objects.create(nombre="Servicios", tipo="E")
+
+    def test_categoria_detail_view_loads(self):
+        response = self.client.get(reverse('finanzas_app:detail_categoria', args=[self.categoria.pk]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_gasto_recurrente_detail_view_loads(self):
+        gasto = GastoRecurrente.objects.create(
+            nombre="Internet",
+            cuenta=self.cuenta,
+            categoria=self.categoria,
+            monto_total=Decimal('120.00'),
+            meses=6,
+        )
+
+        response = self.client.get(reverse('finanzas_app:detail_gasto_recurrente', args=[gasto.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Internet')
+
+    def test_categoria_delete_view_loads(self):
+        response = self.client.get(reverse('finanzas_app:delete_categoria', args=[self.categoria.pk]))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_gasto_recurrente_delete_view_loads(self):
+        gasto = GastoRecurrente.objects.create(
+            nombre="Internet",
+            cuenta=self.cuenta,
+            categoria=self.categoria,
+            monto_total=Decimal('120.00'),
+            meses=6,
+        )
+
+        response = self.client.get(reverse('finanzas_app:delete_gasto_recurrente', args=[gasto.pk]))
+
+        self.assertEqual(response.status_code, 200)
 
 
 class FinanzasModelsTest(TestCase):

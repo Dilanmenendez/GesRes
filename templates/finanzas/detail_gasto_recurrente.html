@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}GesRes Finanzas | Gasto Recurrente {{ gasto.nombre }}{% endblock title %}
+
+{% block content %}
+{% include 'includes/header5.html' %}
+
+<div class="grid-container page-layout">
+  <div class="grid-x align-middle header-module">
+    <div class="cell small-12 medium-auto text-center medium-text-left">
+      <h2 class="page-title m-0">{{ gasto.nombre }}</h2>
+      <p class="page-subtitle m-0">Detalle del gasto recurrente</p>
+    </div>
+    <div class="cell small-12 medium-shrink text-center mt-mobile">
+      {% if gasto.activo %}
+        <span class="type-label type-label-pt">ACTIVO</span>
+      {% else %}
+        <span class="type-label type-label-mp">INACTIVO</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="grid-x grid-margin-x">
+    <div class="cell small-12 medium-7">
+      <div class="gesres-card">
+        <p class="detail-label">Descripción</p>
+        <p class="detail-value">{{ gasto.descripcion|default:'Sin descripción' }}</p>
+        <hr>
+        <p class="detail-label">Cuenta</p>
+        <p class="detail-value">{{ gasto.cuenta }}</p>
+        <p class="detail-label">Categoría</p>
+        <p class="detail-value">{{ gasto.categoria }}</p>
+      </div>
+    </div>
+    <div class="cell small-12 medium-5">
+      <div class="gesres-card">
+        <div class="form-cell">
+          <span class="detail-label">Monto total</span>
+          <div class="price-val">$ {{ gasto.monto_total|floatformat:2 }}</div>
+        </div>
+        <div class="form-cell">
+          <span class="detail-label">Monto mensual</span>
+          <div class="detail-value">$ {{ gasto.monto_mensual|floatformat:2 }}</div>
+        </div>
+        <div class="form-cell">
+          <span class="detail-label">Meses</span>
+          <div class="detail-value">{{ gasto.meses }}</div>
+        </div>
+        <div class="button-group-vertical mt-mobile">
+          <a href="{% url 'finanzas_app:all_gastos_recurrentes' %}" class="button hollow secondary">Volver a gastos</a>
+          <a href="{% url 'finanzas_app:update_gasto_recurrente' gasto.pk %}" class="button btn-form btn-save">Editar gasto</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

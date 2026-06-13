@@ -1,57 +1,113 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}GesRes Finanzas | Nueva Cuenta{% endblock title %}
+{% block title %} GesRes Finanzas | Nueva Cuenta {% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
 
 <div class="grid-container page-layout">
-  <div class="grid-x align-middle header-module">
-    <div class="cell small-12 medium-auto text-center medium-text-left">
+
+  <!-- HEADER -->
+  <div class="grid-x grid-margin-x align-center header-module">
+    <div class="cell small-12 medium-8 large-6 text-center">
       <h2 class="page-title m-0">Nueva Cuenta</h2>
-      <p class="page-subtitle m-0">Registra una nueva cuenta para tus movimientos financieros.</p>
-    </div>
-    <div class="cell small-12 medium-shrink text-center mt-mobile">
-      <a href="{% url 'finanzas_app:all_cuentas' %}" class="button hollow secondary">
-        ← Volver a cuentas
-      </a>
+      <p class="page-subtitle m-0">
+        Registra una nueva cuenta para tus movimientos financieros
+      </p>
     </div>
   </div>
 
-  <div class="gesres-card card-shadow">
-    <form method="post" novalidate>
-      {% csrf_token %}
-      <div class="grid-x grid-margin-x">
-        <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Nombre</label>
-          {{ form.nombre }}
-        </div>
-        <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Tipo</label>
-          {{ form.tipo }}
-        </div>
-        <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Moneda</label>
-          {{ form.moneda }}
-        </div>
-        <div class="cell small-12 medium-6">
-          <label class="form-label-custom">Activo</label>
-          {{ form.activo }}
-        </div>
-        <div class="cell small-12">
-          <label class="form-label-custom">Descripción</label>
-          {{ form.descripcion }}
-        </div>
+  <!-- FORM -->
+  <div class="grid-x align-center">
+    <div class="cell small-12 medium-8 large-6">
+      
+      <div class="form-card">
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="grid-x grid-margin-x">
+
+            <!-- NOMBRE -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">
+                Nombre de la Cuenta
+              </label>
+              {{ form.nombre }}
+              {% if form.nombre.errors %}
+                <span class="form-error">{{ form.nombre.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- TIPO -->
+            <div class="cell small-12 medium-6 form-cell">
+              <label class="form-label-custom">
+                Tipo
+              </label>
+              {{ form.tipo }}
+              {% if form.tipo.errors %}
+                <span class="form-error">{{ form.tipo.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- MONEDA -->
+            <div class="cell small-12 medium-6 form-cell">
+              <label class="form-label-custom">
+                Moneda
+              </label>
+              {{ form.moneda }}
+              {% if form.moneda.errors %}
+                <span class="form-error">{{ form.moneda.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- ACTIVO -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">
+                Estado
+              </label>
+
+              <div class="display-flex-middle">
+                {{ form.activo }}
+                <label>
+                  Activo
+                </label>
+              </div>
+            </div>
+
+            <!-- DESCRIPCIÓN -->
+            <div class="cell small-12 form-cell">
+              <label class="form-label-custom">
+                Descripción
+              </label>
+              {{ form.descripcion }}
+              {% if form.descripcion.errors %}
+                <span class="form-error">{{ form.descripcion.errors.0 }}</span>
+              {% endif %}
+            </div>
+
+            <!-- BOTONES -->
+            <div class="cell small-12 mt-mobile-form">
+              
+              <button type="submit" class="button btn-form btn-save expanded mb-1">
+                Guardar Cuenta
+              </button>
+
+              <a href="{% url 'finanzas_app:all_cuentas' %}" 
+                 class="button btn-form btn-cancel hollow expanded">
+                ← Cancelar y Volver
+              </a>
+
+            </div>
+
+          </div>
+        </form>
+
       </div>
-      <div class="grid-x align-middle" style="margin-top: 1.5rem;">
-        <div class="cell small-12 medium-auto">
-          <button type="submit" class="button btn-form btn-save expanded">
-            Guardar Cuenta
-          </button>
-        </div>
-      </div>
-    </form>
+
+    </div>
   </div>
 </div>
+
 {% endblock content %}

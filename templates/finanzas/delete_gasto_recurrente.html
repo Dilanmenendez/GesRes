@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} GesRes Finanzas | Anular Movimiento {% endblock title %}
+{% block title %} GesRes Finanzas | Eliminar Gasto Recurrente {% endblock title %}
 
 {% block content %}
 {% include 'includes/header5.html' %}
@@ -13,21 +13,16 @@
       <div class="form-card card-confirm">
 
         <div class="text-center mb-1">
-          <span class="confirm-icon">↩️</span>
-          <h3 class="alert-title-danger">¿Anular este movimiento?</h3>
+          <span class="confirm-icon">⚠️</span>
+          <h3 class="alert-title-danger">¿Eliminar este gasto recurrente?</h3>
           <p class="page-subtitle m-0">Esta acción no se puede deshacer.</p>
         </div>
 
         <div class="data-box mb-1">
           <div class="grid-x grid-margin-x">
-            <div class="cell small-12 medium-6 mb-1">
-              <span class="detail-label">Movimiento</span>
-              <h5 class="detail-value">#{{ object.id }}</h5>
-            </div>
-
-            <div class="cell small-12 medium-6 mb-1 text-right">
-              <span class="detail-label">Monto</span>
-              <p class="detail-value-highlight text-critical m-0">$ {{ object.monto|floatformat:2 }}</p>
+            <div class="cell small-12 mb-1">
+              <span class="detail-label">Gasto</span>
+              <h5 class="detail-value">{{ object.nombre }}</h5>
             </div>
 
             <div class="cell small-12 medium-6">
@@ -36,39 +31,43 @@
             </div>
 
             <div class="cell small-12 medium-6">
-              <span class="detail-label">Tipo</span>
-              <p class="detail-value">{{ object.get_tipo_display }}</p>
+              <span class="detail-label">Monto mensual</span>
+              <p class="detail-value-highlight m-0">$ {{ object.monto_mensual|floatformat:2 }}</p>
             </div>
 
-            <div class="cell small-12">
-              <span class="detail-label">Fecha</span>
-              <p class="detail-value">{{ object.fecha|date:"d/m/Y H:i" }}</p>
+            <div class="cell small-12 medium-6">
+              <span class="detail-label">Meses</span>
+              <p class="detail-value">{{ object.meses }}</p>
+            </div>
+
+            <div class="cell small-12 medium-6">
+              <span class="detail-label">Monto total</span>
+              <p class="detail-value">$ {{ object.monto_total|floatformat:2 }}</p>
             </div>
           </div>
         </div>
 
         <div class="alert-box-critical mb-1">
-          Atención: esta operación revertirá los cambios asociados al movimiento y puede afectar el saldo de la cuenta.
+          Atención: esta operación eliminará el gasto recurrente y su programación asociada.
         </div>
 
         <form method="post" class="m-0">
           {% csrf_token %}
           <div class="grid-x grid-margin-x">
             <div class="cell small-12 medium-6">
-              <a href="{% url 'finanzas_app:all_movimientos' %}" class="button btn-form btn-cancel hollow expanded">
+              <a href="{% url 'finanzas_app:all_gastos_recurrentes' %}" class="button btn-form btn-cancel hollow expanded">
                 No, Cancelar
               </a>
             </div>
             <div class="cell small-12 medium-6 mt-mobile-form">
               <button type="submit" class="button btn-form btn-delete expanded shadow">
-                Sí, Confirmar Anulación
+                Sí, Confirmar Eliminación
               </button>
             </div>
           </div>
         </form>
 
       </div>
-
     </div>
   </div>
 </div>

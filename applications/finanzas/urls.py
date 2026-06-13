@@ -15,6 +15,10 @@ urlpatterns = [
          views.InicioView.as_view(),
          name='inicio'),
 
+    path('dashboard/',
+         views.DashboardFinanzasView.as_view(),
+         name='dashboard'),
+
     # --------- Paths Cuenta ----------- #
     path('cuentas/',
          views.CuentaListView.as_view(),
@@ -45,6 +49,18 @@ urlpatterns = [
         views.CategoriaMovimientoCreateView.as_view(),
         name='create_categoria'),
 
+    path('categorias/<int:pk>/',
+        views.CategoriaMovimientoDetailView.as_view(),
+        name='detail_categoria'),
+
+    path('categorias/<int:pk>/editar/',
+        views.CategoriaMovimientoUpdateView.as_view(),
+        name='update_categoria'),
+
+    path('categorias/<int:pk>/eliminar/',
+        views.CategoriaMovimientoDeleteView.as_view(),
+        name='delete_categoria'),
+
     # --------- Paths GastoRecurrente ----------- #
     path('gastos-recurrentes/',
         views.GastoRecurrenteListView.as_view(),
@@ -54,9 +70,17 @@ urlpatterns = [
         views.GastoRecurrenteCreateView.as_view(),
         name='create_gasto_recurrente'),
 
+    path('gastos-recurrentes/<int:pk>/',
+        views.GastoRecurrenteDetailView.as_view(),
+        name='detail_gasto_recurrente'),
+
     path('gastos-recurrentes/<int:pk>/editar/',
         views.GastoRecurrenteUpdateView.as_view(),
         name='update_gasto_recurrente'),
+
+    path('gastos-recurrentes/<int:pk>/eliminar/',
+        views.GastoRecurrenteDeleteView.as_view(),
+        name='delete_gasto_recurrente'),
 
     # --------- Paths MovimientoFinanciero ----------- #
     path('movimientos/',

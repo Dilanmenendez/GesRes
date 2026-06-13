@@ -1,3 +1,7 @@
+from decimal import Decimal
+
+from django.db.models import Sum
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from .forms import *
 from django.urls import reverse_lazy
@@ -12,6 +16,40 @@ class SuccessView(TemplateView):
 
 class InicioView(TemplateView):
     template_name = 'finanzas/inicio.html'
+
+
+class DashboardFinanzasView(TemplateView):
+    template_name = 'finanzas/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cuentas = Cuenta.objects.filter(activo=True)
+        movimientos = MovimientoFinanciero.objects.select_related('cuenta', 'categoria')
+
+        hoy = timezone.localdate()
+        inicio_mes = hoy.replace(day=1)
+        movimientos_mes = movimientos.filter(fecha__date__gte=inicio_mes, fecha__date__lte=hoy)
+
+        ingresos_mes = movimientos_mes.filter(tipo='I').aggregate(total=Sum('monto'))['total'] or Decimal('0.00')
+        egresos_mes = movimientos_mes.filter(tipo='E').aggregate(total=Sum('monto'))['total'] or Decimal('0.00')
+
+        saldo_total = Decimal('0.00')
+        for cuenta in cuentas:
+            saldo_total += cuenta.saldo() if isinstance(cuenta.saldo(), Decimal) else Decimal(str(cuenta.saldo()))
+
+        context.update({
+            'total_cuentas': cuentas.count(),
+            'saldo_total': saldo_total.quantize(Decimal('0.01')),
+            'ingresos_mes': ingresos_mes.quantize(Decimal('0.01')),
+            'egresos_mes': egresos_mes.quantize(Decimal('0.01')),
+            'total_movimientos': movimientos.count(),
+            'movimientos_recientes': movimientos.order_by('-fecha')[:5],
+            'cuentas': cuentas.order_by('nombre')[:8],
+            'balance_mes': (ingresos_mes - egresos_mes).quantize(Decimal('0.01')),
+        })
+
+        return context
     
 # --------- Views de Cuenta --------- #
 
@@ -55,12 +93,37 @@ class CategoriaMovimientoCreateView(CreateView):
     form_class = CategoriaMovimientoForm
     success_url = reverse_lazy('finanzas_app:success')
 
+
+class CategoriaMovimientoDetailView(DetailView):
+    model = CategoriaMovimiento
+    template_name = 'finanzas/detail_categoria.html'
+    context_object_name = 'categoria'
+
+
+class CategoriaMovimientoUpdateView(UpdateView):
+    model = CategoriaMovimiento
+    template_name = 'finanzas/update_categoria.html'
+    form_class = CategoriaMovimientoForm
+    success_url = reverse_lazy('finanzas_app:all_categorias')
+
+
+class CategoriaMovimientoDeleteView(DeleteView):
+    model = CategoriaMovimiento
+    template_name = 'finanzas/delete_categoria.html'
+    success_url = reverse_lazy('finanzas_app:all_categorias')
+
 # ---------- GastoRecurrente Views ---------- #
 
 class GastoRecurrenteListView(ListView):
     model = GastoRecurrente
     template_name = 'finanzas/list_all_gastos_recurrentes.html'
     context_object_name = 'gastos'
+
+
+class GastoRecurrenteDetailView(DetailView):
+    model = GastoRecurrente
+    template_name = 'finanzas/detail_gasto_recurrente.html'
+    context_object_name = 'gasto'
 
 class GastoRecurrenteCreateView(CreateView):
     model = GastoRecurrente
@@ -73,6 +136,12 @@ class GastoRecurrenteUpdateView(UpdateView):
     template_name = 'finanzas/update_gasto_recurrente.html'
     form_class = GastoRecurrenteForm
     success_url = reverse_lazy('finanzas_app:success')
+
+
+class GastoRecurrenteDeleteView(DeleteView):
+    model = GastoRecurrente
+    template_name = 'finanzas/delete_gasto_recurrente.html'
+    success_url = reverse_lazy('finanzas_app:all_gastos_recurrentes')
 
 # -------------- MovimientoFinanciero Views -------------- #
 
